@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@drawable/rounded_bg"
+    android:layout_height="100dp">
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/text_view"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_margin="5dp"
+        android:text="Date: "/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/date_display"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textSize="18dp"
+        android:layout_below="@+id/text_view" />
+
+</LinearLayout>
