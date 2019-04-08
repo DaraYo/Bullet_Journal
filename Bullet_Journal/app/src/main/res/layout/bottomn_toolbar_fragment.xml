@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:weightSum="5"
+        android:background="@color/colorPrimaryLight" >
+
+        <ImageButton
+            android:id="@+id/btnMoney"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_money_light"
+            android:layout_margin="5dp"
+            android:background="@color/colorPrimary"/>
+
+        <ImageButton
+            android:id="@+id/btnTasks"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_list_light"
+            android:layout_margin="5dp"
+            android:background="@color/colorPrimary" />
+
+        <ImageButton
+            android:id="@+id/btnDiary"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_diary_light"
+            android:layout_margin="5dp"
+            android:background="@color/colorPrimary" />
+
+        <ImageButton
+            android:id="@+id/btnMood"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_emoji_light"
+            android:layout_margin="5dp"
+            android:background="@color/colorPrimary" />
+
+        <ImageButton
+            android:id="@+id/btnRating"
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:src="@drawable/ic_star_border_light"
+            android:layout_margin="5dp"
+            android:background="@color/colorPrimary" />
+
+    </LinearLayout>
+
+</RelativeLayout>

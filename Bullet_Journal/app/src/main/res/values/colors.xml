@@ -20,5 +20,6 @@
 
     <color name="colorPrimary">@color/nadeshiko_pink</color>
     <color name="colorPrimaryDark">@color/puce</color>
+    <color name="colorPrimaryLight">@color/pale_pink</color>
     <color name="colorAccent">@color/green</color>
 </resources>
