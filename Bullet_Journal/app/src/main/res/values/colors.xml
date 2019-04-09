@@ -24,4 +24,5 @@
     <color name="colorAccent">@color/green</color>
     
     <color name="colorBorder">@color/burnished_brown</color>
+    <color name="colorBorderLight">@color/puce</color>
 </resources>

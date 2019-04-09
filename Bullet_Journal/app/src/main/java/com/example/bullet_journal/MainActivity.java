@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.GridView;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 
 import com.example.bullet_journal.activities.SettingsActivity;
 import com.example.bullet_journal.adapters.SimpleDateDisplayAdapter;
@@ -17,7 +18,7 @@ import com.example.bullet_journal.adapters.SimpleDateDisplayAdapter;
 public class MainActivity extends RootActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     //Mockup podaci
-    private String[] dates = {"Apr 9, 2019", "Apr 10, 2019", "Apr 11, 2019", "Apr 12, 2019", "Apr 13, 2019", "Apr 14, 2019", "Apr 15, 2019"};
+    private String[] dates = {"Apr 10, 2019", "Apr 11, 2019", "Apr 12, 2019", "Apr 13, 2019", "Apr 14, 2019", "Apr 15, 2019"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +35,12 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        TextView dateDisplay = (TextView) findViewById(R.id.date_display_1);
+        dateDisplay.setText("Apr 9, 2019");
+
+        TextView weekDisplay = (TextView) findViewById(R.id.day_of_week_1);
+        weekDisplay.setText("Tuesday");
 
         ListAdapter datesAdapter = new SimpleDateDisplayAdapter(this, dates);
         GridView gridView = (GridView) findViewById(R.id.date_grid);

@@ -7,18 +7,62 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity">
 
-    <include layout="@layout/app_bar_main" />
+    <include
+        layout="@layout/app_bar_main"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <GridView
-        android:id="@+id/date_grid"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
         android:layout_marginBottom="80dp"
-        android:horizontalSpacing="5dp"
-        android:verticalSpacing="5dp"
-        android:numColumns="3"
-        />
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="86dp"
+            android:layout_marginLeft="80dp"
+            android:layout_marginRight="80dp"
+            android:padding="5dp"
+            android:background="@drawable/rounded_bg"
+            android:orientation="vertical">
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/text_view_1"
+                android:layout_width="match_parent"
+                android:layout_height="16dp"
+                android:text="@string/title_date" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/day_of_week_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/text_view_1"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textSize="20dp" />
+
+            <android.support.v7.widget.AppCompatTextView
+                android:id="@+id/date_display_1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@id/day_of_week_1"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:textSize="20dp" />
+
+        </LinearLayout>
+
+        <GridView
+            android:id="@+id/date_grid"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:horizontalSpacing="5dp"
+            android:verticalSpacing="5dp"
+            android:layout_margin="5dp"
+            android:numColumns="3" />
+
+    </LinearLayout>
 
     <fragment
         android:id="@+id/bottomToolbarFragment"

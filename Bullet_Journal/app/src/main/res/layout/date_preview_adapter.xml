@@ -2,15 +2,14 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@drawable/rounded_bg"
-    android:layout_height="100dp">
+    android:background="@drawable/rounded_bg_light"
+    android:layout_height="72dp">
 
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/text_view"
+        android:id="@+id/day_of_week"
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:layout_margin="5dp"
-        android:text="Date: "/>
+        android:layout_margin="5dp" />
 
     <android.support.v7.widget.AppCompatTextView
         android:id="@+id/date_display"
