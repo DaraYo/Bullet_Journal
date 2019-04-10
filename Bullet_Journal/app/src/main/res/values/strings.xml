@@ -82,4 +82,9 @@
 
     <!-- Main activity labels -->
     <string name="title_date">Date :</string>
+
+    <!-- Common button labels -->
+    <string name="ok_str">Ok</string>
+    <string name="cancel_str">Cancel</string>
+
 </resources>
