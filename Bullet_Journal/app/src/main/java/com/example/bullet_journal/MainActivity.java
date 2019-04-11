@@ -32,11 +32,13 @@ import java.util.Locale;
 public class MainActivity extends RootActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DatePickerDialog.OnDateSetListener onDateSetListener;
-    private String choosenDate = "";
     private TextView dateDisplay;
     private TextView weekDisplay;
     private GridView gridView;
     private ListAdapter datesAdapter;
+
+    private String choosenDate = "";
+    private int dayNum = 6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         weekDisplay = (TextView) findViewById(R.id.day_of_week_1);
         weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(choosenDate));
 
-        datesAdapter = new SimpleDateDisplayAdapter(this, CalendarCalculationsUtils.calculateWeek(choosenDate));
+        datesAdapter = new SimpleDateDisplayAdapter(this, CalendarCalculationsUtils.calculateWeek(choosenDate, dayNum));
         gridView = (GridView) findViewById(R.id.date_grid);
         gridView.setAdapter(datesAdapter);
 
@@ -101,7 +103,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
                 choosenDate = targetFormat.format(date);
                 dateDisplay.setText(choosenDate);
                 weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(choosenDate));
-                datesAdapter = new SimpleDateDisplayAdapter(MainActivity.this, CalendarCalculationsUtils.calculateWeek(choosenDate));
+                datesAdapter = new SimpleDateDisplayAdapter(MainActivity.this, CalendarCalculationsUtils.calculateWeek(choosenDate, dayNum));
                 ((SimpleDateDisplayAdapter) datesAdapter).notifyDataSetChanged();
                 gridView.setAdapter(datesAdapter);
             }

@@ -23,8 +23,8 @@ public class CalendarCalculationsUtils {
         return dateFormat.format(calendar.getTime());
     }
 
-    public static String[] calculateWeek(String startDate){
-        String[] retVal = new String[6];
+    public static String[] calculateWeek(String startDate, int dayNum){
+        String[] retVal = new String[dayNum];
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat=new SimpleDateFormat();
@@ -36,7 +36,7 @@ public class CalendarCalculationsUtils {
             return retVal;
         }
 
-        for(int i = 0; i < 6; i++){
+        for(int i = 0; i < dayNum; i++){
             calendar.add(Calendar.DATE, 1);
             retVal[i] = dateFormat.format(calendar.getTime());
         }

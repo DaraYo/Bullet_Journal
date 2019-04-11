@@ -57,7 +57,7 @@
         <GridView
             android:id="@+id/date_grid"
             android:layout_width="match_parent"
-            android:layout_height="160dp"
+            android:layout_height="wrap_content"
             android:horizontalSpacing="5dp"
             android:verticalSpacing="5dp"
             android:layout_margin="5dp"
