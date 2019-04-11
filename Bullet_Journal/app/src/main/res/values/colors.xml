@@ -26,5 +26,13 @@
     <color name="colorBorder">@color/burnished_brown</color>
     <color name="colorBorderLight">@color/puce</color>
 
+    <!-- Dialog buttons -->
     <color name="dialogButtonText">@color/blue</color>
+
+    <!-- Mood tracking colors -->
+    <color name="moodRed">#ff5858</color>
+    <color name="moodOrange">#ff9358</color>
+    <color name="moodYellow">#f5ff58</color>
+    <color name="moodGreen">#95ff7c</color>
+    <color name="moodPurple">#b25da6</color>
 </resources>

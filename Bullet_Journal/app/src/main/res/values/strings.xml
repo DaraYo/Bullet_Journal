@@ -86,6 +86,10 @@
     <!-- Common button labels -->
     <string name="ok_str">Ok</string>
     <string name="cancel_str">Cancel</string>
-    <string name="title_activity_mood_tracker">MoodTrackerActivity</string>
+
+    <!-- Mood tracking -->
+    <string name="title_activity_mood_tracker">Mood Tracker</string>
+    <string name="add_mood_dialog_title">Add Mood:</string>
+    <string name="add_mood_dialog_for_date">For Date:</string>
 
 </resources>

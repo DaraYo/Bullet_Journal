@@ -1,7 +1,12 @@
 package com.example.bullet_journal.activities;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
@@ -10,11 +15,15 @@ import com.example.bullet_journal.enums.MoodType;
 import com.example.bullet_journal.wrapperClasses.MoodWrapper;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
+import org.threeten.bp.LocalDate;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class MoodTrackerActivity extends RootActivity {
+
+    final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +34,35 @@ public class MoodTrackerActivity extends RootActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         MaterialCalendarView calendarView = (MaterialCalendarView) findViewById(R.id.mood_calendar_view);
+        calendarView.setSelectedDate(LocalDate.now());
+
+        ImageButton showDialogBtn = (ImageButton) findViewById(R.id.add_mood);
+        showDialogBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.add_mood_dialog);
+
+                Button dialogOkBtn = dialog.findViewById(R.id.mood_dialog_btn_ok);
+                dialogOkBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                Button dialogCancelBtn = dialog.findViewById(R.id.mood_dialog_btn_cancel);
+                dialogCancelBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+            }
+        });
 
         calendarView.addDecorator(new DayViewMoodDecorator(this, buildMood(7, 15, 4.72, 4.56), MoodType.AWESOME));
         calendarView.addDecorator(new DayViewMoodDecorator(this, buildMood(5, 24, 3.72, 4.25), MoodType.GOOD));
