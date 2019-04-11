@@ -16,7 +16,7 @@
 
     <!--sugestions for basic buttons (add something or on/off option)-->
     <item name="blue" type="color">#2a6ebc</item>
-    <item name="green" type="color">#99ffbb  </item>
+    <item name="green" type="color">#00aa88</item>
 
     <color name="colorPrimary">@color/nadeshiko_pink</color>
     <color name="colorPrimaryDark">@color/puce</color>
