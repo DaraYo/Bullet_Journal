@@ -86,5 +86,6 @@
     <!-- Common button labels -->
     <string name="ok_str">Ok</string>
     <string name="cancel_str">Cancel</string>
+    <string name="title_activity_mood_tracker">MoodTrackerActivity</string>
 
 </resources>

@@ -11,7 +11,7 @@
         android:background="@color/colorPrimaryLight" >
 
         <ImageButton
-            android:id="@+id/btnMoney"
+            android:id="@+id/btn_money"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
@@ -20,7 +20,7 @@
             android:background="@color/colorPrimary"/>
 
         <ImageButton
-            android:id="@+id/btnTasks"
+            android:id="@+id/btn_tasks"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
@@ -29,7 +29,7 @@
             android:background="@color/colorPrimary" />
 
         <ImageButton
-            android:id="@+id/btnDiary"
+            android:id="@+id/btn_diary"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
@@ -38,7 +38,7 @@
             android:background="@color/colorPrimary" />
 
         <ImageButton
-            android:id="@+id/btnMood"
+            android:id="@+id/btn_mood"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
@@ -47,7 +47,7 @@
             android:background="@color/colorPrimary" />
 
         <ImageButton
-            android:id="@+id/btnRating"
+            android:id="@+id/btn_rating"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
