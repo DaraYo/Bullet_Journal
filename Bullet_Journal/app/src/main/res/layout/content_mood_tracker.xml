@@ -102,12 +102,12 @@
             app:srcCompat="@drawable/ic_add_btn_light" />
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/edit_mood"
+            android:id="@+id/show_in_new_mood"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin"
             app:backgroundTint="@color/colorPrimaryDark"
-            app:srcCompat="@drawable/ic_edit_btn_light" />
+            app:srcCompat="@drawable/ic_show_in_new_light" />
 
     </LinearLayout>
 

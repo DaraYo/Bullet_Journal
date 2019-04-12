@@ -6,12 +6,15 @@ public class Mood {
 
     private int rating;
 
+    private String description;
+
     public Mood() {
     }
 
-    public Mood(String date, int rating) {
+    public Mood(String date, int rating, String description) {
         this.date = date;
         this.rating = rating;
+        this.description = description;
     }
 
     public String getDate() {
@@ -28,5 +31,13 @@ public class Mood {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

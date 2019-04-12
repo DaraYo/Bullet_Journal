@@ -9,10 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.MoodPreviewActivity"></activity>
         <activity
             android:name=".activities.MoodTrackerActivity"
             android:label="@string/title_activity_mood_tracker"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".RootActivity" />
         <activity
             android:name=".activities.SettingsActivity"

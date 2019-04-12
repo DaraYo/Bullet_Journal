@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp">
+    android:layout_margin="15dp">
 
     <TextView
         android:id="@+id/add_mood_dialog_title"
@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:text="@string/add_mood_dialog_title"
         android:background="@color/colorPrimaryLight"
-        android:textSize="26dp" />
+        android:textSize="18dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add_mood_dialog_for_date"
-            android:textSize="18dp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/add_mood_dialog_date_str"
@@ -52,8 +52,8 @@
 
             <ImageButton
                 android:id="@+id/mood_awesome_btn"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/very_happy"
                 android:background="#80ffffff"
@@ -80,8 +80,8 @@
 
             <ImageButton
                 android:id="@+id/mood_good_btn"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/happy"
                 android:background="#80ffffff"
@@ -108,8 +108,8 @@
 
             <ImageButton
                 android:id="@+id/mood_ok_btn"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ok"
                 android:background="#80ffffff"
@@ -145,8 +145,8 @@
 
             <ImageButton
                 android:id="@+id/mood_bad_btn"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/bad"
                 android:background="#80ffffff"
@@ -173,8 +173,8 @@
 
             <ImageButton
                 android:id="@+id/mood_terrible_btn"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/sad"
                 android:background="#80ffffff"
@@ -193,6 +193,18 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_description"
+        android:background="@color/colorPrimaryLight"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="80dp" />
 
     <LinearLayout
         android:layout_width="match_parent"

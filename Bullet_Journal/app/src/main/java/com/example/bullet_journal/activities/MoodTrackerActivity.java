@@ -2,6 +2,7 @@ package com.example.bullet_journal.activities;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -49,7 +50,7 @@ public class MoodTrackerActivity extends RootActivity {
 
                 TextView dateStr = dialog.findViewById(R.id.add_mood_dialog_date_str);
                 CalendarDay selectedDate = calendarView.getSelectedDate();
-                dateStr.setText(selectedDate.getDay()+"/"+(selectedDate.getMonth()+1)+"/"+selectedDate.getYear());
+                dateStr.setText(selectedDate.getDay()+"/"+selectedDate.getMonth()+"/"+selectedDate.getYear());
 
                 Button dialogOkBtn = dialog.findViewById(R.id.mood_dialog_btn_ok);
                 dialogOkBtn.setOnClickListener(new View.OnClickListener() {
@@ -68,6 +69,21 @@ public class MoodTrackerActivity extends RootActivity {
                 });
 
                 dialog.show();
+            }
+        });
+
+        ImageButton openMoodBtn = (ImageButton) findViewById(R.id.show_in_new_mood);
+        openMoodBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context, MoodPreviewActivity.class);
+                CalendarDay selectedDay = calendarView.getSelectedDate();
+                Bundle bundle = new Bundle();
+                bundle.putString("date", selectedDay.getDay()+"/"+selectedDay.getMonth()+"/"+selectedDay.getYear());
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
 
