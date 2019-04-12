@@ -7,12 +7,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.decorators.DayViewMoodDecorator;
 import com.example.bullet_journal.enums.MoodType;
 import com.example.bullet_journal.wrapperClasses.MoodWrapper;
+import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import org.threeten.bp.LocalDate;
@@ -24,6 +26,7 @@ import java.util.Date;
 public class MoodTrackerActivity extends RootActivity {
 
     final Context context = this;
+    private MaterialCalendarView calendarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class MoodTrackerActivity extends RootActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        MaterialCalendarView calendarView = (MaterialCalendarView) findViewById(R.id.mood_calendar_view);
+        calendarView = (MaterialCalendarView) findViewById(R.id.mood_calendar_view);
         calendarView.setSelectedDate(LocalDate.now());
 
         ImageButton showDialogBtn = (ImageButton) findViewById(R.id.add_mood);
@@ -43,6 +46,10 @@ public class MoodTrackerActivity extends RootActivity {
             public void onClick(View v) {
                 final Dialog dialog = new Dialog(context);
                 dialog.setContentView(R.layout.add_mood_dialog);
+
+                TextView dateStr = dialog.findViewById(R.id.add_mood_dialog_date_str);
+                CalendarDay selectedDate = calendarView.getSelectedDate();
+                dateStr.setText(selectedDate.getDay()+"/"+(selectedDate.getMonth()+1)+"/"+selectedDate.getYear());
 
                 Button dialogOkBtn = dialog.findViewById(R.id.mood_dialog_btn_ok);
                 dialogOkBtn.setOnClickListener(new View.OnClickListener() {

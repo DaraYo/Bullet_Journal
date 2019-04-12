@@ -92,4 +92,10 @@
     <string name="add_mood_dialog_title">Add Mood:</string>
     <string name="add_mood_dialog_for_date">For Date:</string>
 
+    <string name="mood_awesome">AWESOME</string>
+    <string name="mood_good">GOOD</string>
+    <string name="mood_average">AVERAGE</string>
+    <string name="mood_bad">BAD</string>
+    <string name="mood_terrible">TERRIBLE</string>
+
 </resources>

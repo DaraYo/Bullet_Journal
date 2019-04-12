@@ -32,8 +32,8 @@
             android:layout_height="match_parent"
             android:textAlignment="center"
             android:layout_margin="5dp"
-            android:textSize="14dp"
-            android:text="AWESOME"
+            android:textSize="14sp"
+            android:text="@string/mood_awesome"
             android:background="@color/moodRed"
             android:textColor="#000000" />
 
@@ -42,8 +42,8 @@
             android:layout_height="match_parent"
             android:textAlignment="center"
             android:layout_margin="5dp"
-            android:textSize="14dp"
-            android:text="GOOD"
+            android:textSize="14sp"
+            android:text="@string/mood_good"
             android:background="@color/moodOrange"
             android:textColor="#000000" />
 
@@ -52,8 +52,8 @@
             android:layout_height="match_parent"
             android:textAlignment="center"
             android:layout_margin="5dp"
-            android:textSize="14dp"
-            android:text="AVERAGE"
+            android:textSize="14sp"
+            android:text="@string/mood_average"
             android:background="@color/moodYellow"
             android:textColor="#000000" />
 
@@ -70,8 +70,8 @@
             android:layout_height="match_parent"
             android:textAlignment="center"
             android:layout_margin="5dp"
-            android:textSize="14dp"
-            android:text="BAD"
+            android:textSize="14sp"
+            android:text="@string/mood_bad"
             android:background="@color/moodGreen"
             android:textColor="#000000" />
 
@@ -80,8 +80,8 @@
             android:layout_height="match_parent"
             android:textAlignment="center"
             android:layout_margin="5dp"
-            android:textSize="14dp"
-            android:text="TERRIBLE"
+            android:textSize="14sp"
+            android:text="@string/mood_terrible"
             android:background="@color/moodPurple"
             android:textColor="#000000" />
 

@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="01/01/2001"
+            android:layout_marginLeft="5dp"
             android:textSize="18dp" />
 
     </LinearLayout>
@@ -46,7 +46,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="7dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -56,6 +56,7 @@
                 android:layout_height="80dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/very_happy"
+                android:background="#80ffffff"
                 />
 
             <TextView
@@ -64,14 +65,16 @@
                 android:layout_height= "wrap_content"
                 android:background="@color/moodRed"
                 android:textAlignment="center"
-                android:text="AWESOME"/>
+                android:textColor="#000000"
+                android:layout_marginTop="5dp"
+                android:text="@string/mood_awesome"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="7dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -81,6 +84,7 @@
                 android:layout_height="80dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/happy"
+                android:background="#80ffffff"
                 />
 
             <TextView
@@ -89,14 +93,16 @@
                 android:layout_height= "wrap_content"
                 android:background="@color/moodOrange"
                 android:textAlignment="center"
-                android:text="GOOD"/>
+                android:textColor="#000000"
+                android:layout_marginTop="5dp"
+                android:text="@string/mood_good"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="7dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -106,6 +112,7 @@
                 android:layout_height="80dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ok"
+                android:background="#80ffffff"
                 />
 
             <TextView
@@ -114,7 +121,9 @@
                 android:layout_height= "wrap_content"
                 android:background="@color/moodYellow"
                 android:textAlignment="center"
-                android:text="OK"/>
+                android:textColor="#000000"
+                android:layout_marginTop="5dp"
+                android:text="@string/mood_average"/>
 
         </LinearLayout>
 
@@ -130,7 +139,7 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="7dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -140,6 +149,7 @@
                 android:layout_height="80dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/bad"
+                android:background="#80ffffff"
                 />
 
             <TextView
@@ -148,14 +158,16 @@
                 android:layout_height= "wrap_content"
                 android:background="@color/moodGreen"
                 android:textAlignment="center"
-                android:text="BAD"/>
+                android:textColor="#000000"
+                android:layout_marginTop="5dp"
+                android:text="@string/mood_bad"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="5dp"
+            android:layout_margin="7dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -165,6 +177,7 @@
                 android:layout_height="80dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/sad"
+                android:background="#80ffffff"
                 />
 
             <TextView
@@ -173,7 +186,9 @@
                 android:layout_height= "wrap_content"
                 android:background="@color/moodPurple"
                 android:textAlignment="center"
-                android:text="TERRIBLE"/>
+                android:textColor="#000000"
+                android:layout_marginTop="5dp"
+                android:text="@string/mood_terrible"/>
 
         </LinearLayout>
 
@@ -192,7 +207,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/dialogButtonText"
-            android:text="Cancel"/>
+            android:text="@string/cancel_str"/>
 
         <Button
             android:id="@+id/mood_dialog_btn_ok"
@@ -200,7 +215,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/dialogButtonText"
-            android:text="Ok"/>
+            android:text="@string/ok_str"/>
 
     </LinearLayout>
 
