@@ -1,5 +1,6 @@
 package com.example.bullet_journal.adapters;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -10,14 +11,18 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.bullet_journal.R;
+import com.example.bullet_journal.dialogs.AddEditMoodDialog;
 import com.example.bullet_journal.model.Mood;
 
 import java.util.List;
 
 public class MoodDisplayAdapter extends ArrayAdapter<Mood> {
 
+    private Context context;
+
     public MoodDisplayAdapter(Context context, List<Mood> objects) {
         super(context, R.layout.mood_preview_adapter, objects);
+        this.context = context;
     }
 
     @Override
@@ -25,7 +30,7 @@ public class MoodDisplayAdapter extends ArrayAdapter<Mood> {
 
         View view = LayoutInflater.from(getContext()).inflate(R.layout.mood_preview_adapter, parent, false);
 
-        Mood moodObj = getItem(position);
+        final Mood moodObj = getItem(position);
 
         ImageButton emojiView = view.findViewById(R.id.mood_adapter_img);
         TextView textView = view.findViewById(R.id.mood_adapter_img_str);
@@ -72,6 +77,16 @@ public class MoodDisplayAdapter extends ArrayAdapter<Mood> {
 
         TextView date = view.findViewById(R.id.mood_adapter_date);
         date.setText(moodObj.getDate());
+
+        ImageButton editBtn = view.findViewById(R.id.mood_edit_btn);
+        editBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                final Dialog dialog = new AddEditMoodDialog(context, moodObj.getDate(), moodObj);
+                dialog.show();
+            }
+        });
 
         return view;
     }

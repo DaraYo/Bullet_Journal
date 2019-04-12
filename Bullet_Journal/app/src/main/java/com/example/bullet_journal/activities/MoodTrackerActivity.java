@@ -6,13 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.decorators.DayViewMoodDecorator;
+import com.example.bullet_journal.dialogs.AddEditMoodDialog;
 import com.example.bullet_journal.enums.MoodType;
 import com.example.bullet_journal.wrapperClasses.MoodWrapper;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
@@ -45,29 +44,8 @@ public class MoodTrackerActivity extends RootActivity {
 
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new Dialog(context);
-                dialog.setContentView(R.layout.add_mood_dialog);
-
-                TextView dateStr = dialog.findViewById(R.id.add_mood_dialog_date_str);
                 CalendarDay selectedDate = calendarView.getSelectedDate();
-                dateStr.setText(selectedDate.getDay()+"/"+selectedDate.getMonth()+"/"+selectedDate.getYear());
-
-                Button dialogOkBtn = dialog.findViewById(R.id.mood_dialog_btn_ok);
-                dialogOkBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                Button dialogCancelBtn = dialog.findViewById(R.id.mood_dialog_btn_cancel);
-                dialogCancelBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
+                final Dialog dialog = new AddEditMoodDialog(context, selectedDate.getDay()+"/"+selectedDate.getMonth()+"/"+selectedDate.getYear(), null);
                 dialog.show();
             }
         });
