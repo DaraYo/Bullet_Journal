@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp">
+
+    <TextView
+        android:id="@+id/add_mood_dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_mood_dialog_title"
+        android:background="@color/colorPrimaryLight"
+        android:textSize="18dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/add_mood_dialog_for_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_mood_dialog_for_date"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/add_mood_dialog_date_str"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:layout_marginLeft="5dp"
+            android:textSize="18dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:gravity="center" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/mood_awesome_btn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/very_happy"
+                android:background="#80ffffff"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:minWidth="50dp"
+                android:layout_height= "wrap_content"
+                android:background="@color/moodRed"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:layout_marginTop="5dp"
+                android:text="@string/mood_awesome"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/mood_good_btn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/happy"
+                android:background="#80ffffff"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:minWidth="50dp"
+                android:layout_height= "wrap_content"
+                android:background="@color/moodOrange"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:layout_marginTop="5dp"
+                android:text="@string/mood_good"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/mood_ok_btn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ok"
+                android:background="#80ffffff"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:minWidth="50dp"
+                android:layout_height= "wrap_content"
+                android:background="@color/moodYellow"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:layout_marginTop="5dp"
+                android:text="@string/mood_average"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal"
+        android:gravity="center" >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/mood_bad_btn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/bad"
+                android:background="#80ffffff"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:minWidth="50dp"
+                android:layout_height= "wrap_content"
+                android:background="@color/moodGreen"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:layout_marginTop="5dp"
+                android:text="@string/mood_bad"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/mood_terrible_btn"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/sad"
+                android:background="#80ffffff"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:minWidth="50dp"
+                android:layout_height= "wrap_content"
+                android:background="@color/moodPurple"
+                android:textAlignment="center"
+                android:textColor="#000000"
+                android:layout_marginTop="5dp"
+                android:text="@string/mood_terrible"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/add_mood_dialog_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/add_description"
+        android:background="@color/colorPrimaryLight"
+        android:layout_marginTop="10dp"
+        android:textSize="18sp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="80dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/mood_dialog_btn_cancel"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dialogButtonText"
+            android:text="@string/cancel_str"/>
+
+        <Button
+            android:id="@+id/mood_dialog_btn_ok"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/dialogButtonText"
+            android:text="@string/ok_str"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

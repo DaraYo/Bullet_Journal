@@ -15,8 +15,8 @@
     <item name="pale_silver" type="color">#\CCBEBE</item>
 
     <!--sugestions for basic buttons (add something or on/off option)-->
-    <item name="blue" type="color">#FF33B5E5</item>
-    <item name="green" type="color">#99ffbb  </item>
+    <item name="blue" type="color">#2a6ebc</item>
+    <item name="green" type="color">#00aa88</item>
 
     <color name="colorPrimary">@color/nadeshiko_pink</color>
     <color name="colorPrimaryDark">@color/puce</color>
@@ -25,4 +25,14 @@
     
     <color name="colorBorder">@color/burnished_brown</color>
     <color name="colorBorderLight">@color/puce</color>
+
+    <!-- Dialog buttons -->
+    <color name="dialogButtonText">@color/blue</color>
+
+    <!-- Mood tracking colors -->
+    <color name="moodRed">#ff5858</color>
+    <color name="moodOrange">#ff9358</color>
+    <color name="moodYellow">#f5ff58</color>
+    <color name="moodGreen">#95ff7c</color>
+    <color name="moodPurple">#b25da6</color>
 </resources>
