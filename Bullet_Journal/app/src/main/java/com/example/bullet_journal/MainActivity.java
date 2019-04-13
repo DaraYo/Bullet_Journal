@@ -12,6 +12,7 @@ import android.widget.GridView;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.example.bullet_journal.activities.DiaryActivity;
 import com.example.bullet_journal.activities.SettingsActivity;
 import com.example.bullet_journal.adapters.SimpleDateDisplayAdapter;
 
@@ -67,7 +68,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            Intent intent= new Intent(this, SettingsActivity.class);
+            Intent intent= new Intent(this, DiaryActivity.class);
             startActivity(intent);
             return true;
         }
@@ -75,6 +76,9 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         return super.onOptionsItemSelected(item);
     }
 
+    /*
+    * Proveriti zasto ne reaguje na odabir elementa iz navigation bar-a
+    */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
