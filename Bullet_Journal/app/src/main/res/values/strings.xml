@@ -80,8 +80,14 @@
 
     <string name="pref_title_vibrate">Vibrate</string>
 
+    <!-- Diary activity labels -->
+    <string name="thoughts">Your thoughts</string>
+    <string name="done_button">Done</string>
+    <string name="choose_date">Choose date...</string>
+
     <!-- Main activity labels -->
     <string name="title_date">Date :</string>
+
     <string name="add_description">Add description: </string>
 
     <!-- Common button labels -->

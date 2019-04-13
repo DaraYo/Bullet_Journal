@@ -1,7 +1,6 @@
 package com.example.bullet_journal;
 
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -15,14 +14,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.bullet_journal.activities.HabitActivity;
-import com.example.bullet_journal.activities.MoodTrackerActivity;
+import com.example.bullet_journal.activities.DiaryActivity;
 import com.example.bullet_journal.activities.SettingsActivity;
 import com.example.bullet_journal.adapters.SimpleDateDisplayAdapter;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
@@ -126,13 +122,31 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Intent intent= new Intent(this, DiaryActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /*
+    * Proveriti zasto ne reaguje na odabir elementa iz navigation bar-a
+    */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here
-
+        // Handle navigation view item clicks here.
         int id = item.getItemId();
-
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
@@ -140,9 +154,6 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
         } else if (id == R.id.nav_slideshow) {
 
-//        } else if (id == R.id.nav_habit) {
-//            Intent intent= new Intent(this, HabitActivity.class);
-//            startActivity(intent);
         } else if (id == R.id.nav_manage) {
             Intent intent= new Intent(this, SettingsActivity.class);
             startActivity(intent);
