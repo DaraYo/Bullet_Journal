@@ -81,6 +81,8 @@
     <string name="pref_title_vibrate">Vibrate</string>
 
     <!-- Diary activity labels -->
+    <string name="title_activity_diary">Diary</string>
+    <string name="attach_section_title">Add to your day:</string>
     <string name="thoughts">Your thoughts</string>
     <string name="done_button">Done</string>
     <string name="choose_date">Choose date...</string>

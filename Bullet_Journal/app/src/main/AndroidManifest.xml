@@ -9,8 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.DiaryActivity"></activity>
-        <activity android:name=".activities.MoodPreviewActivity"></activity>
+        <activity android:name=".activities.DiaryActivity"
+            android:label="@string/title_activity_diary"/>
+        <activity android:name=".activities.MoodPreviewActivity" />
         <activity
             android:name=".activities.MoodTrackerActivity"
             android:label="@string/title_activity_mood_tracker"
