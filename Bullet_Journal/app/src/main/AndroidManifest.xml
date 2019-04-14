@@ -16,6 +16,12 @@
             android:name=".activities.MoodTrackerActivity"
             android:label="@string/title_activity_mood_tracker"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.HabitActivity"
+            android:label="@string/title_activity_habit_tracker"/>
+        <activity
+            android:name=".activities.NewHabitActivity"
+            android:label="@string/title_activity_habit_tracker"/>
         <activity android:name=".RootActivity" />
         <activity
             android:name=".activities.SettingsActivity"

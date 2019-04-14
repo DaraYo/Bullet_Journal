@@ -1,10 +1,17 @@
 package com.example.bullet_journal.model;
 
+import java.util.List;
+
 public class Day {
 
     private String date;
 
     private String diaryInput;
+
+    private List<Habit> habits;
+
+    private List<Task> tasks;
+
 
     public Day() {
     }

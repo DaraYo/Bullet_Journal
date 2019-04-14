@@ -111,4 +111,7 @@
     <string name="mood_bad">BAD</string>
     <string name="mood_terrible">TERRIBLE</string>
 
+    <!-- Habit tracking -->
+    <string name="title_activity_habit_tracker">Habit Tracker</string>
+
 </resources>
