@@ -12,16 +12,14 @@ import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.dialogs.AddReminderDialog;
 
-public class HabitActivity extends RootActivity {
+public class TaskActivity extends RootActivity {
     final Context context = this;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_habit);
-        getSupportActionBar().setTitle("Habit Tracker");
-
+        setContentView(R.layout.activity_task);
+        getSupportActionBar().setTitle("Tasks and Events");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button btn_done = (Button) findViewById(R.id.btn_done);
@@ -29,7 +27,7 @@ public class HabitActivity extends RootActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, HabitsActivity.class);
+                Intent intent = new Intent(context, TasksAndEventsActivity.class);
                 startActivity(intent);
             }
         });

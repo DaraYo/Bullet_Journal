@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.activities.MoodTrackerActivity;
+import com.example.bullet_journal.activities.TasksAndEventsActivity;
 
 public class BottomnToolbarFragment extends Fragment {
 
@@ -23,6 +24,16 @@ public class BottomnToolbarFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(getActivity(), MoodTrackerActivity.class);
+                getActivity().startActivity(myIntent);
+            }
+        });
+
+        ImageButton taskButton = (ImageButton) view.findViewById(R.id.btn_tasks);
+        taskButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(getActivity(), TasksAndEventsActivity.class);
                 getActivity().startActivity(myIntent);
             }
         });
