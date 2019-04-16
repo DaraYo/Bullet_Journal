@@ -1,6 +1,8 @@
 package com.example.bullet_journal.activities;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -22,19 +24,32 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class DiaryActivity extends RootActivity {
+public class TasksAndEventsActivity extends RootActivity {
+    final Context context = this;
     private MaterialCalendarView calendarView;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
     private TextView dateDayDisplay;
     private TextView weekDisplay;
 
     private String choosenDate = "";
-    private int dayNum = 6;
+    private String dateStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_diary);
+        setContentView(R.layout.activity_tasks_events);
+        getSupportActionBar().setTitle("Task and Events");
+
+        ImageButton addHabitBtn = (ImageButton) findViewById(R.id.add_task);
+        addHabitBtn.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, NewTaskEventActivity.class);
+                startActivity(intent);
+            }
+        });
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dateDayDisplay = (TextView) findViewById(R.id.day_date_display);
@@ -51,7 +66,7 @@ public class DiaryActivity extends RootActivity {
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(DiaryActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener, year, month, day);
+                DatePickerDialog dialog = new DatePickerDialog(TasksAndEventsActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener, year, month, day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -77,9 +92,44 @@ public class DiaryActivity extends RootActivity {
             }
         };
 
-        ImageButton takePhotoBtn = (ImageButton) findViewById(R.id.take_a_picture);
-        ImageButton attachPicBtn = (ImageButton) findViewById(R.id.attach_picture);
-        ImageButton attachLocationBtn = (ImageButton) findViewById(R.id.attach_location);
+        TextView task1 = (TextView) findViewById(R.id.task1);
+        task1.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, TaskActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        TextView task2 = (TextView) findViewById(R.id.task2);
+        task2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, TaskActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        TextView task3 = (TextView) findViewById(R.id.task3);
+        task3.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, TaskActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        LinearLayout event = (LinearLayout) findViewById(R.id.event);
+        event.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, EventActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <PreferenceCategory
+        android:title="@string/account_settings"
+        android:key="account_settings"
+        android:layout="@layout/preferences_category">
+        <EditTextPreference
+            android:capitalize="characters"
+            android:inputType="textPassword"
+            android:key="@string/change_pass_key"
+            android:maxLines="1"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:title="@string/change_pass" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/reminders_settings"
+        android:key="@string/reminders_settings_key"
+        android:layout="@layout/preferences_category">
+        <Preference
+            android:title="@string/reminders_settings"
+            android:key="reminder_options"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/personalization_settings"
+        android:key="personalization_settings"
+        android:layout="@layout/preferences_category">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="@string/theme_key"
+            android:title="@string/theme_title" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/general_settings"
+        android:key="@string/general_settings_key"
+        android:layout="@layout/preferences_category">
+        <ListPreference
+            android:defaultValue="En"
+            android:entries="@array/pref_languages_entries"
+            android:entryValues="@array/list_preference_entry_values"
+            android:title="@string/language_setting"
+            android:key="@string/language_setting_key"/>
+        <MultiSelectListPreference
+            android:key="@string/options_setting_key"
+            android:title="@string/options_setting"
+            android:dialogTitle="@string/options_dialog_name"
+            android:entries="@array/pref_options_entries"
+            android:entryValues="@array/pref_options_values"
+            android:defaultValue="@array/pref_options_values" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/support_us_settings"
+        android:key="support_us_settings"
+        android:layout="@layout/preferences_category">
+        <Preference
+            android:title="@string/tutorial_settings"/>
+    </PreferenceCategory>
+</PreferenceScreen>
