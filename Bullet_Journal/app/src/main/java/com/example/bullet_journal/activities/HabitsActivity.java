@@ -10,29 +10,30 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
+import com.example.bullet_journal.adapters.HabitDisplayAdapter;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.example.bullet_journal.model.Habit;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class HabitsActivity extends RootActivity {
     final Context context = this;
-    private MaterialCalendarView calendarView;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
     private TextView dateDayDisplay;
-    private TextView weekDisplay;
 
     private String choosenDate = "";
-    private String dateStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,34 +93,23 @@ public class HabitsActivity extends RootActivity {
             }
         };
 
-        TextView habit1 = (TextView) findViewById(R.id.habit1);
-        habit1.setOnClickListener(new View.OnClickListener() {
+        HabitDisplayAdapter habitsAdapter = new HabitDisplayAdapter(this, buildHabits());
+        ListView habitsListView = findViewById(R.id.habits_list_view);
+        habitsListView.setAdapter(habitsAdapter);
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, HabitActivity.class);
-                startActivity(intent);
-            }
-        });
+    }
 
-        TextView habit2 = (TextView) findViewById(R.id.habit2);
-        habit2.setOnClickListener(new View.OnClickListener() {
+    private List<Habit> buildHabits(){
+        List<Habit> retVal = new ArrayList<>();
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, HabitActivity.class);
-                startActivity(intent);
-            }
-        });
+        Habit habit1 = new Habit("Habbit 1", "About habbit 1...", false);
+        Habit habit2 = new Habit("Habbit 2", "About habbit 2...", true);
+        Habit habit3 = new Habit("Habbit 3", "About habbit 3...", false);
 
-        TextView habit3 = (TextView) findViewById(R.id.habit3);
-        habit3.setOnClickListener(new View.OnClickListener() {
+        retVal.add(habit1);
+        retVal.add(habit2);
+        retVal.add(habit3);
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, HabitActivity.class);
-                startActivity(intent);
-            }
-        });
+        return retVal;
     }
 }

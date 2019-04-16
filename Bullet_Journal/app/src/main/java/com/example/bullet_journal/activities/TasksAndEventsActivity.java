@@ -10,18 +10,24 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
+import com.example.bullet_journal.adapters.TaskEventDisplayAdapter;
+import com.example.bullet_journal.enums.TaskType;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
+import com.example.bullet_journal.model.Task;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class TasksAndEventsActivity extends RootActivity {
@@ -29,10 +35,8 @@ public class TasksAndEventsActivity extends RootActivity {
     private MaterialCalendarView calendarView;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
     private TextView dateDayDisplay;
-    private TextView weekDisplay;
 
     private String choosenDate = "";
-    private String dateStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,44 +96,39 @@ public class TasksAndEventsActivity extends RootActivity {
             }
         };
 
-        TextView task1 = (TextView) findViewById(R.id.task1);
-        task1.setOnClickListener(new View.OnClickListener() {
+        TaskEventDisplayAdapter taskAdapter = new TaskEventDisplayAdapter(this, buildTasks(), TaskType.TASK);
+        ListView tasksListView = findViewById(R.id.tasks_list_view);
+        tasksListView.setAdapter(taskAdapter);
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, TaskActivity.class);
-                startActivity(intent);
-            }
-        });
+        TaskEventDisplayAdapter eventAdapter = new TaskEventDisplayAdapter(this, buildEvents(), TaskType.EVENT);
+        ListView eventsListView = findViewById(R.id.events_list_view);
+        eventsListView.setAdapter(eventAdapter);
 
-        TextView task2 = (TextView) findViewById(R.id.task2);
-        task2.setOnClickListener(new View.OnClickListener() {
+    }
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, TaskActivity.class);
-                startActivity(intent);
-            }
-        });
+    private List<Task> buildTasks(){
+        List<Task> retVal = new ArrayList<>();
 
-        TextView task3 = (TextView) findViewById(R.id.task3);
-        task3.setOnClickListener(new View.OnClickListener() {
+        Task task1 = new Task("Task 1", "About task 1...", false, null, TaskType.TASK);
+        Task task2 = new Task("Task 2", "About task 2...", true, null, TaskType.TASK);
+        Task task3 = new Task("Task 3", "About task 3...", false, null, TaskType.TASK);
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, TaskActivity.class);
-                startActivity(intent);
-            }
-        });
+        retVal.add(task1);
+        retVal.add(task2);
+        retVal.add(task3);
 
-        LinearLayout event = (LinearLayout) findViewById(R.id.event);
-        event.setOnClickListener(new View.OnClickListener() {
+        return retVal;
+    }
 
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, EventActivity.class);
-                startActivity(intent);
-            }
-        });
+    private List<Task> buildEvents(){
+        List<Task> retVal = new ArrayList<>();
+
+        Task event1 = new Task("Event 1", "About event 1...", true, null, TaskType.EVENT);
+        Task event2 = new Task("Event 2", "About event 2...", false, null, TaskType.EVENT);
+
+        retVal.add(event1);
+        retVal.add(event2);
+
+        return retVal;
     }
 }

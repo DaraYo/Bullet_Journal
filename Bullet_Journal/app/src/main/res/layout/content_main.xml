@@ -63,6 +63,12 @@
             android:layout_margin="5dp"
             android:numColumns="3" />
 
+        <ListView
+            android:id="@+id/event_preview_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"/>
+
     </LinearLayout>
 
     <fragment

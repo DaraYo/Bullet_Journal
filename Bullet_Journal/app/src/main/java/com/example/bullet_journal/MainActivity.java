@@ -10,13 +10,12 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.GridView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.bullet_journal.activities.DiaryActivity;
@@ -24,14 +23,19 @@ import com.example.bullet_journal.activities.HabitsActivity;
 import com.example.bullet_journal.activities.MoodTrackerActivity;
 import com.example.bullet_journal.activities.SettingsActivity;
 import com.example.bullet_journal.activities.TasksAndEventsActivity;
+import com.example.bullet_journal.adapters.FollowingEventsDisplayAdapter;
 import com.example.bullet_journal.adapters.SimpleDateDisplayAdapter;
+import com.example.bullet_journal.enums.TaskType;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
+import com.example.bullet_journal.model.Task;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends RootActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,10 +44,12 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     private TextView dateDisplay;
     private TextView weekDisplay;
     private GridView gridView;
-    private ListAdapter datesAdapter;
+    private ListView eventListView;
+    private SimpleDateDisplayAdapter datesAdapter;
+    private FollowingEventsDisplayAdapter eventAdapter;
 
     private String choosenDate = "";
-    private int dayNum = 6;
+    private int dayNum = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,10 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         datesAdapter = new SimpleDateDisplayAdapter(this, CalendarCalculationsUtils.calculateWeek(choosenDate, dayNum));
         gridView = (GridView) findViewById(R.id.date_grid);
         gridView.setAdapter(datesAdapter);
+
+        eventAdapter = new FollowingEventsDisplayAdapter(MainActivity.this, buildEvents(choosenDate));
+        eventListView = findViewById(R.id.event_preview_list_view);
+        eventListView.setAdapter(eventAdapter);
 
         LinearLayout dateSwitchPanel = (LinearLayout) findViewById(R.id.current_date_layout);
 
@@ -108,11 +118,18 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
                 choosenDate = targetFormat.format(date);
                 dateDisplay.setText(choosenDate);
                 weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(choosenDate));
+
                 datesAdapter = new SimpleDateDisplayAdapter(MainActivity.this, CalendarCalculationsUtils.calculateWeek(choosenDate, dayNum));
-                ((SimpleDateDisplayAdapter) datesAdapter).notifyDataSetChanged();
+                datesAdapter.notifyDataSetChanged();
                 gridView.setAdapter(datesAdapter);
+
+                eventAdapter = new FollowingEventsDisplayAdapter(MainActivity.this, buildEvents(choosenDate));
+                eventAdapter.notifyDataSetChanged();
+                eventListView.setAdapter(eventAdapter);
             }
         };
+
+
 
     }
 
@@ -124,23 +141,6 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent= new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     /*
@@ -183,5 +183,27 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     }
 
 
+    public List<Task> buildEvents(String theDate){
+        List<Task> retVal = new ArrayList<>();
+
+        Task event1 = new Task("Event 1", "About event 1...", true, theDate+" 11:20", TaskType.EVENT);
+        Task event2 = new Task("Event 2", "About event 2...", false, theDate+" 15:40", TaskType.EVENT);
+        Task event3 = new Task("Event 3", "About event 3...", true, theDate+" 16:00", TaskType.EVENT);
+        Task event4 = new Task("Event 4", "About event 4...", false, theDate+" 18:35", TaskType.EVENT);
+        Task event5 = new Task("Event 5", "About event 5...", false, theDate+" 19:10", TaskType.EVENT);
+        Task event6 = new Task("Event 6", "About event 6...", false, theDate+" 20:30", TaskType.EVENT);
+        Task event7 = new Task("Event 7", "About event 7...", false, theDate+" 22:00", TaskType.EVENT);
+
+
+        retVal.add(event1);
+        retVal.add(event2);
+        retVal.add(event3);
+        retVal.add(event4);
+        retVal.add(event5);
+        retVal.add(event6);
+        retVal.add(event7);
+
+        return retVal;
+    }
 
 }

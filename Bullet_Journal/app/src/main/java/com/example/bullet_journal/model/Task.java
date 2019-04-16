@@ -2,8 +2,6 @@ package com.example.bullet_journal.model;
 
 import com.example.bullet_journal.enums.TaskType;
 
-import java.util.Date;
-
 public class Task {
 
     private String title;
@@ -12,11 +10,11 @@ public class Task {
 
     private boolean status;
 
-    private Date date;
+    private String date;
 
     private TaskType type;
 
-    public Task(String title, String text, boolean status, Date date, TaskType type) {
+    public Task(String title, String text, boolean status, String date, TaskType type) {
         this.title = title;
         this.text = text;
         this.status = status;
@@ -51,11 +49,11 @@ public class Task {
         this.status = status;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

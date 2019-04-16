@@ -1,37 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
 
     android:layout_margin="15dp">
-    <!--tools:context=".activities.HabitActivity"-->
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:gravity="center" >-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/add_mood_dialog_for_date"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:text="@string/add_mood_dialog_for_date"-->
-            <!--android:textSize="18sp" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/add_mood_dialog_date_str"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:textStyle="bold"-->
-            <!--android:layout_marginLeft="5dp"-->
-            <!--android:textSize="18dp" />-->
-
-    <!--</LinearLayout>-->
     <LinearLayout
         android:id="@+id/current_date_layout_2"
         android:layout_width="match_parent"
@@ -61,90 +36,12 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <LinearLayout
+        <ListView
+            android:id="@+id/habits_list_view"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/habit1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:textAlignment="textStart"
-                android:textSize="18dp"
-                android:text="Habit 1" />
-
-
-            <CheckBox
-                android:id="@+id/habit_tracker_check"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layoutDirection="rtl"
-                android:orientation="vertical"
-                android:textDirection="ltr" />
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/habit2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:textAlignment="textStart"
-                android:textSize="18dp"
-                android:text="Habit2" />
-
-
-            <CheckBox
-                android:id="@+id/habit_tracker_check2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layoutDirection="rtl"
-                android:orientation="vertical"
-                android:textDirection="ltr" />
-
-
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/habit3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:textAlignment="textStart"
-                android:textSize="18dp"
-                android:text="Habit3" />
-
-
-            <CheckBox
-                android:id="@+id/habit_tracker_check3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:layoutDirection="rtl"
-                android:orientation="vertical"
-                android:textDirection="ltr" />
-
-
-        </LinearLayout>
-
-
+            android:layout_height="340dp" />
 
     </LinearLayout>
 
@@ -171,6 +68,5 @@
             app:srcCompat="@drawable/ic_edit_btn_light" />
 
     </LinearLayout>
-
 
 </LinearLayout>

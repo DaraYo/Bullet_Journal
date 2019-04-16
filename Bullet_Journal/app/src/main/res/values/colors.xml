@@ -12,7 +12,7 @@
     <item name="burnished_brown" type="color">#A97B71</item>
     <item name="puce" type="color">#CF9595</item>
     <item name="pink_lavender" type="color">#CFB5C7</item>
-    <item name="pale_silver" type="color">#CCBEBE</item>
+    <item name="pale_silver" type="color">#EBEBEB</item>
 
     <!--sugestions for basic buttons (add something or on/off option)-->
     <item name="blue" type="color">#2a6ebc</item>
@@ -25,6 +25,7 @@
     
     <color name="colorBorder">@color/burnished_brown</color>
     <color name="colorBorderLight">@color/puce</color>
+    <color name="colorPrimaryGray">@color/pale_silver</color>
 
     <!-- Dialog buttons -->
     <color name="dialogButtonText">@color/blue</color>
