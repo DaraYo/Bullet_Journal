@@ -11,6 +11,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.AlbumActivity"/>
+        <activity android:name=".activities.RatingActivity"></activity>
         <activity
             android:name=".activities.DiaryActivity"
             android:label="@string/title_activity_diary" />

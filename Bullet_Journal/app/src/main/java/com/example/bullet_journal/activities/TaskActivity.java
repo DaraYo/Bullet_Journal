@@ -2,7 +2,6 @@ package com.example.bullet_journal.activities;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -27,8 +26,7 @@ public class TaskActivity extends RootActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, TasksAndEventsActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 

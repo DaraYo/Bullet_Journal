@@ -9,7 +9,9 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import com.example.bullet_journal.R;
+import com.example.bullet_journal.activities.DiaryActivity;
 import com.example.bullet_journal.activities.MoodTrackerActivity;
+import com.example.bullet_journal.activities.RatingActivity;
 import com.example.bullet_journal.activities.TasksAndEventsActivity;
 
 public class BottomnToolbarFragment extends Fragment {
@@ -34,6 +36,26 @@ public class BottomnToolbarFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(getActivity(), TasksAndEventsActivity.class);
+                getActivity().startActivity(myIntent);
+            }
+        });
+
+        ImageButton diaryButton = (ImageButton) view.findViewById(R.id.btn_diary);
+        diaryButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(getActivity(), DiaryActivity.class);
+                getActivity().startActivity(myIntent);
+            }
+        });
+
+        ImageButton ratingsButton = (ImageButton) view.findViewById(R.id.btn_rating);
+        ratingsButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(getActivity(), RatingActivity.class);
                 getActivity().startActivity(myIntent);
             }
         });
