@@ -1,11 +1,9 @@
 package com.example.bullet_journal.activities;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
@@ -25,8 +23,7 @@ public class NewHabitActivity extends RootActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, HabitsActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
@@ -35,8 +32,7 @@ public class NewHabitActivity extends RootActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, HabitsActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
     }

@@ -108,6 +108,20 @@
     <string name="mood_bad">BAD</string>
     <string name="mood_terrible">TERRIBLE</string>
 
+    <!-- Ratings -->
+    <string name="title_activity_ratings">Ratings</string>
+    <string name="add_rating_dialog_title">Add Rating:</string>
+    <string name="add_rating_title">Add Title:</string>
+    <string name="add_rating_text">Add Review:</string>
+    <string name="edit_rating_dialog_title">Edit Rating:</string>
+    <string name="edit_rating_title">Edit Title:</string>
+    <string name="edit_rating_text">Edit Review:</string>
+
+    <string name="rating_category_book">Book:</string>
+    <string name="rating_category_activity">Activity:</string>
+    <string name="rating_category_movie">Movie:</string>
+    <string name="rating_category_music">Music:</string>
+
     <!-- Habit tracking -->
     <string name="title_activity_habit_tracker">Habit Tracker</string>
 

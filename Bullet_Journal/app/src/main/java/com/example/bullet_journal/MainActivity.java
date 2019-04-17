@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.example.bullet_journal.activities.DiaryActivity;
 import com.example.bullet_journal.activities.HabitsActivity;
 import com.example.bullet_journal.activities.MoodTrackerActivity;
+import com.example.bullet_journal.activities.RatingActivity;
 import com.example.bullet_journal.activities.SettingsActivity;
 import com.example.bullet_journal.activities.TasksAndEventsActivity;
 import com.example.bullet_journal.adapters.FollowingEventsDisplayAdapter;
@@ -159,7 +160,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
             Intent intent= new Intent(this, DiaryActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_ratings) {
-            Intent intent= new Intent(this, DiaryActivity.class);
+            Intent intent= new Intent(this, RatingActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_tasks) {
             Intent intent= new Intent(this, TasksAndEventsActivity.class);
