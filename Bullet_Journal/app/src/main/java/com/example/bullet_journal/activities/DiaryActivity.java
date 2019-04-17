@@ -1,6 +1,8 @@
 package com.example.bullet_journal.activities;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -23,6 +25,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class DiaryActivity extends RootActivity {
+    final Context context = this;
     private MaterialCalendarView calendarView;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
     private TextView dateDayDisplay;
@@ -77,8 +80,16 @@ public class DiaryActivity extends RootActivity {
             }
         };
 
-        ImageButton takePhotoBtn = (ImageButton) findViewById(R.id.take_a_picture);
-        ImageButton attachPicBtn = (ImageButton) findViewById(R.id.attach_picture);
+//        ImageButton takePhotoBtn = (ImageButton) findViewById(R.id.take_a_picture);
+//        ImageButton attachPicBtn = (ImageButton) findViewById(R.id.attach_picture);
+        ImageButton goToGallery= (ImageButton) findViewById(R.id.go_to_gallery);
+        goToGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent= new Intent(context, AlbumActivity.class);
+                startActivity(intent);
+            }
+        });
         ImageButton attachLocationBtn = (ImageButton) findViewById(R.id.attach_location);
 
     }

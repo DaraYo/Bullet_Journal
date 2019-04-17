@@ -143,9 +143,6 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         }
     }
 
-    /*
-    * Proveriti zasto ne reaguje na odabir elementa iz navigation bar-a
-    */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
