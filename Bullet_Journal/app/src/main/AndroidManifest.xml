@@ -9,6 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity
+            android:name=".activities.LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".activities.SignUpActivity"
+            android:label="@string/title_activity_signup"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.WalletActivity"
+            android:label="@string/title_activity_wallet" />
         <activity android:name=".activities.DiaryActivity"></activity>
         <activity android:name=".activities.MoodPreviewActivity"></activity>
         <activity

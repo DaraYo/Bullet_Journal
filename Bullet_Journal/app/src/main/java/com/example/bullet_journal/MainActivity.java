@@ -20,6 +20,9 @@ import android.widget.TextView;
 
 import com.example.bullet_journal.activities.DiaryActivity;
 import com.example.bullet_journal.activities.SettingsActivity;
+import com.example.bullet_journal.activities.LoginActivity;
+import com.example.bullet_journal.activities.SignUpActivity;
+import com.example.bullet_journal.activities.WalletActivity;
 import com.example.bullet_journal.adapters.SimpleDateDisplayAdapter;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 
@@ -148,19 +151,12 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-            Intent intent= new Intent(this, SettingsActivity.class);
+        if (id == R.id.nav_login) {
+            Intent intent= new Intent(this, LoginActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_signup) {
+            Intent intent= new Intent(this, SignUpActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
