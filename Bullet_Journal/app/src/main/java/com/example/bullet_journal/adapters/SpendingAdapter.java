@@ -34,7 +34,7 @@ public class SpendingAdapter extends ArrayAdapter<Spending> {
         spendingName.setText(spending.getItemName());
 
         TextView spendingPrice = view.findViewById(R.id.spending_price);
-        spendingPrice.setText(spending.getItemPrice().toString() + " $");
+        spendingPrice.setText("- " + spending.getItemPrice().toString() + " $");
 
         return view;
     }

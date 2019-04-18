@@ -13,6 +13,7 @@ import com.example.bullet_journal.activities.DiaryActivity;
 import com.example.bullet_journal.activities.MoodTrackerActivity;
 import com.example.bullet_journal.activities.RatingActivity;
 import com.example.bullet_journal.activities.TasksAndEventsActivity;
+import com.example.bullet_journal.activities.WalletActivity;
 
 public class BottomnToolbarFragment extends Fragment {
 
@@ -21,7 +22,7 @@ public class BottomnToolbarFragment extends Fragment {
         View view = inflater.inflate(R.layout.bottomn_toolbar_fragment, container, false);
 
         ImageButton moodButton = (ImageButton) view.findViewById(R.id.btn_mood);
-        moodButton.setOnClickListener(new View.OnClickListener(){
+        moodButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -31,7 +32,7 @@ public class BottomnToolbarFragment extends Fragment {
         });
 
         ImageButton taskButton = (ImageButton) view.findViewById(R.id.btn_tasks);
-        taskButton.setOnClickListener(new View.OnClickListener(){
+        taskButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -41,7 +42,7 @@ public class BottomnToolbarFragment extends Fragment {
         });
 
         ImageButton diaryButton = (ImageButton) view.findViewById(R.id.btn_diary);
-        diaryButton.setOnClickListener(new View.OnClickListener(){
+        diaryButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -51,11 +52,21 @@ public class BottomnToolbarFragment extends Fragment {
         });
 
         ImageButton ratingsButton = (ImageButton) view.findViewById(R.id.btn_rating);
-        ratingsButton.setOnClickListener(new View.OnClickListener(){
+        ratingsButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(getActivity(), RatingActivity.class);
+                getActivity().startActivity(myIntent);
+            }
+        });
+
+        ImageButton spendingButton = (ImageButton) view.findViewById(R.id.btn_money);
+        spendingButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent myIntent = new Intent(getActivity(), WalletActivity.class);
                 getActivity().startActivity(myIntent);
             }
         });
