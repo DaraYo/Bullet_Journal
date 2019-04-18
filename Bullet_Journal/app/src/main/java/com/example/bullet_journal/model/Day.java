@@ -12,6 +12,8 @@ public class Day {
 
     private List<Task> tasks;
 
+    private Album album;
+
 
     public Day() {
     }
@@ -35,5 +37,13 @@ public class Day {
 
     public void setDiaryInput(String diaryInput) {
         this.diaryInput = diaryInput;
+    }
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
     }
 }

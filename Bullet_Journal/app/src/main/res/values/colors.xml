@@ -11,12 +11,14 @@
     <item name="deep_taupe" type="color">#776055</item>
     <item name="burnished_brown" type="color">#A97B71</item>
     <item name="puce" type="color">#CF9595</item>
+    <item name="light_puce" type="color">#E7C9C9</item>
     <item name="pink_lavender" type="color">#CFB5C7</item>
     <item name="pale_silver" type="color">#EBEBEB</item>
 
     <!--sugestions for basic buttons (add something or on/off option)-->
     <item name="blue" type="color">#2a6ebc</item>
     <item name="green" type="color">#00aa88</item>
+    <item name="white" type="color">#FFFFFF</item>
 
     <color name="colorPrimary">@color/nadeshiko_pink</color>
     <color name="colorPrimaryDark">@color/puce</color>

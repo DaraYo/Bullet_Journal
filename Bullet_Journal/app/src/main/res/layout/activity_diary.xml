@@ -34,17 +34,6 @@
         android:gravity="top"
         android:hint="@string/thoughts" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:padding="5dp"
-        android:background="@drawable/rounded_bg"
-        android:text="@string/attach_section_title"
-        android:textAlignment="center"
-        android:textSize="18dp"/>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -52,20 +41,12 @@
         android:gravity="center">
 
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/take_a_picture"
+            android:id="@+id/go_to_gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/fab_margin"
             app:backgroundTint="@color/isabelline"
-            app:srcCompat="@drawable/ic_take_a_picture" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/attach_picture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/fab_margin"
-            app:backgroundTint="@color/isabelline"
-            app:srcCompat="@drawable/ic_attach_picture" />
+            app:srcCompat="@drawable/ic_photo_library" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/attach_location"

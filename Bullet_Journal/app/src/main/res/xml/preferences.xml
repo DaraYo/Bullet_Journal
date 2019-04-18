@@ -36,11 +36,13 @@
         android:key="@string/general_settings_key"
         android:layout="@layout/preferences_category">
         <ListPreference
-            android:defaultValue="En"
             android:entries="@array/pref_languages_entries"
-            android:entryValues="@array/list_preference_entry_values"
+            android:entryValues="@array/pref_languages_values"
+            android:dialogTitle="@string/language_dialog_title"
             android:title="@string/language_setting"
-            android:key="@string/language_setting_key"/>
+            android:key="@string/language_setting_key"
+            android:summary="%s"
+            android:defaultValue="en"/>
         <MultiSelectListPreference
             android:key="@string/options_setting_key"
             android:title="@string/options_setting"

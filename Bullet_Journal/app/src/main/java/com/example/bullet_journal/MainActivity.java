@@ -23,6 +23,9 @@ import com.example.bullet_journal.activities.HabitsActivity;
 import com.example.bullet_journal.activities.MoodTrackerActivity;
 import com.example.bullet_journal.activities.RatingActivity;
 import com.example.bullet_journal.activities.SettingsActivity;
+import com.example.bullet_journal.activities.LoginActivity;
+import com.example.bullet_journal.activities.SignUpActivity;
+import com.example.bullet_journal.activities.WalletActivity;
 import com.example.bullet_journal.activities.TasksAndEventsActivity;
 import com.example.bullet_journal.adapters.FollowingEventsDisplayAdapter;
 import com.example.bullet_journal.adapters.SimpleDateDisplayAdapter;
@@ -144,9 +147,6 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         }
     }
 
-    /*
-    * Proveriti zasto ne reaguje na odabir elementa iz navigation bar-a
-    */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -169,13 +169,17 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
             Intent intent= new Intent(this, HabitsActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_spendings) {
-            Intent intent= new Intent(this, DiaryActivity.class);
+            Intent intent= new Intent(this, WalletActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_manage) {
             Intent intent= new Intent(this, SettingsActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_logout) {
-
+        }else if (id == R.id.nav_login) {
+            Intent intent= new Intent(this, LoginActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.nav_signup) {
+            Intent intent= new Intent(this, SignUpActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
