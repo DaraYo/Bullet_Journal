@@ -9,66 +9,36 @@
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
+    <!-- account settings-->
+    <string name="account_settings">Account</string>
 
-    <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
+    <string name="change_pass">Change password</string>
+    <string name="change_pass_key">change_password</string>
+    <!-- reminders settings-->
+    <string name="reminders_settings">Reminders</string>
+    <string name="reminders_settings_key">reminders_settings</string>
+    <!-- personalize-->
+    <string name="personalization_settings">Personalize</string>
 
-    <string name="pref_title_social_recommendations">Enable social recommendations</string>
-    <string name="pref_description_social_recommendations">Recommendations for people to contact
-        based on your message history
-    </string>
+    <string name="theme_title">Dark mode</string>
+    <string name="theme_key">dark_mode</string>
+    <!-- general options-->
+    <string name="general_settings">General</string>
+    <string name="general_settings_key">general_settings</string>
 
-    <string name="pref_title_display_name">Display name</string>
-    <string name="pref_default_display_name">John Smith</string>
+    <string name="language_setting">Language</string>
+    <string name="language_setting_key">language_list</string>
+    <string name="language_dialog_title">Choose language</string>
 
-    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
-    <string-array name="pref_example_list_titles">
-        <item>Always</item>
-        <item>When possible</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_example_list_values">
-        <item>1</item>
-        <item>0</item>
-        <item>-1</item>
-    </string-array>
 
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">Data &amp; sync</string>
+    <string name="options_setting">Show/hide options</string>
+    <string name="options_setting_key">show_options</string>
+    <string name="options_dialog_name">Choose options</string>
+    <!-- support us-->
+    <string name="support_us_settings">Support us</string>
 
-    <string name="pref_title_sync_frequency">Sync frequency</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
-    </string-array>
-    <string-array name="pref_sync_frequency_values">
-        <item>15</item>
-        <item>30</item>
-        <item>60</item>
-        <item>180</item>
-        <item>360</item>
-        <item>-1</item>
-    </string-array>
-
-    <string-array name="list_preference_entries">
-        <item>Entry 1</item>
-        <item>Entry 2</item>
-        <item>Entry 3</item>
-    </string-array>
-
-    <string-array name="list_preference_entry_values">
-        <item>1</item>
-        <item>2</item>
-        <item>3</item>
-    </string-array>
-
-    <string-array name="multi_select_list_preference_default_value" />
-
-    <string name="pref_title_system_sync_settings">System sync settings</string>
+    <string name="tutorial_settings">Video tutorial</string>
+    <!-- ___________________________________________________ -->
 
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
@@ -81,6 +51,8 @@
     <string name="pref_title_vibrate">Vibrate</string>
 
     <!-- Diary activity labels -->
+    <string name="title_activity_diary">Diary</string>
+    <string name="attach_section_title">Add to your day:</string>
     <string name="thoughts">Your thoughts</string>
     <string name="done_button">Done</string>
     <string name="choose_date">Choose date...</string>
@@ -109,10 +81,29 @@
     <string name="mood_bad">BAD</string>
     <string name="mood_terrible">TERRIBLE</string>
 
-    <!-- Login activity labels -->
+    <!-- Ratings -->
+    <string name="title_activity_ratings">Ratings</string>
+    <string name="add_rating_dialog_title">Add Rating:</string>
+    <string name="add_rating_title">Add Title:</string>
+    <string name="add_rating_text">Add Review:</string>
+    <string name="edit_rating_dialog_title">Edit Rating:</string>
+    <string name="edit_rating_title">Edit Title:</string>
+    <string name="edit_rating_text">Edit Review:</string>
+
+    <string name="rating_category_book">Book:</string>
+    <string name="rating_category_activity">Activity:</string>
+    <string name="rating_category_movie">Movie:</string>
+    <string name="rating_category_music">Music:</string>
+
+    <!-- Habit tracking -->
+    <string name="title_activity_habit_tracker">Habit Tracker</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+  
+     <!-- Login activity labels -->
     <string name="title_activity_login">Log in</string>
     <string name="not_member_yet">Don\'t have an account? Sign up!</string>
-
 
     <!-- Sign up activity labels -->
     <string name="title_activity_signup">Sign up</string>

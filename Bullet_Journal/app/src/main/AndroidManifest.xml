@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bullet_journal">
-
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,12 +19,35 @@
         <activity
             android:name=".activities.WalletActivity"
             android:label="@string/title_activity_wallet" />
-        <activity android:name=".activities.DiaryActivity"></activity>
-        <activity android:name=".activities.MoodPreviewActivity"></activity>
+            android:name=".activities.AlbumActivity"/>
+        <activity android:name=".activities.RatingActivity"></activity>
+        <activity
+            android:name=".activities.DiaryActivity"
+            android:label="@string/title_activity_diary" />
+        <activity android:name=".activities.MoodPreviewActivity" />
         <activity
             android:name=".activities.MoodTrackerActivity"
             android:label="@string/title_activity_mood_tracker"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activities.HabitsActivity"
+            android:label="@string/title_activity_habit_tracker" />
+        <activity
+            android:name=".activities.TasksAndEventsActivity"
+            android:label="Tasks and Events" />
+        <activity
+            android:name=".activities.NewTaskEventActivity"
+            android:label="Tasks and Events" />
+        <activity
+            android:name=".activities.EventActivity"
+            android:label="Tasks and Events" />
+        <activity android:name=".activities.TaskActivity" />
+        <activity
+            android:name=".activities.HabitActivity"
+            android:label="@string/title_activity_habit_tracker" />
+        <activity
+            android:name=".activities.NewHabitActivity"
+            android:label="@string/title_activity_habit_tracker" />
         <activity android:name=".RootActivity" />
         <activity
             android:name=".activities.SettingsActivity"

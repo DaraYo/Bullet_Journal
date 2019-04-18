@@ -1,10 +1,19 @@
 package com.example.bullet_journal.model;
 
+import java.util.List;
+
 public class Day {
 
     private String date;
 
     private String diaryInput;
+
+    private List<Habit> habits;
+
+    private List<Task> tasks;
+
+    private Album album;
+
 
     public Day() {
     }
@@ -28,5 +37,13 @@ public class Day {
 
     public void setDiaryInput(String diaryInput) {
         this.diaryInput = diaryInput;
+    }
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
     }
 }
