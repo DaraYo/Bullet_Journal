@@ -10,9 +10,7 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4d39d21-5653-4d6a-bbbc-64ca501fecc4" name="Default Changelist" comment="Prikaz eventova na pocetnoj stranici, sitno izmestanje view-a u adaptere">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-    </list>
+    <list default="true" id="f4d39d21-5653-4d6a-bbbc-64ca501fecc4" name="Default Changelist" comment="Prikaz eventova na pocetnoj stranici, sitno izmestanje view-a u adaptere" />
     <ignored path="$PROJECT_DIR$/build/classes/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -546,7 +544,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Captures" order="0" sideWeight="0.4052758" side_tool="true" visible="true" weight="0.3207262" />
       <window_info content_ui="combo" id="Project" order="1" sideWeight="0.59472424" visible="true" weight="0.3207262" />
