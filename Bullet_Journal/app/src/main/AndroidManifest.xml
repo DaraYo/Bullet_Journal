@@ -10,6 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".activities.LoginActivity"
+            android:label="@string/title_activity_login" />
+        <activity
+            android:name=".activities.SignUpActivity"
+            android:label="@string/title_activity_signup"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".activities.WalletActivity"
+            android:label="@string/title_activity_wallet" />
             android:name=".activities.AlbumActivity"/>
         <activity android:name=".activities.RatingActivity"></activity>
         <activity

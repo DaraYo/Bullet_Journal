@@ -29,8 +29,17 @@
         android:id="@+id/nav_manage"
         android:icon="@drawable/ic_menu_manage"
         android:title="Settings" />
-    <item
-        android:id="@+id/nav_logout"
-        android:title="Log out" />
+    <item android:title="Account">
+        <menu>
+            <item
+                android:id="@+id/nav_login"
+                android:icon="@drawable/ic_menu_login"
+                android:title="Log in" />
+            <item
+                android:id="@+id/nav_signup"
+                android:icon="@drawable/ic_menu_signup"
+                android:title="Sign up" />
+        </menu>
+    </item>
 
 </menu>

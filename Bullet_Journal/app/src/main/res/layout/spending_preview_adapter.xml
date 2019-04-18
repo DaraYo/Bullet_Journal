@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:orientation="horizontal"
+    android:weightSum="8"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:background="@drawable/rounded_label_light">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/spending_name"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:padding="4dp"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/spending_price"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:background="@color/pale_silver"
+        android:padding="4dp"
+        android:paddingTop="1dp"
+        android:paddingBottom="1dp"
+        android:textAlignment="center"
+        android:textSize="14sp" />
+</LinearLayout>
