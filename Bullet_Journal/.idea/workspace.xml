@@ -10,7 +10,9 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f4d39d21-5653-4d6a-bbbc-64ca501fecc4" name="Default Changelist" comment="Prikaz eventova na pocetnoj stranici, sitno izmestanje view-a u adaptere" />
+    <list default="true" id="f4d39d21-5653-4d6a-bbbc-64ca501fecc4" name="Default Changelist" comment="Prikaz eventova na pocetnoj stranici, sitno izmestanje view-a u adaptere">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    </list>
     <ignored path="$PROJECT_DIR$/build/classes/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
