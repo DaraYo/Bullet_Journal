@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:layout_margin="5dp"
-            android:srcCompat="@drawable/ic_edit_btn_light"
+            android:src="@drawable/ic_edit_btn_light"
             android:background="@drawable/rounded_bg"/>
 
         <ImageButton
@@ -84,7 +84,7 @@
             android:layout_height="wrap_content"
             android:padding="5dp"
             android:layout_margin="5dp"
-            android:srcCompat="@drawable/ic_delete_light"
+            android:src="@drawable/ic_delete_light"
             android:background="@drawable/rounded_bg"/>
 
     </LinearLayout>
