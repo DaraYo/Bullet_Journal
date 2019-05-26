@@ -76,10 +76,10 @@ public class MoodTrackerActivity extends RootActivity {
     private ArrayList<MoodWrapper> buildMood(int date1, int date2, double val1, double val2){
         Calendar calendar = Calendar.getInstance();
 
-        calendar.set(2019, Calendar.APRIL, date1);
+        calendar.set(2019, Calendar.MAY, date1);
         MoodWrapper mw1 = new MoodWrapper(val1, new Date(calendar.getTimeInMillis()));
 
-        calendar.set(2019, Calendar.APRIL, date2);
+        calendar.set(2019, Calendar.MAY, date2);
         MoodWrapper mw2 = new MoodWrapper(val2, new Date(calendar.getTimeInMillis()));
 
         ArrayList<MoodWrapper> retVal = new ArrayList<>();

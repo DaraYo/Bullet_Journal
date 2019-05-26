@@ -3,7 +3,7 @@
     <!--first pallete-->
     <item name="schauss_pink" type="color">#FF99AA</item>
     <item name="nadeshiko_pink" type="color">#F9AEBB</item>
-    <item name="pale_pink" type="color">#F9D4DA</item>
+    <item name="pale_pink" type="color">#F5D9DE</item>
     <item name="isabelline" type="color">#F5E6E8</item>
     <item name="languid_lavender" type="color">#D5C6E0</item>
 
@@ -17,13 +17,13 @@
 
     <!--sugestions for basic buttons (add something or on/off option)-->
     <item name="blue" type="color">#2a6ebc</item>
-    <item name="green" type="color">#00aa88</item>
+    <item name="accentBlue" type="color">#6B93B6</item>
     <item name="white" type="color">#FFFFFF</item>
 
     <color name="colorPrimary">@color/nadeshiko_pink</color>
     <color name="colorPrimaryDark">@color/puce</color>
     <color name="colorPrimaryLight">@color/pale_pink</color>
-    <color name="colorAccent">@color/green</color>
+    <color name="colorAccent">@color/accentBlue</color>
     
     <color name="colorBorder">@color/burnished_brown</color>
     <color name="colorBorderLight">@color/puce</color>
@@ -33,9 +33,9 @@
     <color name="dialogButtonText">@color/blue</color>
 
     <!-- Mood tracking colors -->
-    <color name="moodRed">#ff5858</color>
-    <color name="moodOrange">#ff9358</color>
-    <color name="moodYellow">#f5ff58</color>
-    <color name="moodGreen">#95ff7c</color>
-    <color name="moodPurple">#b25da6</color>
+    <color name="moodRed">#FF8585</color>
+    <color name="moodOrange">#FFB083</color>
+    <color name="moodYellow">#F8FF90</color>
+    <color name="moodGreen">#ADFF99</color>
+    <color name="moodPurple">#BD83B6</color>
 </resources>
