@@ -32,13 +32,11 @@ import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Task;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends RootActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -69,11 +67,11 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
 
         dateDisplay = (TextView) findViewById(R.id.date_display_1);
-        choosenDate = CalendarCalculationsUtils.setCurrentDate("");
+        choosenDate = CalendarCalculationsUtils.setCurrentDate(System.currentTimeMillis());
         dateDisplay.setText(choosenDate);
 
         weekDisplay = (TextView) findViewById(R.id.day_of_week_1);
-        weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(choosenDate));
+        weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis()));
 
         eventAdapter = new FollowingEventsDisplayAdapter(MainActivity.this, buildEvents(choosenDate));
         eventListView = findViewById(R.id.event_preview_list_view);
@@ -99,21 +97,13 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
 
-                DateFormat originalFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+                Date newDate = CalendarCalculationsUtils.convertCalendarDialogDate(day, month+1, year);
                 DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
 
-                Date date = null;
-                try {
-                    date = originalFormat.parse(month + "/" + day + "/" + year);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                choosenDate = targetFormat.format(date);
+                choosenDate = targetFormat.format(newDate);
                 dateDisplay.setText(choosenDate);
-                weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(choosenDate));
+                weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime()));
 
                 eventAdapter = new FollowingEventsDisplayAdapter(MainActivity.this, buildEvents(choosenDate));
                 eventAdapter.notifyDataSetChanged();

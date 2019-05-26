@@ -36,8 +36,8 @@ public class AddEditMoodDialog extends Dialog {
             TextView dialogTitle = findViewById(R.id.add_mood_dialog_title);
             dialogTitle.setText(R.string.edit_mood_dialog_title);
 
-            TextView dialogDescription = findViewById(R.id.add_mood_dialog_description);
-            dialogDescription.setText(R.string.edit_mood_dialog_description);
+            TextView dialogDescription = findViewById(R.id.description);
+            dialogDescription.setHint(R.string.edit_mood_dialog_description);
         }
 
         Button dialogOkBtn = findViewById(R.id.mood_dialog_btn_ok);

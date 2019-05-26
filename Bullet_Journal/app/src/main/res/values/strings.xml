@@ -70,10 +70,10 @@
     <string name="title_activity_mood_tracker">Mood Tracker</string>
     <string name="title_activity_mood_preview">Mood Preview</string>
     <string name="add_mood_dialog_title">Add Mood:</string>
-    <string name="add_mood_dialog_description">Add Description:</string>
+    <string name="add_mood_dialog_description">Add Description</string>
     <string name="add_mood_dialog_for_date">For Date:</string>
     <string name="edit_mood_dialog_title">Edit Mood:</string>
-    <string name="edit_mood_dialog_description">Edit Description:</string>
+    <string name="edit_mood_dialog_description">Edit Description</string>
 
     <string name="mood_awesome">AWESOME</string>
     <string name="mood_good">GOOD</string>

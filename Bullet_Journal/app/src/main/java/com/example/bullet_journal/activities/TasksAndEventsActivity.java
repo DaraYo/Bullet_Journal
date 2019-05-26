@@ -22,13 +22,11 @@ import com.example.bullet_journal.model.Task;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class TasksAndEventsActivity extends RootActivity {
     final Context context = this;
@@ -57,8 +55,8 @@ public class TasksAndEventsActivity extends RootActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dateDayDisplay = (TextView) findViewById(R.id.day_date_display);
-        choosenDate = CalendarCalculationsUtils.setCurrentDate("");
-        dateDayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(choosenDate)+" "+choosenDate);
+        choosenDate = CalendarCalculationsUtils.setCurrentDate(System.currentTimeMillis());
+        dateDayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis())+" "+choosenDate);
 
         LinearLayout dateSwitchPannel = (LinearLayout) findViewById(R.id.current_date_layout_2);
 
@@ -79,20 +77,11 @@ public class TasksAndEventsActivity extends RootActivity {
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-
-                DateFormat originalFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+                Date newDate = CalendarCalculationsUtils.convertCalendarDialogDate(day, month+1, year);
                 DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
 
-                Date date = null;
-                try {
-                    date = originalFormat.parse(month + "/" + day + "/" + year);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                choosenDate = targetFormat.format(date);
-                dateDayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(choosenDate)+" "+choosenDate);
+                choosenDate = targetFormat.format(newDate);
+                dateDayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime())+" "+choosenDate);
             }
         };
 
