@@ -10,7 +10,7 @@ import java.util.Locale;
 
 public class CalendarCalculationsUtils {
 
-    public static String setCurrentDate(long milliseconds){
+    public static String dateMillisToString(long milliseconds){
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
         calendar.setTimeInMillis(milliseconds);

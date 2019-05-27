@@ -13,11 +13,10 @@ import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.decorators.DayViewMoodDecorator;
 import com.example.bullet_journal.dialogs.AddEditMoodDialog;
 import com.example.bullet_journal.enums.MoodType;
+import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.wrapperClasses.MoodWrapper;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
-
-import org.threeten.bp.LocalDate;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -37,7 +36,7 @@ public class MoodTrackerActivity extends RootActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         calendarView = (MaterialCalendarView) findViewById(R.id.mood_calendar_view);
-        calendarView.setSelectedDate(LocalDate.now());
+        calendarView.setSelectedDate(CalendarDay.today());
 
         ImageButton showDialogBtn = (ImageButton) findViewById(R.id.add_mood);
         showDialogBtn.setOnClickListener(new View.OnClickListener() {
@@ -45,7 +44,7 @@ public class MoodTrackerActivity extends RootActivity {
             @Override
             public void onClick(View v) {
                 CalendarDay selectedDate = calendarView.getSelectedDate();
-                final Dialog dialog = new AddEditMoodDialog(context, selectedDate.getDay()+"/"+selectedDate.getMonth()+"/"+selectedDate.getYear(), null);
+                final Dialog dialog = new AddEditMoodDialog(context, CalendarCalculationsUtils.convertCalendarDialogDate(selectedDate.getDay(), selectedDate.getMonth(), selectedDate.getYear()).getTime(), null);
                 dialog.show();
             }
         });
@@ -59,7 +58,7 @@ public class MoodTrackerActivity extends RootActivity {
                 Intent intent = new Intent(context, MoodPreviewActivity.class);
                 CalendarDay selectedDay = calendarView.getSelectedDate();
                 Bundle bundle = new Bundle();
-                bundle.putString("date", selectedDay.getDay()+"/"+selectedDay.getMonth()+"/"+selectedDay.getYear());
+                bundle.putLong("date", convertToDate(selectedDay).getTime());
                 intent.putExtras(bundle);
                 startActivity(intent);
             }
@@ -71,6 +70,11 @@ public class MoodTrackerActivity extends RootActivity {
         calendarView.addDecorator(new DayViewMoodDecorator(this, buildMood(13, 3, 2.15, 2.00), MoodType.BAD));
         calendarView.addDecorator(new DayViewMoodDecorator(this, buildMood(2, 20, 1.00, 1.5), MoodType.TERRIBLE));
 
+    }
+
+    private Date convertToDate(CalendarDay selectedDate){
+
+        return CalendarCalculationsUtils.convertCalendarDialogDate(selectedDate.getDay(), selectedDate.getMonth(), selectedDate.getYear());
     }
 
     private ArrayList<MoodWrapper> buildMood(int date1, int date2, double val1, double val2){

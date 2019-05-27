@@ -47,7 +47,6 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     private FollowingEventsDisplayAdapter eventAdapter;
 
     private String choosenDate = "";
-    private int dayNum = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,7 +66,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
 
         dateDisplay = (TextView) findViewById(R.id.date_display_1);
-        choosenDate = CalendarCalculationsUtils.setCurrentDate(System.currentTimeMillis());
+        choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
         dateDisplay.setText(choosenDate);
 
         weekDisplay = (TextView) findViewById(R.id.day_of_week_1);

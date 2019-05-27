@@ -2,7 +2,7 @@ package com.example.bullet_journal.model;
 
 public class Mood {
 
-    private String date;
+    private long date;
 
     private int rating;
 
@@ -11,17 +11,17 @@ public class Mood {
     public Mood() {
     }
 
-    public Mood(String date, int rating, String description) {
+    public Mood(long date, int rating, String description) {
         this.date = date;
         this.rating = rating;
         this.description = description;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 

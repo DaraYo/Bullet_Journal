@@ -52,7 +52,7 @@ public class HabitsActivity extends RootActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dateDayDisplay = (TextView) findViewById(R.id.day_date_display);
-        choosenDate = CalendarCalculationsUtils.setCurrentDate(System.currentTimeMillis());
+        choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
         dateDayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis())+" "+choosenDate);
 
         LinearLayout dateSwitchPannel = (LinearLayout) findViewById(R.id.current_date_layout_2);
