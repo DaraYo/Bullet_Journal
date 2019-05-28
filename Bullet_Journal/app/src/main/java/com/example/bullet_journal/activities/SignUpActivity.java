@@ -3,7 +3,7 @@ package com.example.bullet_journal.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputEditText;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,8 +12,19 @@ import android.widget.Toast;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
+import com.example.bullet_journal.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignUpActivity extends RootActivity {
+
+    private FirebaseAuth firebaseAuth;
 
     EditText _firstName, _lastName, _email, _password, _confirmPassword;
     Button _signUpButton;
@@ -24,6 +35,8 @@ public class SignUpActivity extends RootActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        firebaseAuth = FirebaseAuth.getInstance();
 
         _firstName = findViewById(R.id.input_first_name);
         _lastName = findViewById(R.id.input_last_name);
@@ -63,11 +76,42 @@ public class SignUpActivity extends RootActivity {
         progressDialog.setMessage("Creating Account...");
         progressDialog.show();
 
-        String firstName = _firstName.getText().toString();
-        String lastName = _lastName.getText().toString();
-        String email = _email.getText().toString();
-        String password = _password.getText().toString();
+        final String firstName = _firstName.getText().toString();
+        final String lastName = _lastName.getText().toString();
+        final String email = _email.getText().toString();
+        final String password = _password.getText().toString();
         String confirmPassword = _confirmPassword.getText().toString();
+
+        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    User newUser = new User(firstName, lastName, email, password);
+                    final CollectionReference colRef = FirebaseFirestore.getInstance().collection("Users");
+
+                    colRef.document(firebaseAuth.getCurrentUser().getUid()).set(newUser).addOnSuccessListener(
+                            new OnSuccessListener< Void >() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    progressDialog.dismiss();
+
+                                    finish();
+                                    Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
+                                    startActivity(i);
+                                }
+                            }
+                    ).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getBaseContext(), "Error!", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                }else{
+                    Toast.makeText(getBaseContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
 
