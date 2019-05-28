@@ -24,7 +24,7 @@
             android:id="@+id/rating_dialog_for_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_mood_dialog_for_date"
+            android:text="For date:"
             android:textSize="18sp" />
 
         <TextView

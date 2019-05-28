@@ -60,7 +60,7 @@
     <!-- Main activity labels -->
     <string name="title_date">Date :</string>
 
-    <string name="add_description">Add description: </string>
+    <string name="add_description">Add description...</string>
 
     <!-- Common button labels -->
     <string name="ok_str">Ok</string>
@@ -71,7 +71,6 @@
     <string name="title_activity_mood_preview">Mood Preview</string>
     <string name="add_mood_dialog_title">Add Mood:</string>
     <string name="add_mood_dialog_description">Add Description</string>
-    <string name="add_mood_dialog_for_date">For Date:</string>
     <string name="edit_mood_dialog_title">Edit Mood:</string>
     <string name="edit_mood_dialog_description">Edit Description</string>
 

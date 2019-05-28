@@ -20,6 +20,7 @@
     <item name="blue" type="color">#2a6ebc</item>
     <item name="accentBlue" type="color">#6B93B6</item>
     <item name="white" type="color">#FFFFFF</item>
+    <item name="grayText" type="color">#645C5C</item>
 
     <color name="colorPrimary">@color/nadeshiko_pink</color>
     <color name="colorPrimaryDark">@color/puce</color>
@@ -31,7 +32,7 @@
     <color name="colorPrimaryGray">@color/pale_silver</color>
 
     <!-- Dialog buttons -->
-    <color name="dialogButtonText">@color/blue</color>
+    <color name="dialogButtonText">@color/grayText</color>
 
     <!-- Mood tracking colors -->
     <color name="moodRed">#FF8585</color>
