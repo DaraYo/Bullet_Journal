@@ -80,6 +80,8 @@
     <string name="mood_bad">BAD</string>
     <string name="mood_terrible">TERRIBLE</string>
 
+    <string name="mood_select_mood_warning">Please select mood</string>
+
     <!-- Ratings -->
     <string name="title_activity_ratings">Ratings</string>
     <string name="add_rating_dialog_title">Add Rating:</string>

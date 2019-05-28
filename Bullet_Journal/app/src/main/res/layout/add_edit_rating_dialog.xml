@@ -5,27 +5,20 @@
     android:layout_height="wrap_content"
     android:layout_margin="15dp">
 
-    <TextView
-        android:id="@+id/add_rating_dialog_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add_rating_dialog_title"
-        android:background="@color/colorPrimaryLight"
-        android:textSize="18dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal"
+        android:background="@color/colorPrimaryLight"
         android:gravity="center" >
 
         <TextView
-            android:id="@+id/rating_dialog_for_date"
+            android:id="@+id/add_rating_dialog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="For date:"
-            android:textSize="18sp" />
+            android:text="@string/add_rating_dialog_title"
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/rating_dialog_date_str"
@@ -41,7 +34,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <ImageButton
@@ -50,7 +43,7 @@
             android:layout_height="50dp"
             android:layout_margin="5dp"
             android:background="@drawable/round_btn_background"
-            app:srcCompat="@drawable/ic_star_filled_light" />
+            app:srcCompat="@drawable/ic_star_border_light" />
 
         <ImageButton
             android:id="@+id/add_rating_2"
@@ -58,7 +51,7 @@
             android:layout_height="50dp"
             android:layout_margin="5dp"
             android:background="@drawable/round_btn_background"
-            app:srcCompat="@drawable/ic_star_filled_light" />
+            app:srcCompat="@drawable/ic_star_border_light" />
 
         <ImageButton
             android:id="@+id/add_rating_3"
@@ -66,7 +59,7 @@
             android:layout_height="50dp"
             android:layout_margin="5dp"
             android:background="@drawable/round_btn_background"
-            app:srcCompat="@drawable/ic_star_filled_light" />
+            app:srcCompat="@drawable/ic_star_border_light" />
 
         <ImageButton
             android:id="@+id/add_rating_4"
@@ -74,7 +67,7 @@
             android:layout_height="50dp"
             android:layout_margin="5dp"
             android:background="@drawable/round_btn_background"
-            app:srcCompat="@drawable/ic_star_filled_light" />
+            app:srcCompat="@drawable/ic_star_border_light" />
 
         <ImageButton
             android:id="@+id/add_rating_5"
@@ -86,32 +79,19 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/add_rating_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/add_rating_title"
-        android:background="@color/colorPrimaryLight"
-        android:textSize="18dp" />
-
     <EditText
         android:id="@+id/rating_title"
         android:layout_width="match_parent"
-        android:layout_height="60dp" />
-
-    <TextView
-        android:id="@+id/add_rating_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:hint="@string/add_rating_title"
         android:layout_marginTop="5dp"
-        android:text="@string/add_rating_text"
-        android:background="@color/colorPrimaryLight"
-        android:textSize="18dp" />
+        android:layout_height="60dp" />
 
     <EditText
         android:id="@+id/rating_text"
         android:layout_width="match_parent"
+        android:gravity="top"
+        android:hint="@string/add_rating_text"
+        android:layout_marginTop="5dp"
         android:layout_height="100dp" />
 
     <LinearLayout
@@ -126,6 +106,7 @@
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/rounded_bg_light"
             android:textColor="@color/dialogButtonText"
             android:text="@string/cancel_str"/>
 
@@ -134,6 +115,7 @@
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/rounded_bg_light"
             android:textColor="@color/dialogButtonText"
             android:text="@string/ok_str"/>
 

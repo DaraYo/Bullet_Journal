@@ -84,7 +84,7 @@ public class AddEditMoodDialog extends Dialog {
                             }
                         });
                     }else{
-                        Toast.makeText(context, "Please select mood", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, R.string.mood_select_mood_warning, Toast.LENGTH_SHORT).show();
                     }
 
                 }
