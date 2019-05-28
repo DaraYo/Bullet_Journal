@@ -33,6 +33,11 @@ public class RootActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             }
+            case R.id.add_pic: {
+                Intent intent= new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            }
             case android.R.id.home : {
                 finish();
                 return true;

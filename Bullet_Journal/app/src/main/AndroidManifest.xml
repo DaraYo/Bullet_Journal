@@ -24,7 +24,9 @@
         <activity android:name=".activities.RatingActivity"></activity>
         <activity
             android:name=".activities.DiaryActivity"
-            android:label="@string/title_activity_diary" />
+            android:label="@string/title_activity_diary"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".activities.MoodPreviewActivity" />
         <activity
             android:name=".activities.MoodTrackerActivity"

@@ -6,6 +6,12 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/add_pic"
+        android:icon="@drawable/ic_add_img"
+        android:title="Add picture"
+        app:showAsAction="always"
+        android:visible="false"/>
     <!--<item-->
         <!--android:id="@+id/action_habits"-->
         <!--android:orderInCategory="100"-->

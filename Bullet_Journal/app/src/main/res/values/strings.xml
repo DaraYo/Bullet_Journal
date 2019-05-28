@@ -8,6 +8,14 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_settings">Settings</string>
 
+    <!-- Navigation drawer items -->
+    <string name="mood_tracker">Mood tracker</string>
+    <string name="diary">Diary</string>
+    <string name="ratings">Ratings</string>
+    <string name="tasks">Tasks</string>
+    <string name="habbits">Habbits</string>
+    <string name="spendings">Spendings</string>
+
     <!-- Strings related to Settings -->
     <!-- account settings-->
     <string name="account_settings">Account</string>
@@ -53,7 +61,8 @@
     <!-- Diary activity labels -->
     <string name="title_activity_diary">Diary</string>
     <string name="attach_section_title">Add to your day:</string>
-    <string name="thoughts">Your thoughts</string>
+    <string name="title_thoughts">Title...</string>
+    <string name="thoughts">Your thoughts...</string>
     <string name="done_button">Done</string>
     <string name="choose_date">Choose date...</string>
 

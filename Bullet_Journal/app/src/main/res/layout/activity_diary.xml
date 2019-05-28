@@ -1,66 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <LinearLayout
-        android:id="@+id/current_date_layout_2"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="5dp"
-        android:padding="5dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/rounded_bg"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/day_date_display"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        app:layout_behavior="com.example.bullet_journal.predefinedClasses.CustomAppBarLayoutBehavior">
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:textSize="20dp" />
-
-    </LinearLayout>
-
-    <EditText
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="?attr/colorPrimary">
+            <ImageView
+                android:id="@+id/image_collapse_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/image"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"/>
+            
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_collapse"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"></android.support.v7.widget.Toolbar>
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <RelativeLayout
+                android:id="@+id/current_date_layout_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:padding="5dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_alignParentTop="true"
+                android:background="@drawable/day_widget"
+                android:focusable="true"
+                android:orientation="vertical">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/day_display_only"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left"
+                    android:textSize="30dp" />
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/date_display_only"
+                    android:layout_below="@id/day_display_only"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:gravity="left"
+                    android:textSize="20dp" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/edit_text_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorPrimaryGray"
+                android:visibility="gone"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/ic_done"/>
+
+            </RelativeLayout>
+            <EditText
+                android:id="@+id/diary_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/current_date_layout_2"
+                android:singleLine="true"
+                android:layout_marginBottom="5dp"
+                android:inputType="text"
+                android:scrollHorizontally="true"
+                android:hint="@string/title_thoughts"/>
+            <com.example.bullet_journal.predefinedClasses.LinedEditText
+                android:id="@+id/diary_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:scrollbarStyle="insideInset"
+                android:overScrollMode="always"
+                android:scrollbars="vertical"
+                android:layout_below="@id/diary_title"
+                android:layout_above="@id/edit_text_toolbar"
+                android:hint="@string/thoughts" />
+        </RelativeLayout>
+    </android.support.v4.widget.NestedScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/gallery"
+        app:layout_anchor="@id/app_bar_layout"
+        app:layout_anchorGravity="bottom|end"
+        app:backgroundTint="@color/isabelline"
+        android:layout_marginRight="@dimen/fab_margin"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="top"
-        android:hint="@string/thoughts" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="4dp"
-        android:gravity="center">
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/go_to_gallery"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/fab_margin"
-            app:backgroundTint="@color/isabelline"
-            app:srcCompat="@drawable/ic_photo_library" />
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/attach_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/fab_margin"
-            app:backgroundTint="@color/isabelline"
-            app:srcCompat="@drawable/ic_attach_location" />
-
-    </LinearLayout>
-
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right"
-        android:text="@string/done_button" />
-</LinearLayout>
+        android:layout_width="wrap_content"
+        app:srcCompat="@drawable/ic_photo_library"/>
+</android.support.design.widget.CoordinatorLayout>

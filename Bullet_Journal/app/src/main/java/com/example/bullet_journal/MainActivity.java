@@ -2,9 +2,11 @@ package com.example.bullet_journal;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -17,6 +19,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bullet_journal.activities.DiaryActivity;
 import com.example.bullet_journal.activities.HabitsActivity;
@@ -42,7 +45,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends RootActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends RootActivity implements NavigationView.OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private DatePickerDialog.OnDateSetListener onDateSetListener;
     private TextView dateDisplay;
@@ -51,6 +54,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     private ListView eventListView;
     private SimpleDateDisplayAdapter datesAdapter;
     private FollowingEventsDisplayAdapter eventAdapter;
+    private SharedPreferences sharedPreferences;
 
     private String choosenDate = "";
     private int dayNum = 3;
@@ -71,6 +75,8 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+//        Menu menu= navigationView.getMenu();
+//        menu.add()
 
         dateDisplay = (TextView) findViewById(R.id.date_display_1);
         choosenDate = CalendarCalculationsUtils.setCurrentDate("");
@@ -132,6 +138,8 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
                 eventListView.setAdapter(eventAdapter);
             }
         };
+
+        setupSharedPreferences();
 
 
 
@@ -211,4 +219,13 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         return retVal;
     }
 
+    public void setupSharedPreferences(){
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        Toast.makeText(getApplicationContext(), "Promenjena podesavanja", Toast.LENGTH_LONG).show();
+    }
 }

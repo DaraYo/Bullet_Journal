@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/blue</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -19,6 +19,10 @@
 
     <style name="PreferenceScreen" parent="AppTheme">
         <item name="android:textColor">@color/deep_taupe</item>
+    </style>
+
+    <style name="AppDarkTheme" parent="ThemeOverlay.AppCompat.Dark">
+
     </style>
 
 </resources>

@@ -12,6 +12,7 @@ import com.example.bullet_journal.fragments.ImagesPreviewFragment;
 public class AlbumActivity extends RootActivity {
     private static final int CONTENT_VIEW_ID = 10101010;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
