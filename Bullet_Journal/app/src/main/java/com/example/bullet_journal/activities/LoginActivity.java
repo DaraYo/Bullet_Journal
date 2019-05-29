@@ -3,18 +3,26 @@ package com.example.bullet_journal.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.support.annotation.NonNull;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bullet_journal.MainActivity;
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends RootActivity {
+
+    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener firebaseAuthListener;
 
     EditText _email, _password;
     Button _loginButton;
@@ -26,8 +34,22 @@ public class LoginActivity extends RootActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        _email = (EditText) findViewById(R.id.input_email);
-        _password = (EditText) findViewById(R.id.input_password);
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if(firebaseAuth.getCurrentUser() != null){
+                    Toast.makeText(getBaseContext(), "You are Logged In", Toast.LENGTH_LONG).show();
+                    finish();
+                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(i);
+                }
+            }
+        };
+
+        _email = (EditText) findViewById(R.id.login_email);
+        _password = (EditText) findViewById(R.id.login_password);
 
         _loginButton = (Button) findViewById(R.id.login_button);
         TextView _signUpLink = (TextView) findViewById(R.id.link_signup);
@@ -35,7 +57,7 @@ public class LoginActivity extends RootActivity {
         _loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // login();
+                 login();
             }
         });
 
@@ -46,6 +68,13 @@ public class LoginActivity extends RootActivity {
                 startActivity(intent);
             }
         });
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(firebaseAuthListener);
     }
 
     public void login() {
@@ -57,6 +86,27 @@ public class LoginActivity extends RootActivity {
 
         String email = _email.getText().toString();
         String password = _password.getText().toString();
+
+        if (TextUtils.isEmpty(email)|| TextUtils.isEmpty(password)) {
+            Toast.makeText(getBaseContext(), "Required field(s) are empty!", Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(!task.isSuccessful()){
+                    progressDialog.dismiss();
+                    Toast.makeText(getBaseContext(), "Login Problem", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                finish();
+                Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(i);
+            }
+        });
+
     }
 
     public void onLoginSuccess() {

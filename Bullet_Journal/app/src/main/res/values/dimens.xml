@@ -7,4 +7,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="menu_height">48dp</dimen>
     <dimen name="shortcut_menu_height">72dp</dimen>
+
+    <dimen name="toolbar_height">56dp</dimen>
 </resources>

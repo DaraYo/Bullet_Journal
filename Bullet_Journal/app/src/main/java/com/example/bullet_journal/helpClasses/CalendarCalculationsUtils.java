@@ -1,58 +1,26 @@
 package com.example.bullet_journal.helpClasses;
 
+
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class CalendarCalculationsUtils {
 
-    public static String setCurrentDate(String newDate){
-
+    public static String dateMillisToString(long milliseconds){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat();
-        dateFormat.applyPattern("MMM dd, yyyy");
-
-        if(!newDate.isEmpty()){
-            try {
-                calendar.setTime(dateFormat.parse(newDate));
-            } catch (ParseException e) {
-                return "";
-            }
-        }
-
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
+        calendar.setTimeInMillis(milliseconds);
         return dateFormat.format(calendar.getTime());
     }
 
-    public static String[] calculateWeek(String startDate, int dayNum){
-        String[] retVal = new String[dayNum];
-
+    public static String calculateWeekDay(long milliseconds){
         Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat=new SimpleDateFormat();
-        dateFormat.applyPattern("MMM dd, yyyy");
-
-        try {
-            calendar.setTime(dateFormat.parse(startDate));
-        } catch (ParseException e) {
-            return retVal;
-        }
-
-        for(int i = 0; i < dayNum; i++){
-            calendar.add(Calendar.DATE, 1);
-            retVal[i] = dateFormat.format(calendar.getTime());
-        }
-        return retVal;
-    }
-
-    public static String calculateWeekDay(String startDate){
-
-        Calendar c = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy");
-        try {
-            c.setTime(sdf.parse(startDate));
-        } catch (ParseException e) {
-            return "";
-        }
-        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        calendar.setTimeInMillis(milliseconds);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 
         switch(dayOfWeek) {
             case 1 : return "Sunday";
@@ -65,5 +33,18 @@ public class CalendarCalculationsUtils {
         }
 
         return "";
+    }
+
+    public static Date convertCalendarDialogDate(int day, int month, int year){
+        DateFormat originalFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+
+        Date date = null;
+        try {
+            date = originalFormat.parse(month + "/" + day + "/" + year);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
     }
 }

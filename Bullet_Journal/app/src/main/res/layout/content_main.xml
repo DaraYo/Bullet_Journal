@@ -7,15 +7,25 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity">
 
-    <include
-        layout="@layout/app_bar_main"
-        app:layout_constraintTop_toTopOf="parent" />
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="60dp"
-        android:layout_marginBottom="80dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -25,7 +35,7 @@
             android:layout_marginLeft="80dp"
             android:layout_marginRight="80dp"
             android:padding="5dp"
-            android:background="@drawable/rounded_bg"
+            android:background="@drawable/date_bg"
             android:orientation="vertical">
 
             <android.support.v7.widget.AppCompatTextView
@@ -54,15 +64,6 @@
 
         </LinearLayout>
 
-        <GridView
-            android:id="@+id/date_grid"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:horizontalSpacing="5dp"
-            android:verticalSpacing="5dp"
-            android:layout_margin="5dp"
-            android:numColumns="3" />
-
         <ListView
             android:id="@+id/event_preview_list_view"
             android:layout_width="match_parent"
@@ -71,11 +72,5 @@
 
     </LinearLayout>
 
-    <fragment
-        android:id="@+id/bottomToolbarFragment"
-        android:name="com.example.bullet_journal.fragments.BottomnToolbarFragment"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/shortcut_menu_height"
-        app:layout_constraintBottom_toBottomOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

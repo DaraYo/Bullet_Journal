@@ -1,29 +1,25 @@
 package com.example.bullet_journal.activities;
 
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
-import android.os.Build;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.support.v4.app.NavUtils;
+import android.preference.SwitchPreference;
 import android.support.v7.app.ActionBar;
-import android.preference.PreferenceFragment;
-import android.preference.PreferenceManager;
-import android.preference.RingtonePreference;
-import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.MenuItem;
+import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.bullet_journal.R;
+import com.example.bullet_journal.helpClasses.PreferencesHelper;
+
+import java.util.HashSet;
 
 public class SettingsActivity extends AppCompatPreferenceActivity{
+    private ListPreference languageSwitch;
+    private SwitchPreference themeSwitch;
+    private MultiSelectListPreference navigationOptionsView;
 
     @SuppressWarnings("deprecation")
     @Override
@@ -35,6 +31,35 @@ public class SettingsActivity extends AppCompatPreferenceActivity{
 //        new NotificationPreferenceFragment()).commit();
         getListView().setPadding(0,0,0,0);
         setupActionBar();
+//        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+
+        languageSwitch= (ListPreference)findPreference(this.getResources().getString((R.string.language_setting_key)));
+        languageSwitch.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                PreferencesHelper.saveLanguage(getApplicationContext(), (String)newValue);
+                return true;
+            }
+        });
+
+        themeSwitch= (SwitchPreference)findPreference(this.getResources().getString(R.string.theme_key));
+        themeSwitch.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                PreferencesHelper.saveTheme(getApplicationContext(), (boolean)newValue);
+                return true;
+            }
+        });
+
+        navigationOptionsView= (MultiSelectListPreference)findPreference(this.getResources().getString(R.string.options_setting_key));
+        navigationOptionsView.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                HashSet<String> selectedItems= (HashSet<String>)newValue;
+                return true;
+            }
+        });
+
 
 }
 
@@ -53,11 +78,12 @@ public class SettingsActivity extends AppCompatPreferenceActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
-            NavUtils.navigateUpFromSameTask(this);
+            finish();
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 //    public static class NotificationPreferenceFragment extends PreferenceFragment{
 //        @Override
