@@ -1,34 +1,43 @@
 package com.example.bullet_journal.model;
 
-import java.util.Map;
-import java.util.Date;
+import com.example.bullet_journal.enums.WalletItemType;
 
-public class Spending {
+public class WalletItem {
 
-    private String itemName;
-    private Double itemPrice;
+    private String name;
+    private Double amount;
+    private WalletItemType type;
 
-    public Spending() {
+    public WalletItem() {
     }
 
-    public Spending(String itemName, Double itemPrice) {
-        this.itemName = itemName;
-        this.itemPrice = itemPrice;
+    public WalletItem(String name, Double amount, WalletItemType type) {
+        this.name = name;
+        this.amount = amount;
+        this.type = type;
     }
 
-    public String getItemName() {
-        return itemName;
+    public String getName() {
+        return name;
     }
 
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Double getItemPrice() {
-        return itemPrice;
+    public Double getAmount() {
+        return amount;
     }
 
-    public void setItemPrice(Double itemPrice) {
-        this.itemPrice = itemPrice;
+    public void setAmount(Double amount) {
+        this.amount = amount;
+    }
+
+    public WalletItemType getType() {
+        return type;
+    }
+
+    public void setType(WalletItemType type) {
+        this.type = type;
     }
 }

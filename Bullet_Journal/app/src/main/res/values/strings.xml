@@ -134,8 +134,11 @@
 
     <!-- Wallet activity labels -->
     <string name="title_activity_wallet">Wallet</string>
-    <string name="add_budget">Add more budget:</string>
-    <string name="add_item">Add item...</string>
+    <string name="add_item_dialog_title">Add new item</string>
     <string name="choose_month">Choose month...</string>
+    <string name="item_amount">Amount</string>
+    <string name="item_name">Name</string>
+    <string name="income">INCOME</string>
+    <string name="spending">SPENDING</string>
 
 </resources>

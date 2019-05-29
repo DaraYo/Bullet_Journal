@@ -21,6 +21,7 @@
     <item name="accentBlue" type="color">#6B93B6</item>
     <item name="white" type="color">#FFFFFF</item>
     <item name="grayText" type="color">#645C5C</item>
+    <item name="pastelGreen" type="color">#77dd77</item>
 
     <color name="colorPrimary">@color/nadeshiko_pink</color>
     <color name="colorPrimaryDark">@color/puce</color>

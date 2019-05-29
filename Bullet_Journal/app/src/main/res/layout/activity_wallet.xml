@@ -48,121 +48,17 @@
 
     </LinearLayout>
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/rounded_bg_light">
-
-                <android.support.v7.widget.AppCompatTextView
-                    android:id="@+id/monthly_budget_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:padding="14dp"
-                    android:text="Monthly budget"
-                    android:textSize="15sp" />
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/monthly_budget"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/pale_silver"
-                android:padding="4dp"
-                android:textAlignment="center"
-                android:textSize="15sp" />
-        </LinearLayout>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/add_budget"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="-10dp"
-            app:backgroundTint="@color/colorPrimaryDark"
-            app:fabSize="mini"
-            app:srcCompat="@drawable/ic_add_btn_light"
-            app:useCompatPadding="true" />
-    </RelativeLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:gravity="center"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/add_item"
-            android:layout_width="wrap_content"
-            android:layout_height="25dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="15dp"
-            android:background="@color/colorPrimaryDark"
-            android:padding="4dp"
-            android:text="@string/add_item"
-            android:textAllCaps="false"
-            android:textColor="@color/white" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="fill_parent"
-            android:layout_height="200dp"
-            android:fitsSystemWindows="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="center"
-                android:orientation="horizontal">
-
-                <ListView
-                    android:id="@+id/spendings_list_view"
-                    android:layout_width="match_parent"
-                    android:layout_height="340dp"
-                    android:divider="@null"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp" />
-
-            </LinearLayout>
-        </ScrollView>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:orientation="horizontal">
-
         <LinearLayout
-            android:layout_width="135dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="20dp"
             android:background="@drawable/rounded_bg_light">
 
             <android.support.v7.widget.AppCompatTextView
@@ -180,10 +76,57 @@
             android:id="@+id/balance"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:background="@color/pale_silver"
             android:padding="4dp"
             android:textAlignment="center"
-            android:textSize="15sp" />
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20px"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/add_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="5dp"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:fabSize="mini"
+            app:srcCompat="@drawable/ic_add_btn_light"
+            app:useCompatPadding="true" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20px">
+
+        <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:fitsSystemWindows="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ListView
+                    android:id="@+id/spendings_list_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="340dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp" />
+
+            </LinearLayout>
+        </ScrollView>
     </LinearLayout>
 </LinearLayout>

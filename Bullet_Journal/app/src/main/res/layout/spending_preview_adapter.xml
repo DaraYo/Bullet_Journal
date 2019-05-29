@@ -1,38 +1,65 @@
+<!--
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
     android:orientation="horizontal"
-    android:weightSum="8"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    <LinearLayout
+        android:id="@+id/gridItemLeft"
+        android:orientation="horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:layout_margin="4dp"
+        android:gravity="left"
+        android:visibility="invisible">
+    <TextView
+        android:id="@+id/spending_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:textSize="17sp" />
+    </LinearLayout>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:id="@+id/gridItemRight"
+        android:orientation="horizontal"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"
-        android:background="@drawable/rounded_label_light">
-
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/spending_name"
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:padding="4dp"
-            android:textSize="14sp" />
+        android:layout_weight="0.5"
+        android:layout_margin="4dp"
+        android:gravity="right"
+        android:visibility="invisible">
+    <TextView
+        android:id="@+id/spending_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:textSize="16sp" />
     </LinearLayout>
+</LinearLayout>-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="10dp"
+    android:paddingBottom="10dp"
+    android:orientation="horizontal"
+    >
+
+    <TextView
+        android:id="@+id/spending_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:layout_weight="1" />
 
     <TextView
         android:id="@+id/spending_price"
-        android:layout_width="80dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/pale_silver"
-        android:padding="4dp"
-        android:paddingTop="1dp"
-        android:paddingBottom="1dp"
         android:textAlignment="center"
-        android:textSize="14sp" />
+        android:layout_weight="1" />
 </LinearLayout>

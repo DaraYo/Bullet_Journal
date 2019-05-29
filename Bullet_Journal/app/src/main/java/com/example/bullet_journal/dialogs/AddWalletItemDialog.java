@@ -8,11 +8,11 @@ import android.widget.Button;
 
 import com.example.bullet_journal.R;
 
-public class AddIncomeDialog extends Dialog {
+public class AddWalletItemDialog extends Dialog {
 
     private Context context;
 
-    public AddIncomeDialog(Context context) {
+    public AddWalletItemDialog(Context context) {
         super(context);
         this.context = context;
     }
@@ -20,8 +20,8 @@ public class AddIncomeDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_income_dialog);
-        setTitle(R.string.add_income_dialog_title);
+        setContentView(R.layout.add_wallet_item_dialog);
+        setTitle(R.string.add_item_dialog_title);
 
         Button dialogOkBtn = findViewById(R.id.wallet_dialog_btn_ok);
         dialogOkBtn.setOnClickListener(new View.OnClickListener() {
