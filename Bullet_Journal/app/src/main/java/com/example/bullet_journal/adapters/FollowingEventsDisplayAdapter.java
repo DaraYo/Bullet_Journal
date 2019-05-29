@@ -27,7 +27,7 @@ public class FollowingEventsDisplayAdapter extends ArrayAdapter<Task>{
         View view = LayoutInflater.from(getContext()).inflate(R.layout.day_event_preview_adapter, parent, false);
 
         Task taskObj = getItem(position);
-        String date= CalendarCalculationsUtils.dateMillisToString(taskObj.getDate());
+        String date= CalendarCalculationsUtils.dateMillisToStringDateAndTime(taskObj.getDate());
 
         TextView month = view.findViewById(R.id.event_preview_month);
         month.setText(date.substring(0, 3));
@@ -36,7 +36,7 @@ public class FollowingEventsDisplayAdapter extends ArrayAdapter<Task>{
         day.setText(date.substring(4, 6));
 
         TextView time = view.findViewById(R.id.event_preview_time);
-//        time.setText(date.substring(13, date.length()));
+        time.setText(date.substring(12, date.length()));
 
         TextView title = view.findViewById(R.id.event_preview_title);
         title.setText(taskObj.getTitle());

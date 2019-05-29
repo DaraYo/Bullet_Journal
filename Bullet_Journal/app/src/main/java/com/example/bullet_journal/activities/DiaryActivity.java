@@ -332,7 +332,7 @@ public class DiaryActivity extends AppCompatActivity {
                         }
                     }
                 });
-                builder.setNegativeButton(getString(R.string.cancel), new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(getString(R.string.cancel_str), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //the user clicked on Cancel
