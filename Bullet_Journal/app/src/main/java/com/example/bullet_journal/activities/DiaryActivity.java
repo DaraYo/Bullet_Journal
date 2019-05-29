@@ -321,6 +321,10 @@ public class DiaryActivity extends AppCompatActivity {
                                 if (checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXST)) {
                                     innerIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                     startActivityForResult(innerIntent, READ_EXST);
+//                                    innerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+//                                    innerIntent.addCategory(Intent.CATEGORY_OPENABLE);
+//                                    innerIntent.setType("image/*");
+//                                    startActivityForResult(Intent.createChooser(innerIntent, "Select Picture"),REQUEST_GET_SINGLE_FILE);
                                 }else{
                                     askPermission(Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXST);
                                 }
@@ -371,6 +375,10 @@ public class DiaryActivity extends AppCompatActivity {
                     break;
                 //read external storage
                 case 3:
+//                    intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                    intent.setType("image/*");
+//                    startActivityForResult(Intent.createChooser(intent, "Select Picture"),REQUEST_GET_SINGLE_FILE);
                     intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, READ_EXST);
                     break;
