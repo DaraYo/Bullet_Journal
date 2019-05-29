@@ -109,8 +109,8 @@ public class TaskActivity extends RootActivity {
     private List<Reminder> buildReminders(){
         List<Reminder> retVal = new ArrayList<>();
 
-        Reminder r1 = new Reminder("Reminder 2", new Date(), false);
-        Reminder r2 = new Reminder("Reminder 343242342342 ", new Date(), false);
+        Reminder r1 = new Reminder("Reminder 2", new Date().getTime(), false);
+        Reminder r2 = new Reminder("Reminder 343242342342 ", new Date().getTime()+1000, false);
 
         retVal.add(r1);
         retVal.add(r2);

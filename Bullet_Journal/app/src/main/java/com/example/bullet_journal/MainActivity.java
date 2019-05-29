@@ -176,13 +176,20 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     public List<Task> buildEvents(String theDate){
         List<Task> retVal = new ArrayList<>();
 
-        Task event1 = new Task("Event 1", "About event 1...", true, theDate+" 11:20", TaskType.EVENT);
-        Task event2 = new Task("Event 2", "About event 2...", false, theDate+" 15:40", TaskType.EVENT);
-        Task event3 = new Task("Event 3", "About event 3...", true, theDate+" 16:00", TaskType.EVENT);
-        Task event4 = new Task("Event 4", "About event 4...", false, theDate+" 18:35", TaskType.EVENT);
-        Task event5 = new Task("Event 5", "About event 5...", false, theDate+" 19:10", TaskType.EVENT);
-        Task event6 = new Task("Event 6", "About event 6...", false, theDate+" 20:30", TaskType.EVENT);
-        Task event7 = new Task("Event 7", "About event 7...", false, theDate+" 22:00", TaskType.EVENT);
+        Calendar c = Calendar.getInstance();
+
+
+        Task event1 = new Task("Event 1", "About event 1...", true, c.getTime().getTime(), TaskType.EVENT);
+        c.add(Calendar.HOUR_OF_DAY, 3);
+        Task event2 = new Task("Event 2", "About event 2...", false, c.getTime().getTime(), TaskType.EVENT);
+        c.add(Calendar.MINUTE, 23);
+        Task event3 = new Task("Event 3", "About event 3...", true, c.getTime().getTime(), TaskType.EVENT);
+        c.add(Calendar.HOUR_OF_DAY, 1);
+        Task event4 = new Task("Event 4", "About event 4...", false, c.getTime().getTime(), TaskType.EVENT);
+        Task event5 = new Task("Event 5", "About event 5...", false, c.getTime().getTime(), TaskType.EVENT);
+        c.add(Calendar.HOUR_OF_DAY, 1);
+        Task event6 = new Task("Event 6", "About event 6...", false, c.getTime().getTime(), TaskType.EVENT);
+        Task event7 = new Task("Event 7", "About event 7...", false, c.getTime().getTime(), TaskType.EVENT);
 
 
         retVal.add(event1);

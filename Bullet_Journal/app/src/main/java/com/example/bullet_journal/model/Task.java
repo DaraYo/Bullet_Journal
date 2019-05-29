@@ -10,11 +10,11 @@ public class Task {
 
     private boolean status;
 
-    private String date;
+    private long date;
 
     private TaskType type;
 
-    public Task(String title, String text, boolean status, String date, TaskType type) {
+    public Task(String title, String text, boolean status, long date, TaskType type) {
         this.title = title;
         this.text = text;
         this.status = status;
@@ -49,11 +49,11 @@ public class Task {
         this.status = status;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
