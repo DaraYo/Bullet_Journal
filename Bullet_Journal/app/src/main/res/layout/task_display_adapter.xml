@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:orientation="horizontal"
 android:weightSum="10"
-android:paddingTop="10dp" android:paddingBottom="10dp"
+    android:paddingTop="10dp" android:paddingBottom="10dp"
     >
 
 <TextView
-    android:id="@+id/habit_title"
+    android:id="@+id/task_event_title"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_weight="2"
@@ -18,7 +20,7 @@ android:paddingTop="10dp" android:paddingBottom="10dp"
     />
 
 <CheckBox
-    android:id="@+id/habit_tracker_check"
+    android:id="@+id/task_event_tracker_check"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:layout_weight="8" />

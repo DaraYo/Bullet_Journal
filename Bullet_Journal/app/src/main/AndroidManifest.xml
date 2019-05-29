@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login" />
@@ -40,6 +41,9 @@
             android:name=".activities.NewTaskEventActivity"
             android:label="Tasks and Events" />
         <activity
+            android:name=".activities.AddReminderActivity"
+            android:label="Reminder" />
+        <activity
             android:name=".activities.EventActivity"
             android:label="Tasks and Events" />
         <activity android:name=".activities.TaskActivity" />
@@ -67,6 +71,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <receiver android:name=".helpClasses.AlertReceiver" />
     </application>
 
 </manifest>

@@ -17,7 +17,7 @@ public class FollowingEventsDisplayAdapter extends ArrayAdapter<Task>{
     private Context context;
 
     public FollowingEventsDisplayAdapter(Context context, List<Task> objects) {
-        super(context, R.layout.task_event_display_adapter, objects);
+        super(context, R.layout.task_display_adapter, objects);
         this.context = context;
     }
 

@@ -23,21 +23,24 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
     private TaskType mode;
 
     public TaskEventDisplayAdapter(Context context, List<Task> objects, TaskType mode) {
-        super(context, R.layout.task_event_display_adapter, objects);
+        super(context, R.layout.task_display_adapter, objects);
         this.context = context;
         this.mode = mode;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.task_event_display_adapter, parent, false);
 
-        final Task taskEventObj = getItem(position);
-
-        TextView taskEventTitle = view.findViewById(R.id.task_event_title);
-        taskEventTitle.setText(taskEventObj.getTitle());
 
         if(mode.equals(TaskType.TASK)){
+
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.task_display_adapter, parent, false);
+
+            final Task taskEventObj = getItem(position);
+
+            TextView taskEventTitle = view.findViewById(R.id.task_event_title);
+            taskEventTitle.setText(taskEventObj.getTitle());
+
             taskEventTitle.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -47,7 +50,19 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
                 }
             });
 
+            CheckBox taskEventCheckBox = view.findViewById(R.id.task_event_tracker_check);
+            taskEventCheckBox.setChecked(taskEventObj.isStatus());
+
+            return view;
         }else if(mode.equals(TaskType.EVENT)){
+
+            View view = LayoutInflater.from(getContext()).inflate(R.layout.event_display_adapter, parent, false);
+
+            final Task taskEventObj = getItem(position);
+
+            TextView taskEventTitle = view.findViewById(R.id.event_title);
+            taskEventTitle.setText(taskEventObj.getTitle());
+
             taskEventTitle.setOnClickListener(new View.OnClickListener() {
 
                 @Override
@@ -56,11 +71,22 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
                     context.startActivity(intent);
                 }
             });
+
+            TextView eventDate = view.findViewById(R.id.event_date);
+            eventDate.setText(taskEventObj.getDate());
+
+            eventDate.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, EventActivity.class);
+                    context.startActivity(intent);
+                }
+            });
+
+            return view;
         }
 
-        CheckBox taskEventCheckBox = view.findViewById(R.id.task_event_tracker_check);
-        taskEventCheckBox.setChecked(taskEventObj.isStatus());
-
-        return view;
+        return null;
     }
 }

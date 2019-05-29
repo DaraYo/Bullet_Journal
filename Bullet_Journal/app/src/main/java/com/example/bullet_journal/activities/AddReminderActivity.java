@@ -2,6 +2,7 @@ package com.example.bullet_journal.activities;
 
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -10,8 +11,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
@@ -23,6 +22,8 @@ import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.helpClasses.AlertReceiver;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
+import com.example.bullet_journal.model.Reminder;
+import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -31,11 +32,14 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class NewTaskEventActivity extends RootActivity {
+public class AddReminderActivity extends RootActivity {
     final Context context = this;
+    private MaterialCalendarView calendarView;
+
     private DatePickerDialog.OnDateSetListener onDateSetListener;
     private TimePickerDialog.OnTimeSetListener onTimeSetListener;
     private TextView dateDayDisplay;
+
     private TextView timeDisplay;
     LinearLayout timeSwitchPannel;
     LinearLayout dateSwitchPannel;
@@ -45,79 +49,21 @@ public class NewTaskEventActivity extends RootActivity {
     private Date dateChoosen;
     private String choosenDate = "";
     private String choosenDate2 = "";
-
+    private String selectedDate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_task);
-        getSupportActionBar().setTitle("Tasks and Events");
+
+        setContentView(R.layout.activity_add_reminder);
+        getSupportActionBar().setTitle("Reminder");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        dropdown = findViewById(R.id.spinner1);
-        String[] items = new String[]{"Task", "Event"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
-
-        dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                String label = adapterView.getItemAtPosition(i).toString();
-                if (label=="Event"){
-                    timeSwitchPannel.setVisibility(View.VISIBLE);
-                    dateSwitchPannel.setVisibility(View.VISIBLE);
-                } else{
-                    timeSwitchPannel.setVisibility(View.GONE);
-                    dateSwitchPannel.setVisibility(View.GONE);
-                }
-
-
-            }
-
-            public void onNothingSelected(AdapterView<?> adapterView) {
-                return;
-            }
-        });
-
-        Button btn_cancel = (Button) findViewById(R.id.btn_cancel);
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        Button btn_save = (Button) findViewById(R.id.btn_save);
-        btn_save.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-//                finish();
-
-                String label = dropdown.getSelectedItem().toString();
-                if (label=="Event"){
-
-//                    Calendar c = Calendar.getInstance();
-//                    c.set(Calendar.HOUR_OF_DAY, choosenTime.getHours());
-//                    c.set(Calendar.MINUTE, choosenTime.getMinutes());
-//                    c.set(Calendar.SECOND, 0);
-//                    startAlarm(c);
-
-                    Intent intent = new Intent(context, EventActivity.class);
-                    startActivity(intent);
-
-                } else{
-                    Intent intent = new Intent(context, TaskActivity.class);
-                    startActivity(intent);
-                }
-            }
-        });
 
         dateDayDisplay = (TextView) findViewById(R.id.day_date_display);
         choosenDate = CalendarCalculationsUtils.setCurrentDate("");
         dateDayDisplay.setText(choosenDate);
 
         dateSwitchPannel = (LinearLayout) findViewById(R.id.current_date_layout_2);
-        dateSwitchPannel.setVisibility(View.GONE);
 
         dateSwitchPannel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,7 +73,7 @@ public class NewTaskEventActivity extends RootActivity {
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(NewTaskEventActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener, year, month, day);
+                DatePickerDialog dialog = new DatePickerDialog(AddReminderActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener, year, month, day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -168,7 +114,6 @@ public class NewTaskEventActivity extends RootActivity {
         timeDisplay.setText(choosenDate2);
 
         timeSwitchPannel = (LinearLayout) findViewById(R.id.current_time_layout);
-        timeSwitchPannel.setVisibility(View.GONE);
 
         timeSwitchPannel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,7 +122,7 @@ public class NewTaskEventActivity extends RootActivity {
                 int hour = cal.get(Calendar.HOUR_OF_DAY);
                 int minute = cal.get(Calendar.MINUTE);
 
-                TimePickerDialog timePickerDialog = new TimePickerDialog(NewTaskEventActivity.this, onTimeSetListener, hour, minute, true);
+                TimePickerDialog timePickerDialog = new TimePickerDialog(AddReminderActivity.this, onTimeSetListener, hour, minute, true);
 //                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 timePickerDialog.show();
             }
@@ -207,16 +152,42 @@ public class NewTaskEventActivity extends RootActivity {
 
 
 
+
+        Button dialogOkBtn = findViewById(R.id.reminder_dialog_btn_ok);
+        dialogOkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar c = Calendar.getInstance();
+                c.set(Calendar.HOUR_OF_DAY, choosenTime.getHours());
+                c.set(Calendar.MINUTE, choosenTime.getMinutes());
+                c.set(Calendar.SECOND, 0);
+                startAlarm(c);
+                finish();
+            }
+        });
+
+        Button dialogCancelBtn = findViewById(R.id.reminder_dialog_btn_cancel);
+        dialogCancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 
+    private int i=1;
+    private void startAlarm(Calendar c) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, AlertReceiver.class);
+        intent.putExtra("text", i+"text");
+        intent.putExtra("title", i+"text");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i, intent, 0);
+        i++;
+//        if (c.before(Calendar.getInstance())) {
+//            c.add(Calendar.DATE, 1);
+//        }
 
-//
-//    private void cancelAlarm() {
-//        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//        Intent intent = new Intent(this, AlertReceiver.class);
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-//
-//        alarmManager.cancel(pendingIntent);
-//    }
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+    }
 }

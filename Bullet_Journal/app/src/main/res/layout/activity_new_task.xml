@@ -30,6 +30,48 @@
         android:hint="Description"
         android:layout_margin="10dp"/>
 
+    <LinearLayout
+        android:id="@+id/current_date_layout_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_bg"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/day_date_display"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/current_time_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/rounded_bg"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/day_time_display"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textSize="20dp" />
+
+    </LinearLayout>
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="wrap_content"
@@ -52,6 +94,9 @@
             android:background="@color/colorPrimary"
             android:text="Save"/>
 
+
     </LinearLayout>
+
+
 
 </LinearLayout>

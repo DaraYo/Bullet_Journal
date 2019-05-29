@@ -123,8 +123,8 @@ public class TasksAndEventsActivity extends RootActivity {
     private List<Task> buildEvents(){
         List<Task> retVal = new ArrayList<>();
 
-        Task event1 = new Task("Event 1", "About event 1...", true, null, TaskType.EVENT);
-        Task event2 = new Task("Event 2", "About event 2...", false, null, TaskType.EVENT);
+        Task event1 = new Task("Event 1", "About event 1...", true, "10:32", TaskType.EVENT);
+        Task event2 = new Task("Event 2", "About event 2...", false, "20:32", TaskType.EVENT);
 
         retVal.add(event1);
         retVal.add(event2);
