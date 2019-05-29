@@ -17,8 +17,6 @@ import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Day;
 import com.example.bullet_journal.model.Mood;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -83,26 +81,22 @@ public class AddEditMoodDialog extends Dialog {
                     if(selectedMoodVal > 0){
                         Mood mood = new Mood(moodsCollectionRef.document().getId(), selectedDate, selectedMoodVal, description);
 
-                        moodsCollectionRef.document(mood.getId()).set(mood).addOnSuccessListener(
-                                new OnSuccessListener< Void >() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(context, "Mood saved", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                        ).addOnFailureListener(new OnFailureListener() {
+                        moodsCollectionRef.document(mood.getId()).set(mood).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(context, R.string.rating_saved, Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
+                                }
+                                calculateNewAverage();
+                                dismiss();
                             }
                         });
                     }else{
                         Toast.makeText(context, R.string.mood_select_mood_warning, Toast.LENGTH_SHORT).show();
                     }
-                    calculateNewAverage();
                 }
-
-                dismiss();
             }
         });
 

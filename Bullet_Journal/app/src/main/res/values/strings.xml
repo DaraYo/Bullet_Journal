@@ -93,7 +93,7 @@
     <string name="add_rating_dialog_title">Add Rating:</string>
     <string name="add_rating_dialog_type">Choose type:</string>
     <string name="add_rating_title">Add Title...</string>
-    <string name="add_rating_text">Add Review:</string>
+    <string name="add_rating_text">Add Review...</string>
     <string name="edit_rating_dialog_title">Edit Rating:</string>
     <string name="edit_rating_title">Edit Title:</string>
     <string name="edit_rating_text">Edit Review:</string>
@@ -131,5 +131,11 @@
     <!-- Error and Warning messages -->
     <string name="basic_error">Error occurred</string>
     <string name="mood_select_mood_warning">Please select mood</string>
+    <string name="rating_select_mood_warning">Please select rating and category</string>
+
+    <!-- Success messages -->
+    <string name="mood_saved">Mood saved</string>
+    <string name="rating_saved">Rating saved</string>
+
 
 </resources>

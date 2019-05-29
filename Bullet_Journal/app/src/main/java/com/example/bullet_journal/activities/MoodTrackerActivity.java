@@ -115,7 +115,7 @@ public class MoodTrackerActivity extends RootActivity {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isSuccessful()){
-                    dates = new ArrayList<>();
+                    dates.clear();
                     if(task.getResult().size() > 0){
                         for(QueryDocumentSnapshot snapshot : task.getResult()){
                             Day tempDay = snapshot.toObject(Day.class);

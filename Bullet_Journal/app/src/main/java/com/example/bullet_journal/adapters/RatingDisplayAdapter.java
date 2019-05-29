@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.bullet_journal.R;
+import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Rating;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class RatingDisplayAdapter extends ArrayAdapter<Rating> {
         Rating ratingObj = getItem(position);
 
         TextView date = view.findViewById(R.id.rating_preview_date);
-        date.setText(ratingObj.getDate());
+        date.setText(CalendarCalculationsUtils.dateMillisToString(ratingObj.getDate()));
 
         TextView rating = view.findViewById(R.id.rating_preview_score);
         rating.setText(""+ratingObj.getRating());

@@ -51,6 +51,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     private SharedPreferences sharedPreferences;
 
     private String choosenDate = "";
+    private long dateMillis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +69,10 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-//        Menu menu= navigationView.getMenu();
-//        menu.add()
 
         dateDisplay = (TextView) findViewById(R.id.date_display_1);
         choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
+        dateMillis = CalendarCalculationsUtils.trimTimeFromDateMillis(System.currentTimeMillis());
         dateDisplay.setText(choosenDate);
 
         weekDisplay = (TextView) findViewById(R.id.day_of_week_1);
@@ -104,6 +104,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
 
                 Date newDate = CalendarCalculationsUtils.convertCalendarDialogDate(day, month+1, year);
+                dateMillis = CalendarCalculationsUtils.trimTimeFromDateMillis(newDate.getTime());
                 DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
 
                 choosenDate = targetFormat.format(newDate);
@@ -147,6 +148,9 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
             startActivity(intent);
         } else if (id == R.id.nav_ratings) {
             Intent intent= new Intent(this, RatingActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putLong("date", dateMillis);
+            intent.putExtras(bundle);
             startActivity(intent);
         } else if (id == R.id.nav_tasks) {
             Intent intent= new Intent(this, TasksAndEventsActivity.class);
