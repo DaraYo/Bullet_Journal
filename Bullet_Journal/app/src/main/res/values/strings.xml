@@ -66,6 +66,8 @@
     <string name="done_button">Done</string>
     <string name="choose_date">Choose date...</string>
 
+    <string name="cancel">Cancel</string>
+
     <!-- Main activity labels -->
     <string name="title_date">Date :</string>
 

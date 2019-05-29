@@ -36,7 +36,7 @@ public class FollowingEventsDisplayAdapter extends ArrayAdapter<Task>{
         day.setText(date.substring(4, 6));
 
         TextView time = view.findViewById(R.id.event_preview_time);
-        time.setText(date.substring(13, date.length()));
+//        time.setText(date.substring(13, date.length()));
 
         TextView title = view.findViewById(R.id.event_preview_title);
         title.setText(taskObj.getTitle());
