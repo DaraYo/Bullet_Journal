@@ -17,6 +17,13 @@ public class CalendarCalculationsUtils {
         return dateFormat.format(calendar.getTime());
     }
 
+    public static String dateMillisToStringDateAndTime(long milliseconds){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMM/dd/yyyy HH:mm");
+        calendar.setTimeInMillis(milliseconds);
+        return dateFormat.format(calendar.getTime());
+    }
+
     public static String calculateWeekDay(long milliseconds){
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliseconds);
