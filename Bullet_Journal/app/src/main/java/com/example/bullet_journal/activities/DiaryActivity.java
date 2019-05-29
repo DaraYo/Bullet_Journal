@@ -3,6 +3,7 @@ package com.example.bullet_journal.activities;
 import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -40,10 +41,15 @@ import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.predefinedClasses.CustomAppBarLayoutBehavior;
 import com.example.bullet_journal.predefinedClasses.LinedEditText;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -58,9 +64,12 @@ public class DiaryActivity extends AppCompatActivity {
     private RelativeLayout editTextToolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private Toolbar toolbar;
-    private ImageView imageView;
+//    private ImageView imageView;
     private FloatingActionButton floatingActionButton;
     private CoordinatorLayout.LayoutParams layoutParams;
+    private CarouselView carouselView;
+
+    private ArrayList<Uri> listOfImages= new ArrayList<Uri>();
 
     private String choosenDate = "";
     private int dayNum = 6;
@@ -92,7 +101,7 @@ public class DiaryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        imageView = (ImageView) findViewById(R.id.image_collapse_bar);
+//        imageView = (ImageView) findViewById(R.id.image_collapse_bar);
 
         floatingActionButton= findViewById(R.id.gallery);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -141,6 +150,18 @@ public class DiaryActivity extends AppCompatActivity {
                 dateDisplay.setText(choosenDate);
             }
         };
+
+        carouselView= (CarouselView)findViewById(R.id.carouselView);
+        carouselView.setPageCount(listOfImages.size());
+        carouselView.setImageListener(new ImageListener() {
+            @Override
+            public void setImageForPosition(int position, ImageView imageView) {
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                Picasso.get().load(listOfImages.get(position)).into(imageView);
+                imageView.setImageURI(listOfImages.get(position));
+            }
+        });
+
 
 //        ImageButton takePhotoBtn = (ImageButton) findViewById(R.id.take_a_picture);
 //        ImageButton attachPicBtn = (ImageButton) findViewById(R.id.attach_picture);
@@ -380,7 +401,10 @@ public class DiaryActivity extends AppCompatActivity {
                     }
                     case 2: {
                         Bitmap photo = (Bitmap) data.getExtras().get("data");
-                        imageView.setImageBitmap(photo);
+                        String uri=saveToInternalStorage(photo);
+                        listOfImages.add(Uri.parse(uri));
+                        carouselView.setPageCount(listOfImages.size());
+//                        imageView.setImageBitmap(photo);
                         break;
                     }
                     case 3:
@@ -391,9 +415,12 @@ public class DiaryActivity extends AppCompatActivity {
                         Toast.makeText(this, path, Toast.LENGTH_LONG).show();
                         File f = new File(path);
                         selectedImageUri = Uri.fromFile(f);
+                        listOfImages.add(selectedImageUri);
+                        carouselView.setPageCount(listOfImages.size());
+
                     }
                     // Set the image in ImageView
-                    imageView.setImageURI(selectedImageUri);
+//                    imageView.setImageURI(selectedImageUri);
                 }
             }
         } catch (Exception e) {
@@ -416,6 +443,32 @@ public class DiaryActivity extends AppCompatActivity {
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         super.startActivityForResult(intent, requestCode);
+    }
+
+    private String saveToInternalStorage(Bitmap bitmapImage){
+        Calendar cal = Calendar.getInstance();
+
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        File mypath=new File(directory,cal.getTimeInMillis()+".jpg");
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return mypath.getPath();
     }
 
     //add picture to firebase storage

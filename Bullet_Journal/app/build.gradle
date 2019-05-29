@@ -42,6 +42,7 @@ dependencies {
         exclude group: 'com.android.support'
         exclude module: ['exifinterface', 'support-annotations']
     }
+    implementation 'com.synnapps:carouselview:0.1.5'
 }
 
 apply plugin: 'com.google.gms.google-services'
