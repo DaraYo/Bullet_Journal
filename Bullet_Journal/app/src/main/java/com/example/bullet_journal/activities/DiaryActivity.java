@@ -10,38 +10,28 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bullet_journal.R;
-import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
-import com.example.bullet_journal.helpClasses.PreferencesHelper;
 import com.example.bullet_journal.predefinedClasses.CustomAppBarLayoutBehavior;
 import com.example.bullet_journal.predefinedClasses.LinedEditText;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class DiaryActivity extends AppCompatActivity {
     AppBarLayout appBarLayout;
@@ -76,6 +66,7 @@ public class DiaryActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar_collapse);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         imageView = (ImageView) findViewById(R.id.image_collapse_bar);
 
@@ -88,18 +79,21 @@ public class DiaryActivity extends AppCompatActivity {
             }
         });
 
-        dayDisplay = findViewById(R.id.day_display_only);
-        dateDisplay = findViewById(R.id.date_display_only);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        choosenDate = CalendarCalculationsUtils.setCurrentDate("");
-        dayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(choosenDate)); //+" "+choosenDate);
-        dateDisplay.setText(choosenDate);
-
         diaryContent = findViewById(R.id.diary_text);
         textContent = diaryContent.getText().toString();
 
+        dayDisplay = findViewById(R.id.day_display_only);
+        dateDisplay = findViewById(R.id.date_display_only);
+
+        choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
+        dateDisplay.setText(choosenDate);
+        dayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis())); //+" "+choosenDate);
+
+//=======
+//        dateDayDisplay = (TextView) findViewById(R.id.day_date_display);
+//        choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
+//        dateDayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis())+" "+choosenDate);
+//>>>>>>> 59c3576de8bd6db8a7843e20d562c7c8d9172ce6
 
         RelativeLayout dateSwitchPannel = findViewById(R.id.current_date_layout_2);
 
@@ -121,22 +115,30 @@ public class DiaryActivity extends AppCompatActivity {
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-
-                month = month + 1;
-
-                DateFormat originalFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+                Date newDate = CalendarCalculationsUtils.convertCalendarDialogDate(day, month+1, year);
                 DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
+                choosenDate = targetFormat.format(newDate);
+//                month = month + 1;
+//
+//                DateFormat originalFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+//                DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
+//
+//                Date date = null;
+//                try {
+//                    date = originalFormat.parse(month + "/" + day + "/" + year);
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
 
-                Date date = null;
-                try {
-                    date = originalFormat.parse(month + "/" + day + "/" + year);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                choosenDate = targetFormat.format(date);
-                dayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(choosenDate));//+" "+choosenDate);
+                dayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime()));//+" "+choosenDate);
                 dateDisplay.setText(choosenDate);
+//=======
+//                Date newDate = CalendarCalculationsUtils.convertCalendarDialogDate(day, month+1, year);
+//                DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
+
+//                choosenDate = targetFormat.format(newDate);
+//                dateDayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime())+" "+choosenDate);
+//>>>>>>> 59c3576de8bd6db8a7843e20d562c7c8d9172ce6
             }
         };
 

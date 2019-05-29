@@ -13,6 +13,7 @@ import com.example.bullet_journal.adapters.RatingDisplayAdapter;
 import com.example.bullet_journal.dialogs.AddEditRatingDialog;
 import com.example.bullet_journal.enums.RatingCategory;
 import com.example.bullet_journal.model.Rating;
+import com.example.bullet_journal.wrapperClasses.RatingCategoryWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,10 +38,27 @@ public class RatingActivity extends RootActivity {
 
             @Override
             public void onClick(View v) {
-                final Dialog dialog = new AddEditRatingDialog(context, "18/04/2019", null);
+                final Dialog dialog = new AddEditRatingDialog(context, "18/04/2019", null, initCategories());
                 dialog.show();
             }
         });
+    }
+
+    private List<RatingCategoryWrapper> initCategories(){
+
+        List<RatingCategoryWrapper> retVal = new ArrayList<>();
+
+        RatingCategoryWrapper activity = new RatingCategoryWrapper(RatingCategory.ACTIVITY, R.string.rating_category_activity);
+        RatingCategoryWrapper book = new RatingCategoryWrapper(RatingCategory.BOOK, R.string.rating_category_book);
+        RatingCategoryWrapper music = new RatingCategoryWrapper(RatingCategory.MUSIC, R.string.rating_category_music);
+        RatingCategoryWrapper movie = new RatingCategoryWrapper(RatingCategory.MOVIE, R.string.rating_category_movie);
+
+        retVal.add(activity);
+        retVal.add(book);
+        retVal.add(music);
+        retVal.add(movie);
+
+        return retVal;
     }
 
     private List<Rating> buildRatings(){

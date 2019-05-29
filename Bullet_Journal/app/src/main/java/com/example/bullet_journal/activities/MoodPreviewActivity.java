@@ -16,7 +16,7 @@ public class MoodPreviewActivity extends RootActivity {
 
     private ListView listView;
     private ListAdapter moodsAdapter;
-    private String dateStr;
+    private long dateMillis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class MoodPreviewActivity extends RootActivity {
         getSupportActionBar().setTitle(R.string.title_activity_mood_preview);
 
         Bundle bundle = getIntent().getExtras();
-        dateStr = bundle.getString("date");
+        dateMillis = bundle.getLong("date");
 
         moodsAdapter = new MoodDisplayAdapter(this, buildMoods());
         listView = (ListView) findViewById(R.id.moods_preview_list);
@@ -36,11 +36,11 @@ public class MoodPreviewActivity extends RootActivity {
     private List<Mood> buildMoods(){
         List<Mood> retVal = new ArrayList<>();
 
-        Mood mood1 = new Mood(dateStr+" 08:22", 2, "Woke up with headache!");
-        Mood mood2 = new Mood(dateStr+" 08:47", 4, "Coffee helps, yeah :D");
-        Mood mood3 = new Mood(dateStr+" 14:50", 4, "Great day at school for change");
-        Mood mood4 = new Mood(dateStr+" 20:10", 5, "Relaxing bath time :D");
-        Mood mood5 = new Mood(dateStr+" 22:56", 1, "Can't belive it! GOT A TOOTHACHE!!!");
+        Mood mood1 = new Mood(dateMillis, 2, "Woke up with headache!");
+        Mood mood2 = new Mood(dateMillis, 4, "Coffee helps, yeah :D");
+        Mood mood3 = new Mood(dateMillis, 4, "Great day at school for change");
+        Mood mood4 = new Mood(dateMillis, 5, "Relaxing bath time :D");
+        Mood mood5 = new Mood(dateMillis, 1, "Can't belive it! GOT A TOOTHACHE!!!");
 
         retVal.add(mood1);
         retVal.add(mood2);

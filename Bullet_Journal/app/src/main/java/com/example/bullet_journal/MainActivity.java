@@ -15,7 +15,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
-import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,41 +22,35 @@ import android.widget.Toast;
 
 import com.example.bullet_journal.activities.DiaryActivity;
 import com.example.bullet_journal.activities.HabitsActivity;
+import com.example.bullet_journal.activities.LoginActivity;
 import com.example.bullet_journal.activities.MoodTrackerActivity;
 import com.example.bullet_journal.activities.RatingActivity;
 import com.example.bullet_journal.activities.SettingsActivity;
-import com.example.bullet_journal.activities.LoginActivity;
 import com.example.bullet_journal.activities.SignUpActivity;
-import com.example.bullet_journal.activities.WalletActivity;
 import com.example.bullet_journal.activities.TasksAndEventsActivity;
+import com.example.bullet_journal.activities.WalletActivity;
 import com.example.bullet_journal.adapters.FollowingEventsDisplayAdapter;
-import com.example.bullet_journal.adapters.SimpleDateDisplayAdapter;
 import com.example.bullet_journal.enums.TaskType;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Task;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends RootActivity implements NavigationView.OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private DatePickerDialog.OnDateSetListener onDateSetListener;
     private TextView dateDisplay;
     private TextView weekDisplay;
-    private GridView gridView;
     private ListView eventListView;
-    private SimpleDateDisplayAdapter datesAdapter;
     private FollowingEventsDisplayAdapter eventAdapter;
     private SharedPreferences sharedPreferences;
 
     private String choosenDate = "";
-    private int dayNum = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,15 +72,11 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 //        menu.add()
 
         dateDisplay = (TextView) findViewById(R.id.date_display_1);
-        choosenDate = CalendarCalculationsUtils.setCurrentDate("");
+        choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
         dateDisplay.setText(choosenDate);
 
         weekDisplay = (TextView) findViewById(R.id.day_of_week_1);
-        weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(choosenDate));
-
-        datesAdapter = new SimpleDateDisplayAdapter(this, CalendarCalculationsUtils.calculateWeek(choosenDate, dayNum));
-        gridView = (GridView) findViewById(R.id.date_grid);
-        gridView.setAdapter(datesAdapter);
+        weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis()));
 
         eventAdapter = new FollowingEventsDisplayAdapter(MainActivity.this, buildEvents(choosenDate));
         eventListView = findViewById(R.id.event_preview_list_view);
@@ -113,25 +102,13 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
 
-                DateFormat originalFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+                Date newDate = CalendarCalculationsUtils.convertCalendarDialogDate(day, month+1, year);
                 DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
 
-                Date date = null;
-                try {
-                    date = originalFormat.parse(month + "/" + day + "/" + year);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                choosenDate = targetFormat.format(date);
+                choosenDate = targetFormat.format(newDate);
                 dateDisplay.setText(choosenDate);
-                weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(choosenDate));
-
-                datesAdapter = new SimpleDateDisplayAdapter(MainActivity.this, CalendarCalculationsUtils.calculateWeek(choosenDate, dayNum));
-                datesAdapter.notifyDataSetChanged();
-                gridView.setAdapter(datesAdapter);
+                weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime()));
 
                 eventAdapter = new FollowingEventsDisplayAdapter(MainActivity.this, buildEvents(choosenDate));
                 eventAdapter.notifyDataSetChanged();

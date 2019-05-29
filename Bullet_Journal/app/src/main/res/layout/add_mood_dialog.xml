@@ -4,27 +4,19 @@
     android:layout_height="wrap_content"
     android:layout_margin="15dp">
 
-    <TextView
-        android:id="@+id/add_mood_dialog_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add_mood_dialog_title"
-        android:background="@color/colorPrimaryLight"
-        android:textSize="18dp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal"
+        android:background="@color/colorPrimaryLight"
         android:gravity="center" >
 
         <TextView
-            android:id="@+id/add_mood_dialog_for_date"
+            android:id="@+id/add_mood_dialog_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/add_mood_dialog_for_date"
-            android:textSize="18sp" />
+            android:text="@string/add_mood_dialog_title"
+            android:textSize="18dp" />
 
         <TextView
             android:id="@+id/add_mood_dialog_date_str"
@@ -44,6 +36,8 @@
         android:gravity="center" >
 
         <LinearLayout
+            android:id="@+id/awesome_layout"
+            android:padding="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="7dp"
@@ -72,6 +66,8 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/good_layout"
+            android:padding="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="7dp"
@@ -100,6 +96,8 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/ok_layout"
+            android:padding="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="7dp"
@@ -137,6 +135,8 @@
         android:gravity="center" >
 
         <LinearLayout
+            android:id="@+id/bad_layout"
+            android:padding="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="7dp"
@@ -165,6 +165,8 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/terrible_layout"
+            android:padding="3dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="7dp"
@@ -194,18 +196,13 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/add_mood_dialog_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add_description"
-        android:background="@color/colorPrimaryLight"
-        android:layout_marginTop="10dp"
-        android:textSize="18sp" />
 
     <EditText
+        android:id="@+id/description"
+        android:hint="@string/add_description"
+        android:gravity="top"
         android:layout_width="match_parent"
-        android:layout_height="80dp" />
+        android:layout_height="120dp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -219,6 +216,7 @@
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/rounded_bg_light"
             android:textColor="@color/dialogButtonText"
             android:text="@string/cancel_str"/>
 
@@ -227,6 +225,7 @@
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/rounded_bg_light"
             android:textColor="@color/dialogButtonText"
             android:text="@string/ok_str"/>
 

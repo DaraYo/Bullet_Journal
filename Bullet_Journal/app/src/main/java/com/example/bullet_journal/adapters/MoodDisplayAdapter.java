@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.dialogs.AddEditMoodDialog;
+import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Mood;
 
 import java.util.List;
@@ -76,7 +77,7 @@ public class MoodDisplayAdapter extends ArrayAdapter<Mood> {
         description.setText(moodObj.getDescription());
 
         TextView date = view.findViewById(R.id.mood_adapter_date);
-        date.setText(moodObj.getDate());
+        date.setText(CalendarCalculationsUtils.dateMillisToString(moodObj.getDate()));
 
         ImageButton editBtn = view.findViewById(R.id.mood_edit_btn);
         editBtn.setOnClickListener(new View.OnClickListener() {

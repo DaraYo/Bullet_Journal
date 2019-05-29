@@ -69,7 +69,7 @@
     <!-- Main activity labels -->
     <string name="title_date">Date :</string>
 
-    <string name="add_description">Add description: </string>
+    <string name="add_description">Add description...</string>
 
     <!-- Common button labels -->
     <string name="ok_str">Ok</string>
@@ -79,10 +79,9 @@
     <string name="title_activity_mood_tracker">Mood Tracker</string>
     <string name="title_activity_mood_preview">Mood Preview</string>
     <string name="add_mood_dialog_title">Add Mood:</string>
-    <string name="add_mood_dialog_description">Add Description:</string>
-    <string name="add_mood_dialog_for_date">For Date:</string>
+    <string name="add_mood_dialog_description">Add Description</string>
     <string name="edit_mood_dialog_title">Edit Mood:</string>
-    <string name="edit_mood_dialog_description">Edit Description:</string>
+    <string name="edit_mood_dialog_description">Edit Description</string>
 
     <string name="mood_awesome">AWESOME</string>
     <string name="mood_good">GOOD</string>
@@ -90,14 +89,24 @@
     <string name="mood_bad">BAD</string>
     <string name="mood_terrible">TERRIBLE</string>
 
+    <string name="mood_select_mood_warning">Please select mood</string>
+
     <!-- Ratings -->
     <string name="title_activity_ratings">Ratings</string>
     <string name="add_rating_dialog_title">Add Rating:</string>
-    <string name="add_rating_title">Add Title:</string>
+    <string name="add_rating_dialog_type">Choose type:</string>
+    <string name="add_rating_title">Add Title...</string>
     <string name="add_rating_text">Add Review:</string>
     <string name="edit_rating_dialog_title">Edit Rating:</string>
     <string name="edit_rating_title">Edit Title:</string>
     <string name="edit_rating_text">Edit Review:</string>
+
+    <string-array name="rating_categories">
+        <item name="rating_category_activity_item">Activity</item>
+        <item name="rating_category_book_item">Book</item>
+        <item name="rating_category_movie_item">Movie</item>
+        <item name="rating_category_music_item">Music</item>
+    </string-array>
 
     <string name="rating_category_book">Book:</string>
     <string name="rating_category_activity">Activity:</string>
