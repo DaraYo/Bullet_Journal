@@ -36,11 +36,11 @@ public class MoodPreviewActivity extends RootActivity {
     private List<Mood> buildMoods(){
         List<Mood> retVal = new ArrayList<>();
 
-        Mood mood1 = new Mood(dateMillis, 2, "Woke up with headache!");
-        Mood mood2 = new Mood(dateMillis, 4, "Coffee helps, yeah :D");
-        Mood mood3 = new Mood(dateMillis, 4, "Great day at school for change");
-        Mood mood4 = new Mood(dateMillis, 5, "Relaxing bath time :D");
-        Mood mood5 = new Mood(dateMillis, 1, "Can't belive it! GOT A TOOTHACHE!!!");
+        Mood mood1 = new Mood("1", dateMillis, 2, "Woke up with headache!");
+        Mood mood2 = new Mood("2", dateMillis, 4, "Coffee helps, yeah :D");
+        Mood mood3 = new Mood("3", dateMillis, 4, "Great day at school for change");
+        Mood mood4 = new Mood("4", dateMillis, 5, "Relaxing bath time :D");
+        Mood mood5 = new Mood("5", dateMillis, 1, "Can't belive it! GOT A TOOTHACHE!!!");
 
         retVal.add(mood1);
         retVal.add(mood2);

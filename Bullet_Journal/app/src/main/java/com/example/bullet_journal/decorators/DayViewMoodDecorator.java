@@ -14,17 +14,17 @@ import com.prolificinteractive.materialcalendarview.DayViewFacade;
 import org.threeten.bp.DateTimeUtils;
 import org.threeten.bp.ZoneId;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class DayViewMoodDecorator implements DayViewDecorator {
 
-    private ArrayList<MoodWrapper> moods;
+    private List<MoodWrapper> moods;
     private MoodType mode;
     private Activity context;
 
-    public DayViewMoodDecorator(Activity context, ArrayList<MoodWrapper> moodsToDisplay, MoodType mode){
+    public DayViewMoodDecorator(Activity context, List<MoodWrapper> moodsToDisplay, MoodType mode){
         this.context = context;
         this.moods = moodsToDisplay;
         this.mode = mode;
