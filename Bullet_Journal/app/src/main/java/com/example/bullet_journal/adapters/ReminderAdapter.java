@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.dialogs.DeleteReminderDialog;
+import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Reminder;
 
 import java.text.DateFormat;
@@ -52,17 +53,8 @@ public class ReminderAdapter extends ArrayAdapter<Reminder> {
 
         TextView reminderDate = view.findViewById(R.id.reminder_time);
 
-            //choosenDate = CalendarCalculationsUtils.setCurrentDate("");
-
-//            DateFormat originalFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+            choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
             DateFormat targetFormat = new SimpleDateFormat("dd MMM HH:mm");
-
-//            Date date = null;
-//            try {
-//                date = (Date) originalFormat.parse(reminderObj.getDate());
-//            } catch (P`arseException e) {
-//                e.printStackTrace();
-//            }
 
             choosenDate = targetFormat.format(reminderObj.getDate());
             reminderDate.setText(choosenDate);

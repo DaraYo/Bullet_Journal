@@ -1,17 +1,31 @@
 package com.example.bullet_journal.activities;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -27,9 +41,15 @@ import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.predefinedClasses.CustomAppBarLayoutBehavior;
 import com.example.bullet_journal.predefinedClasses.LinedEditText;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -44,14 +64,27 @@ public class DiaryActivity extends AppCompatActivity {
     private RelativeLayout editTextToolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private Toolbar toolbar;
-    private ImageView imageView;
+//    private ImageView imageView;
     private FloatingActionButton floatingActionButton;
     private CoordinatorLayout.LayoutParams layoutParams;
+    private CarouselView carouselView;
+
+    private ArrayList<Uri> listOfImages= new ArrayList<Uri>();
 
     private String choosenDate = "";
     private int dayNum = 6;
     private String textContent;
     private String title = "Diary";
+
+    static final Integer LOCATION= 0x1;
+    static final Integer CAMERA = 0x2;
+    static final Integer READ_EXST = 0x3;
+    static final Integer REQUEST_GET_SINGLE_FILE = 0x4;
+
+
+//    private String pictureFilePath;
+//    private FirebaseStorage firebaseStorage;
+//    private String deviceIdentifier;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +101,7 @@ public class DiaryActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        imageView = (ImageView) findViewById(R.id.image_collapse_bar);
+//        imageView = (ImageView) findViewById(R.id.image_collapse_bar);
 
         floatingActionButton= findViewById(R.id.gallery);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -88,12 +121,6 @@ public class DiaryActivity extends AppCompatActivity {
         choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
         dateDisplay.setText(choosenDate);
         dayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis())); //+" "+choosenDate);
-
-//=======
-//        dateDayDisplay = (TextView) findViewById(R.id.day_date_display);
-//        choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
-//        dateDayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis())+" "+choosenDate);
-//>>>>>>> 59c3576de8bd6db8a7843e20d562c7c8d9172ce6
 
         RelativeLayout dateSwitchPannel = findViewById(R.id.current_date_layout_2);
 
@@ -118,29 +145,23 @@ public class DiaryActivity extends AppCompatActivity {
                 Date newDate = CalendarCalculationsUtils.convertCalendarDialogDate(day, month+1, year);
                 DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
                 choosenDate = targetFormat.format(newDate);
-//                month = month + 1;
-//
-//                DateFormat originalFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
-//                DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
-//
-//                Date date = null;
-//                try {
-//                    date = originalFormat.parse(month + "/" + day + "/" + year);
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
 
                 dayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime()));//+" "+choosenDate);
                 dateDisplay.setText(choosenDate);
-//=======
-//                Date newDate = CalendarCalculationsUtils.convertCalendarDialogDate(day, month+1, year);
-//                DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
-
-//                choosenDate = targetFormat.format(newDate);
-//                dateDayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime())+" "+choosenDate);
-//>>>>>>> 59c3576de8bd6db8a7843e20d562c7c8d9172ce6
             }
         };
+
+        carouselView= (CarouselView)findViewById(R.id.carouselView);
+        carouselView.setPageCount(listOfImages.size());
+        carouselView.setImageListener(new ImageListener() {
+            @Override
+            public void setImageForPosition(int position, ImageView imageView) {
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                Picasso.get().load(listOfImages.get(position)).into(imageView);
+                imageView.setImageURI(listOfImages.get(position));
+            }
+        });
+
 
 //        ImageButton takePhotoBtn = (ImageButton) findViewById(R.id.take_a_picture);
 //        ImageButton attachPicBtn = (ImageButton) findViewById(R.id.attach_picture);
@@ -156,7 +177,9 @@ public class DiaryActivity extends AppCompatActivity {
 
 //        String lang= PreferencesHelper.getLanguage(this);
 //        Toast.makeText(this, lang, Toast.LENGTH_LONG).show();
+
         editTextToolbar = findViewById(R.id.edit_text_toolbar);
+
         diaryContent.setOnTouchListener(new View.OnTouchListener(){
 
             @Override
@@ -179,11 +202,9 @@ public class DiaryActivity extends AppCompatActivity {
                     appBarLayout.setExpanded(false, true);
                     ((CustomAppBarLayoutBehavior)layoutParams.getBehavior()).setScrollBehavior(false);
                     editTextToolbar.setVisibility(View.VISIBLE);
-                    Toast.makeText(getApplicationContext(), "blabla", Toast.LENGTH_LONG).show();
                 } else {
                     ((CustomAppBarLayoutBehavior)layoutParams.getBehavior()).setScrollBehavior(true);
                     editTextToolbar.setVisibility(View.GONE);
-                    Toast.makeText(getApplicationContext(), "its goooone", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -226,19 +247,102 @@ public class DiaryActivity extends AppCompatActivity {
 //        appBarLayout.setLiftable(false);
     }
 
+    private boolean checkPermission(String permission, Integer requestCode){
+        if (ContextCompat.checkSelfPermission(this, permission)//Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    private void askPermission(String permission, Integer requestCode){
+//        if (ContextCompat.checkSelfPermission(this, permission)//Manifest.permission.CAMERA)
+//                != PackageManager.PERMISSION_GRANTED) {
+        if(ActivityCompat.shouldShowRequestPermissionRationale(this, permission)){
+            //if user has denied permission before
+            ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);
+        }else {
+            ActivityCompat.requestPermissions(this, new String[]{permission}, requestCode);//{Manifest.permission.CAMERA}, CAMERA);
+        }
+//            return false;
+//        } else {
+////            Toast.makeText(this, "" + permission + " is already granted.", Toast.LENGTH_SHORT).show();
+//            return true;
+//        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         int id = item.getItemId();
 
         switch (id) {
             case R.id.action_settings: {
-                Intent intent = new Intent(this, SettingsActivity.class);
+                intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
             }
             case R.id.add_pic: {
-                Intent intent = new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+//                final CharSequence options[];
+//                if(!getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+//                    options = new CharSequence[] {"Select photo", "Select multiple photos"};
+//                }else {
+                final CharSequence options[] = new CharSequence[]{"Take photo", "Select photo", "Select multiple photos"};
+//                }
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setCancelable(false);
+                builder.setTitle("Select your option:");
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent innerIntent;
+                        switch (which){
+                            case 0:{
+                                if(checkPermission(Manifest.permission.CAMERA, CAMERA)) {
+                                    innerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                    if (innerIntent.resolveActivity(getPackageManager()) != null) {
+                                        startActivityForResult(innerIntent, CAMERA);
+                                    }
+                                }
+//                                if(ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)//Manifest.permission.CAMERA)
+//                                        != PackageManager.PERMISSION_GRANTED) {
+//                                    innerIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                                    if (innerIntent.resolveActivity(getPackageManager()) != null) {
+//                                        startActivityForResult(innerIntent, 12);
+//                                    }
+//                                }
+                                else{
+                                    askPermission(Manifest.permission.CAMERA, CAMERA);
+                                }
+                                break;
+                            }
+                            case 1: {
+                                if (checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXST)) {
+                                    innerIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                                    startActivityForResult(innerIntent, READ_EXST);
+//                                    innerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+//                                    innerIntent.addCategory(Intent.CATEGORY_OPENABLE);
+//                                    innerIntent.setType("image/*");
+//                                    startActivityForResult(Intent.createChooser(innerIntent, "Select Picture"),REQUEST_GET_SINGLE_FILE);
+                                }else{
+                                    askPermission(Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXST);
+                                }
+                                break;
+                            }
+                            case 2: {
+                                break;
+                            }
+                        }
+                    }
+                });
+                builder.setNegativeButton(getString(R.string.cancel_str), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //the user clicked on Cancel
+                    }
+                });
+                builder.show();
                 return true;
             }
             case android.R.id.home: {
@@ -248,4 +352,154 @@ public class DiaryActivity extends AppCompatActivity {
         }
         return false;
     }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Intent intent;
+//        Toast.makeText(getApplicationContext(), permissions[0], Toast.LENGTH_LONG).show();
+
+        if(ActivityCompat.checkSelfPermission(this, permissions[0]) == PackageManager.PERMISSION_GRANTED){
+            switch (requestCode) {
+                //location
+                case 1:
+                    break;
+                //take a shot
+                case 2:
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivityForResult(takePictureIntent, CAMERA);
+                    }
+//                    intent = new Intent("android.media.action.IMAGE_CAPTURE");
+//                    startActivityForResult(intent, CAMERA);
+                    break;
+                //read external storage
+                case 3:
+//                    intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                    intent.setType("image/*");
+//                    startActivityForResult(Intent.createChooser(intent, "Select Picture"),REQUEST_GET_SINGLE_FILE);
+                    intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(intent, READ_EXST);
+                    break;
+                //read one file
+                case 4:
+//                    intent = new Intent(Intent.ACTION_GET_CONTENT);
+//                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+//                    intent.setType("image/*");
+//                    startActivityForResult(Intent.createChooser(intent, "Select Picture"),REQUEST_GET_SINGLE_FILE);
+                    break;
+
+            }
+//            Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "We need permission", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Toast.makeText(getApplicationContext(), String.valueOf(resultCode), Toast.LENGTH_LONG).show();
+        try {
+            if (resultCode == RESULT_OK) {
+                switch (requestCode){
+                    case 1:{
+                        break;
+                    }
+                    case 2: {
+                        Bitmap photo = (Bitmap) data.getExtras().get("data");
+                        String uri=saveToInternalStorage(photo);
+                        listOfImages.add(Uri.parse(uri));
+                        carouselView.setPageCount(listOfImages.size());
+//                        imageView.setImageBitmap(photo);
+                        break;
+                    }
+                    case 3:
+                    Uri selectedImageUri = data.getData();
+                    // Get the path from the Uri
+                    final String path = getPathFromURI(selectedImageUri);
+                    if (path != null) {
+                        Toast.makeText(this, path, Toast.LENGTH_LONG).show();
+                        File f = new File(path);
+                        selectedImageUri = Uri.fromFile(f);
+                        listOfImages.add(selectedImageUri);
+                        carouselView.setPageCount(listOfImages.size());
+
+                    }
+                    // Set the image in ImageView
+//                    imageView.setImageURI(selectedImageUri);
+                }
+            }
+        } catch (Exception e) {
+            Log.e("FileSelectorActivity", "File select error", e);
+        }
+    }
+
+    public String getPathFromURI(Uri contentUri) {
+        String res = null;
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+        if (cursor.moveToFirst()) {
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            res = cursor.getString(column_index);
+        }
+        cursor.close();
+        return res;
+    }
+
+    @Override
+    public void startActivityForResult(Intent intent, int requestCode) {
+        super.startActivityForResult(intent, requestCode);
+    }
+
+    private String saveToInternalStorage(Bitmap bitmapImage){
+        Calendar cal = Calendar.getInstance();
+
+        ContextWrapper cw = new ContextWrapper(getApplicationContext());
+        // path to /data/data/yourapp/app_data/imageDir
+        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+        // Create imageDir
+        File mypath=new File(directory,cal.getTimeInMillis()+".jpg");
+
+        FileOutputStream fos = null;
+        try {
+            fos = new FileOutputStream(mypath);
+            // Use the compress method on the BitMap object to write image to the OutputStream
+            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                fos.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return mypath.getPath();
+    }
+
+    //add picture to firebase storage
+//    private void addToCloudStorage() {
+//        File f = new File(pictureFilePath);
+//        Uri picUri = Uri.fromFile(f);
+//        final String cloudFilePath = deviceIdentifier + picUri.getLastPathSegment();
+//
+//        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
+//        StorageReference storageRef = firebaseStorage.getReference();
+//        StorageReference uploadeRef = storageRef.child(cloudFilePath);
+//
+//        uploadeRef.putFile(picUri).addOnFailureListener(new OnFailureListener(){
+//            public void onFailure(@NonNull Exception exception){
+//                Log.e(TAG,"Failed to upload picture to cloud storage");
+//            }
+//        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>(){
+//            @Override
+//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot){
+//                Toast.makeText(CapturePictureActivity.this,
+//                        "Image has been uploaded to cloud storage",
+//                        Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
 }

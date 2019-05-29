@@ -1,16 +1,14 @@
 package com.example.bullet_journal.model;
 
-import java.util.Date;
-
 public class Reminder {
 
     private String name;
 
-    private Date date;
+    private long date;
 
     private boolean status;
 
-    public Reminder(String name, Date date, boolean status) {
+    public Reminder(String name, long date, boolean status) {
         this.name=name;
         this.date = date;
         this.status = status;
@@ -27,11 +25,11 @@ public class Reminder {
         this.name = name;
     }
 
-    public Date getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(long date) {
         this.date = date;
     }
 

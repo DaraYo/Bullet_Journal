@@ -51,6 +51,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     private SharedPreferences sharedPreferences;
 
     private String choosenDate = "";
+    private long dateMillis;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +69,10 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-//        Menu menu= navigationView.getMenu();
-//        menu.add()
 
         dateDisplay = (TextView) findViewById(R.id.date_display_1);
         choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
+        dateMillis = CalendarCalculationsUtils.trimTimeFromDateMillis(System.currentTimeMillis());
         dateDisplay.setText(choosenDate);
 
         weekDisplay = (TextView) findViewById(R.id.day_of_week_1);
@@ -104,6 +104,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
 
                 Date newDate = CalendarCalculationsUtils.convertCalendarDialogDate(day, month+1, year);
+                dateMillis = CalendarCalculationsUtils.trimTimeFromDateMillis(newDate.getTime());
                 DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
 
                 choosenDate = targetFormat.format(newDate);
@@ -147,6 +148,9 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
             startActivity(intent);
         } else if (id == R.id.nav_ratings) {
             Intent intent= new Intent(this, RatingActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putLong("date", dateMillis);
+            intent.putExtras(bundle);
             startActivity(intent);
         } else if (id == R.id.nav_tasks) {
             Intent intent= new Intent(this, TasksAndEventsActivity.class);
@@ -177,14 +181,19 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     public List<Task> buildEvents(String theDate){
         List<Task> retVal = new ArrayList<>();
 
-        Task event1 = new Task("Event 1", "About event 1...", true, theDate+" 11:20", TaskType.EVENT);
-        Task event2 = new Task("Event 2", "About event 2...", false, theDate+" 15:40", TaskType.EVENT);
-        Task event3 = new Task("Event 3", "About event 3...", true, theDate+" 16:00", TaskType.EVENT);
-        Task event4 = new Task("Event 4", "About event 4...", false, theDate+" 18:35", TaskType.EVENT);
-        Task event5 = new Task("Event 5", "About event 5...", false, theDate+" 19:10", TaskType.EVENT);
-        Task event6 = new Task("Event 6", "About event 6...", false, theDate+" 20:30", TaskType.EVENT);
-        Task event7 = new Task("Event 7", "About event 7...", false, theDate+" 22:00", TaskType.EVENT);
+        Calendar c = Calendar.getInstance();
 
+        Task event1 = new Task("Event 1", "About event 1...", true, c.getTime().getTime(), TaskType.EVENT);
+        c.add(Calendar.HOUR_OF_DAY, 3);
+        Task event2 = new Task("Event 2", "About event 2...", false, c.getTime().getTime(), TaskType.EVENT);
+        c.add(Calendar.MINUTE, 23);
+        Task event3 = new Task("Event 3", "About event 3...", true, c.getTime().getTime(), TaskType.EVENT);
+        c.add(Calendar.HOUR_OF_DAY, 1);
+        Task event4 = new Task("Event 4", "About event 4...", false, c.getTime().getTime(), TaskType.EVENT);
+        Task event5 = new Task("Event 5", "About event 5...", false, c.getTime().getTime(), TaskType.EVENT);
+        c.add(Calendar.HOUR_OF_DAY, 1);
+        Task event6 = new Task("Event 6", "About event 6...", false, c.getTime().getTime(), TaskType.EVENT);
+        Task event7 = new Task("Event 7", "About event 7...", false, c.getTime().getTime(), TaskType.EVENT);
 
         retVal.add(event1);
         retVal.add(event2);

@@ -14,10 +14,13 @@ import android.widget.Toast;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
+import com.example.bullet_journal.model.Day;
 import com.example.bullet_journal.model.Mood;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AddEditMoodDialog extends Dialog {
@@ -31,7 +34,11 @@ public class AddEditMoodDialog extends Dialog {
     private LinearLayout selectedView;
 
     private FirebaseFirestore firestore;
-    private CollectionReference colRef;
+    private FirebaseAuth fAuth;
+    private CollectionReference dayCollectionRef;
+    private CollectionReference moodsCollectionRef;
+
+    private Day dayObj;
 
     public AddEditMoodDialog(Context context, long selectedDate, Mood moodObj){
         super(context);
@@ -39,8 +46,6 @@ public class AddEditMoodDialog extends Dialog {
         this.selectedDate = selectedDate;
         this.selectedMoodVal = -1;
         this.moodObj = moodObj;
-        this.firestore = FirebaseFirestore.getInstance();
-        this.colRef = this.firestore.collection("Moods");
     }
 
     @Override
@@ -48,6 +53,10 @@ public class AddEditMoodDialog extends Dialog {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.add_mood_dialog);
+
+        firestore = FirebaseFirestore.getInstance();
+        fAuth = FirebaseAuth.getInstance();
+        dayCollectionRef = firestore.collection("Users").document(fAuth.getCurrentUser().getUid()).collection("Day");
 
         TextView dateStr = findViewById(R.id.add_mood_dialog_date_str);
         dateStr.setText(CalendarCalculationsUtils.dateMillisToString(selectedDate));
@@ -60,6 +69,8 @@ public class AddEditMoodDialog extends Dialog {
             dialogDescription.setHint(R.string.edit_mood_dialog_description);
         }
 
+        getDay();
+
         Button dialogOkBtn = findViewById(R.id.mood_dialog_btn_ok);
         dialogOkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,28 +79,24 @@ public class AddEditMoodDialog extends Dialog {
                 if(moodObj == null){
                     String description = dialogDescription.getText().toString();
                     if(selectedMoodVal > 0){
-                        Mood mood = new Mood(selectedDate, selectedMoodVal, description);
+                        Mood mood = new Mood(moodsCollectionRef.document().getId(), selectedDate, selectedMoodVal, description);
 
-                        colRef.document().set(mood).addOnSuccessListener(
-                                new OnSuccessListener< Void >() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(context, "Mood saved", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                        ).addOnFailureListener(new OnFailureListener() {
+                        moodsCollectionRef.document(mood.getId()).set(mood).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(context, "Greska!", Toast.LENGTH_SHORT).show();
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if(task.isSuccessful()){
+                                    Toast.makeText(context, R.string.rating_saved, Toast.LENGTH_SHORT).show();
+                                }else{
+                                    Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
+                                }
+                                calculateNewAverage();
+                                dismiss();
                             }
                         });
                     }else{
                         Toast.makeText(context, R.string.mood_select_mood_warning, Toast.LENGTH_SHORT).show();
                     }
-
                 }
-
-                dismiss();
             }
         });
 
@@ -176,4 +183,41 @@ public class AddEditMoodDialog extends Dialog {
         selectedView.setBackground(ContextCompat.getDrawable(context, R.drawable.mood_border));
     }
 
+    private Day getDay(){
+        final long selectedDateTrim = CalendarCalculationsUtils.trimTimeFromDateMillis(selectedDate);
+
+        dayCollectionRef.document(""+selectedDateTrim).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                DocumentSnapshot document = task.getResult();
+                if (document.exists()) {
+                    dayObj = document.toObject(Day.class);
+                } else {
+                    initializeDay();
+                }
+
+                moodsCollectionRef = dayCollectionRef.document(""+selectedDateTrim).collection("Mood");
+            }
+        });
+
+        return dayObj;
+    }
+
+    private void initializeDay(){
+        long selectedDateTrim = CalendarCalculationsUtils.trimTimeFromDateMillis(selectedDate);
+        dayObj = new Day(selectedDateTrim, null);
+
+        dayCollectionRef.document(""+selectedDateTrim).set(dayObj);
+    }
+
+    private void calculateNewAverage() {
+
+        double newSum = dayObj.getAvgMood() != 0.0 ? dayObj.getAvgMood() * dayObj.getMoodNum() + selectedMoodVal : selectedMoodVal;
+        int moodNum = dayObj.getMoodNum() + 1;
+
+        dayObj.setAvgMood(newSum / moodNum);
+        dayObj.setMoodNum(moodNum);
+
+        dayCollectionRef.document("" + dayObj.getDate()).set(dayObj);
+    }
 }

@@ -45,13 +45,40 @@ public class CalendarCalculationsUtils {
     public static Date convertCalendarDialogDate(int day, int month, int year){
         DateFormat originalFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
 
-        Date date = null;
         try {
-            date = originalFormat.parse(month + "/" + day + "/" + year);
+            return originalFormat.parse(month + "/" + day + "/" + year);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        return date;
+        return null;
+    }
+
+    public static long trimTimeFromDateMillis(long milliseconds){
+        DateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date today = new Date(milliseconds);
+        try {
+            return formatter.parse(formatter.format(today)).getTime();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public static long getBeginingOfTheMonth(int month, int year){
+        Calendar calendar = Calendar.getInstance();
+        int day = 1;
+        calendar.set(year, month, day);
+        return calendar.getTimeInMillis();
+    }
+
+    public static long getEndOfTheMonth(int month, int year){
+        Calendar calendar = Calendar.getInstance();
+        int day = 1;
+        calendar.set(year, month, day);
+        int numOfDaysInMonth = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+        calendar.add(Calendar.DAY_OF_MONTH, numOfDaysInMonth-1);
+
+        return calendar.getTimeInMillis();
     }
 }

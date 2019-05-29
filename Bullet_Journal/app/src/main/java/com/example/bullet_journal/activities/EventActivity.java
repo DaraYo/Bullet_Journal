@@ -115,7 +115,7 @@ public class EventActivity extends RootActivity {
     private List<Reminder> buildReminders(){
         List<Reminder> retVal = new ArrayList<>();
 
-        Reminder r1 = new Reminder("Reminder 1", new Date(), false);
+        Reminder r1 = new Reminder("Reminder 1", new Date().getTime(), false);
 
         retVal.add(r1);
 

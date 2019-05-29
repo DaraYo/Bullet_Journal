@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.bullet_journal.R;
+import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Task;
 
 import java.util.List;
@@ -26,15 +27,16 @@ public class FollowingEventsDisplayAdapter extends ArrayAdapter<Task>{
         View view = LayoutInflater.from(getContext()).inflate(R.layout.day_event_preview_adapter, parent, false);
 
         Task taskObj = getItem(position);
+        String date= CalendarCalculationsUtils.dateMillisToStringDateAndTime(taskObj.getDate());
 
         TextView month = view.findViewById(R.id.event_preview_month);
-        month.setText(taskObj.getDate().substring(0, 3));
+        month.setText(date.substring(0, 3));
 
         TextView day = view.findViewById(R.id.event_preview_day);
-        day.setText(taskObj.getDate().substring(4, 6));
+        day.setText(date.substring(4, 6));
 
         TextView time = view.findViewById(R.id.event_preview_time);
-        time.setText(taskObj.getDate().substring(13, taskObj.getDate().length()));
+        time.setText(date.substring(12, date.length()));
 
         TextView title = view.findViewById(R.id.event_preview_title);
         title.setText(taskObj.getTitle());

@@ -1,7 +1,6 @@
 package com.example.bullet_journal.activities;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -150,7 +149,7 @@ public class HabitActivity extends RootActivity {
     private List<Reminder> buildReminders(){
         List<Reminder> retVal = new ArrayList<>();
 
-        Reminder r1 = new Reminder("Reminder 1", new Date(), false);
+        Reminder r1 = new Reminder("Reminder 1", new Date().getTime(), false);
 
         retVal.add(r1);
 

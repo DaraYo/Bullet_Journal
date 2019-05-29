@@ -13,6 +13,7 @@ import com.example.bullet_journal.R;
 import com.example.bullet_journal.activities.EventActivity;
 import com.example.bullet_journal.activities.TaskActivity;
 import com.example.bullet_journal.enums.TaskType;
+import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Task;
 
 import java.util.List;
@@ -73,7 +74,7 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
             });
 
             TextView eventDate = view.findViewById(R.id.event_date);
-            eventDate.setText(taskEventObj.getDate());
+            eventDate.setText(CalendarCalculationsUtils.dateMillisToString(taskEventObj.getDate()));
 
             eventDate.setOnClickListener(new View.OnClickListener() {
 

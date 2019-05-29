@@ -4,7 +4,11 @@ import java.util.List;
 
 public class Day {
 
-    private String date;
+    private long date;
+
+    private double avgMood;
+
+    private int moodNum;
 
     private String diaryInput;
 
@@ -15,19 +19,20 @@ public class Day {
     private Album album;
 
 
-    public Day() {
-    }
+    public Day() { }
 
-    public Day(String date, String diaryInput) {
+    public Day(long date, String diaryInput) {
         this.date = date;
         this.diaryInput = diaryInput;
+        this.avgMood = 0.0;
+        this.moodNum = 0;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -45,5 +50,21 @@ public class Day {
 
     public void setAlbum(Album album) {
         this.album = album;
+    }
+
+    public double getAvgMood() {
+        return avgMood;
+    }
+
+    public void setAvgMood(double avgMood) {
+        this.avgMood = avgMood;
+    }
+
+    public int getMoodNum() {
+        return moodNum;
+    }
+
+    public void setMoodNum(int moodNum) {
+        this.moodNum = moodNum;
     }
 }

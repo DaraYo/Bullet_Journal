@@ -46,7 +46,6 @@
     <string name="support_us_settings">Support us</string>
 
     <string name="tutorial_settings">Video tutorial</string>
-    <!-- ___________________________________________________ -->
 
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
@@ -89,29 +88,20 @@
     <string name="mood_bad">BAD</string>
     <string name="mood_terrible">TERRIBLE</string>
 
-    <string name="mood_select_mood_warning">Please select mood</string>
-
     <!-- Ratings -->
     <string name="title_activity_ratings">Ratings</string>
     <string name="add_rating_dialog_title">Add Rating:</string>
     <string name="add_rating_dialog_type">Choose type:</string>
     <string name="add_rating_title">Add Title...</string>
-    <string name="add_rating_text">Add Review:</string>
+    <string name="add_rating_text">Add Review...</string>
     <string name="edit_rating_dialog_title">Edit Rating:</string>
     <string name="edit_rating_title">Edit Title:</string>
     <string name="edit_rating_text">Edit Review:</string>
 
-    <string-array name="rating_categories">
-        <item name="rating_category_activity_item">Activity</item>
-        <item name="rating_category_book_item">Book</item>
-        <item name="rating_category_movie_item">Movie</item>
-        <item name="rating_category_music_item">Music</item>
-    </string-array>
-
-    <string name="rating_category_book">Book:</string>
-    <string name="rating_category_activity">Activity:</string>
-    <string name="rating_category_movie">Movie:</string>
-    <string name="rating_category_music">Music:</string>
+    <string name="rating_category_book">Book</string>
+    <string name="rating_category_activity">Activity</string>
+    <string name="rating_category_movie">Movie</string>
+    <string name="rating_category_music">Music</string>
 
     <!-- Habit tracking -->
     <string name="title_activity_habit_tracker">Habit Tracker</string>
@@ -140,5 +130,15 @@
     <string name="item_name">Name</string>
     <string name="income">INCOME</string>
     <string name="spending">SPENDING</string>
+
+    <!-- Error and Warning messages -->
+    <string name="basic_error">Error occurred</string>
+    <string name="mood_select_mood_warning">Please select mood</string>
+    <string name="rating_select_mood_warning">Please select rating and category</string>
+
+    <!-- Success messages -->
+    <string name="mood_saved">Mood saved</string>
+    <string name="rating_saved">Rating saved</string>
+
 
 </resources>
