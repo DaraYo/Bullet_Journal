@@ -179,7 +179,6 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
         Calendar c = Calendar.getInstance();
 
-
         Task event1 = new Task("Event 1", "About event 1...", true, c.getTime().getTime(), TaskType.EVENT);
         c.add(Calendar.HOUR_OF_DAY, 3);
         Task event2 = new Task("Event 2", "About event 2...", false, c.getTime().getTime(), TaskType.EVENT);
@@ -191,7 +190,6 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         c.add(Calendar.HOUR_OF_DAY, 1);
         Task event6 = new Task("Event 6", "About event 6...", false, c.getTime().getTime(), TaskType.EVENT);
         Task event7 = new Task("Event 7", "About event 7...", false, c.getTime().getTime(), TaskType.EVENT);
-
 
         retVal.add(event1);
         retVal.add(event2);
