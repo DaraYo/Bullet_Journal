@@ -108,6 +108,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
                 choosenDate = targetFormat.format(newDate);
                 dateDisplay.setText(choosenDate);
+
                 weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime()));
 
                 eventAdapter = new FollowingEventsDisplayAdapter(MainActivity.this, buildEvents(choosenDate));
