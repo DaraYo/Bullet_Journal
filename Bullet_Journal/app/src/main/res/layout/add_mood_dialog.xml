@@ -30,6 +30,19 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TimePicker
+            android:id="@+id/mood_time_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:timePickerMode="spinner" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:orientation="horizontal"
@@ -46,8 +59,8 @@
 
             <ImageButton
                 android:id="@+id/mood_awesome_btn"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/very_happy"
                 android:background="#80ffffff"
@@ -76,8 +89,8 @@
 
             <ImageButton
                 android:id="@+id/mood_good_btn"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/happy"
                 android:background="#80ffffff"
@@ -106,8 +119,8 @@
 
             <ImageButton
                 android:id="@+id/mood_ok_btn"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ok"
                 android:background="#80ffffff"
@@ -145,8 +158,8 @@
 
             <ImageButton
                 android:id="@+id/mood_bad_btn"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/bad"
                 android:background="#80ffffff"
@@ -175,8 +188,8 @@
 
             <ImageButton
                 android:id="@+id/mood_terrible_btn"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/sad"
                 android:background="#80ffffff"

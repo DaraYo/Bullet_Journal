@@ -2,7 +2,6 @@ package com.example.bullet_journal.activities;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -14,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -45,12 +45,13 @@ public class MoodPreviewActivity extends RootActivity {
 
         firestore = FirebaseFirestore.getInstance();
         fAuth = FirebaseAuth.getInstance();
-        moodsCollectionRef = firestore.collection("Users").document(fAuth.getCurrentUser().getUid()).collection("Day").document(""+dateMillis).collection("Mood");
+        final DocumentReference dayRef = firestore.collection("Users").document(fAuth.getCurrentUser().getUid()).collection("Day").document(""+dateMillis);
+        moodsCollectionRef = dayRef.collection("Mood");
 
         moods = new ArrayList<>();
 
-        moodsAdapter = new MoodDisplayAdapter(this, moods);
         listView = (ListView) findViewById(R.id.moods_preview_list);
+        moodsAdapter = new MoodDisplayAdapter(this, moods, dayRef);
         listView.setAdapter(moodsAdapter);
 
         fetchMoods();
@@ -67,11 +68,9 @@ public class MoodPreviewActivity extends RootActivity {
                             Mood tempMood = snapshot.toObject(Mood.class);
                             moods.add(tempMood);
                         }
-                        Log.i("IMAAAAAA", "KOMADAAAAAAAA "+moods.size());
                         moodsAdapter.notifyDataSetChanged();
-                    }else{
-                        Log.i("NEMAAAAAAAAAAAAA", "KOMADAAAAAAAA "+moods.size()+" "+dateMillis);
                     }
+
                 }else{
                     Toast.makeText(MoodPreviewActivity.this, R.string.basic_error, Toast.LENGTH_SHORT).show();
                 }

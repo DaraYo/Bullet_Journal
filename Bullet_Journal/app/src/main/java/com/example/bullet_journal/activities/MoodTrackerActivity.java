@@ -108,6 +108,12 @@ public class MoodTrackerActivity extends RootActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fetchDays(this.calendarView.getSelectedDate());
+    }
+
     private void fetchDays(CalendarDay day){
 
         dayCollectionRef.whereGreaterThan("date", CalendarCalculationsUtils.getBeginingOfTheMonth(day.getMonth()-1, day.getYear()))
@@ -155,7 +161,7 @@ public class MoodTrackerActivity extends RootActivity {
                 bad.add(mw);
                 continue;
             }
-            if(mw.getAvgValue() > 5){
+            if(mw.getAvgValue() > 0){
                 terrible.add(mw);
                 continue;
             }

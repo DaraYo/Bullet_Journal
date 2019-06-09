@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.bullet_journal.R;
@@ -22,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class AddEditMoodDialog extends Dialog {
 
@@ -32,6 +35,7 @@ public class AddEditMoodDialog extends Dialog {
 
     private TextView dialogDescription;
     private LinearLayout selectedView;
+    private TimePicker picker;
 
     private FirebaseFirestore firestore;
     private FirebaseAuth fAuth;
@@ -43,7 +47,7 @@ public class AddEditMoodDialog extends Dialog {
     public AddEditMoodDialog(Context context, long selectedDate, Mood moodObj){
         super(context);
         this.context = context;
-        this.selectedDate = selectedDate;
+        this.selectedDate = CalendarCalculationsUtils.trimTimeFromDateMillis(selectedDate);
         this.selectedMoodVal = -1;
         this.moodObj = moodObj;
     }
@@ -61,12 +65,19 @@ public class AddEditMoodDialog extends Dialog {
         TextView dateStr = findViewById(R.id.add_mood_dialog_date_str);
         dateStr.setText(CalendarCalculationsUtils.dateMillisToString(selectedDate));
 
+        picker = findViewById(R.id.mood_time_picker);
+        picker.setIs24HourView(true);
+
         dialogDescription = findViewById(R.id.description);
 
         if(moodObj != null){
             TextView dialogTitle = findViewById(R.id.add_mood_dialog_title);
             dialogTitle.setText(R.string.edit_mood_dialog_title);
             dialogDescription.setHint(R.string.edit_mood_dialog_description);
+            dialogDescription.setText(moodObj.getDescription());
+            resolveSelection(moodObj.getRating());
+            picker.setCurrentHour((int) ((moodObj.getDate() / (1000*60*60)) % 24));
+            picker.setCurrentMinute((int) ((moodObj.getDate() / (1000*60)) % 60));
         }
 
         getDay();
@@ -76,27 +87,36 @@ public class AddEditMoodDialog extends Dialog {
             @Override
             public void onClick(View v) {
 
-                if(moodObj == null){
-                    String description = dialogDescription.getText().toString();
-                    if(selectedMoodVal > 0){
-                        Mood mood = new Mood(moodsCollectionRef.document().getId(), selectedDate, selectedMoodVal, description);
+                String description = dialogDescription.getText().toString();
+                long newTime = CalendarCalculationsUtils.addHoursAndMinutesToDate(selectedDate, picker.getCurrentHour(), picker.getCurrentMinute());
+                final boolean isEdit;
 
-                        moodsCollectionRef.document(mood.getId()).set(mood).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()){
-                                    Toast.makeText(context, R.string.rating_saved, Toast.LENGTH_SHORT).show();
-                                }else{
-                                    Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
-                                }
-                                calculateNewAverage();
-                                dismiss();
-                            }
-                        });
-                    }else{
-                        Toast.makeText(context, R.string.mood_select_mood_warning, Toast.LENGTH_SHORT).show();
-                    }
+                if(selectedMoodVal <= 0 || selectedMoodVal > 5){
+                    Toast.makeText(getContext(), R.string.mood_select_mood_warning, Toast.LENGTH_SHORT).show();
+                    return;
                 }
+
+                if(moodObj == null){
+                    isEdit = false;
+                    moodObj = new Mood(moodsCollectionRef.document().getId(), newTime, selectedMoodVal, description);
+                }else{
+                    isEdit = true;
+                    moodObj.setDescription(description);
+                    moodObj.setRating(selectedMoodVal);
+                    moodObj.setDate(newTime);
+                }
+
+                moodsCollectionRef.document(moodObj.getId()).set(moodObj).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+                            Toast.makeText(context, R.string.rating_saved, Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
+                        }
+                        calculateNewAverage();
+                    }
+                });
             }
         });
 
@@ -184,9 +204,8 @@ public class AddEditMoodDialog extends Dialog {
     }
 
     private Day getDay(){
-        final long selectedDateTrim = CalendarCalculationsUtils.trimTimeFromDateMillis(selectedDate);
 
-        dayCollectionRef.document(""+selectedDateTrim).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        dayCollectionRef.document(""+selectedDate).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 DocumentSnapshot document = task.getResult();
@@ -196,7 +215,7 @@ public class AddEditMoodDialog extends Dialog {
                     initializeDay();
                 }
 
-                moodsCollectionRef = dayCollectionRef.document(""+selectedDateTrim).collection("Mood");
+                moodsCollectionRef = dayCollectionRef.document(""+selectedDate).collection("Mood");
             }
         });
 
@@ -204,20 +223,33 @@ public class AddEditMoodDialog extends Dialog {
     }
 
     private void initializeDay(){
-        long selectedDateTrim = CalendarCalculationsUtils.trimTimeFromDateMillis(selectedDate);
-        dayObj = new Day(selectedDateTrim, null);
+        //long selectedDateTrim = CalendarCalculationsUtils.trimTimeFromDateMillis(selectedDate);
+        dayObj = new Day(selectedDate, null);
 
-        dayCollectionRef.document(""+selectedDateTrim).set(dayObj);
+        dayCollectionRef.document(""+selectedDate).set(dayObj);
     }
 
     private void calculateNewAverage() {
 
-        double newSum = dayObj.getAvgMood() != 0.0 ? dayObj.getAvgMood() * dayObj.getMoodNum() + selectedMoodVal : selectedMoodVal;
-        int moodNum = dayObj.getMoodNum() + 1;
+        moodsCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()) {
+                    if (task.getResult().size() > 0) {
+                        double sum = 0;
+                        int num = 0;
 
-        dayObj.setAvgMood(newSum / moodNum);
-        dayObj.setMoodNum(moodNum);
-
-        dayCollectionRef.document("" + dayObj.getDate()).set(dayObj);
+                        for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                            Mood tempMood = snapshot.toObject(Mood.class);
+                            sum = sum + tempMood.getRating();
+                            num++;
+                        }
+                        dayObj.setAvgMood(sum/num);
+                        dayCollectionRef.document("" + dayObj.getDate()).set(dayObj);
+                        dismiss();
+                    }
+                }
+            }
+        });
     }
 }

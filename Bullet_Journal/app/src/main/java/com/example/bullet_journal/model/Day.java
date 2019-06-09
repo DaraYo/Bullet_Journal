@@ -8,8 +8,6 @@ public class Day {
 
     private double avgMood;
 
-    private int moodNum;
-
     private String diaryInput;
 
     private List<Habit> habits;
@@ -25,7 +23,6 @@ public class Day {
         this.date = date;
         this.diaryInput = diaryInput;
         this.avgMood = 0.0;
-        this.moodNum = 0;
     }
 
     public long getDate() {
@@ -60,11 +57,4 @@ public class Day {
         this.avgMood = avgMood;
     }
 
-    public int getMoodNum() {
-        return moodNum;
-    }
-
-    public void setMoodNum(int moodNum) {
-        this.moodNum = moodNum;
-    }
 }

@@ -10,6 +10,10 @@ import java.util.Locale;
 
 public class CalendarCalculationsUtils {
 
+    public static final long ONE_DAY_MILLIS = 86400000;
+    public static final long ONE_HOUR_MILLIS = 3600000;
+    public static final long ONE_MINUTE_MILLIS = 60000;
+
     public static String dateMillisToString(long milliseconds){
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
@@ -80,5 +84,10 @@ public class CalendarCalculationsUtils {
         calendar.add(Calendar.DAY_OF_MONTH, numOfDaysInMonth-1);
 
         return calendar.getTimeInMillis();
+    }
+
+    public static long addHoursAndMinutesToDate(long dateMillis, int hours, int minutes){
+
+        return dateMillis+(hours*ONE_HOUR_MILLIS)+(minutes*ONE_MINUTE_MILLIS);
     }
 }
