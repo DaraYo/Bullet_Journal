@@ -2,6 +2,9 @@ package com.example.bullet_journal.model;
 
 import com.example.bullet_journal.enums.TaskType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Task {
 
     private String title;
@@ -14,12 +17,15 @@ public class Task {
 
     private TaskType type;
 
+    private List<Reminder> reminders;
+
     public Task(String title, String text, boolean status, long date, TaskType type) {
         this.title = title;
         this.text = text;
         this.status = status;
         this.date = date;
         this.type = type;
+        this.reminders = new ArrayList<>();
     }
 
     public Task() {
@@ -63,5 +69,13 @@ public class Task {
 
     public void setType(TaskType type) {
         this.type = type;
+    }
+
+    public List<Reminder> getReminders() {
+        return reminders;
+    }
+
+    public void setReminders(List<Reminder> reminders) {
+        this.reminders = reminders;
     }
 }

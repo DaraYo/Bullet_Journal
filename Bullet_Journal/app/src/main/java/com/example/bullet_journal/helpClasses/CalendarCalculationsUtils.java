@@ -28,6 +28,13 @@ public class CalendarCalculationsUtils {
         return dateFormat.format(calendar.getTime());
     }
 
+    public static String dateMillisToStringTime(long milliseconds){
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
+        calendar.setTimeInMillis(milliseconds);
+        return dateFormat.format(calendar.getTime());
+    }
+
     public static String calculateWeekDay(long milliseconds){
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliseconds);
@@ -69,7 +76,7 @@ public class CalendarCalculationsUtils {
         return 0;
     }
 
-    public static long getBeginingOfTheMonth(int month, int year){
+    public static long getBeginningOfTheMonth(int month, int year){
         Calendar calendar = Calendar.getInstance();
         int day = 1;
         calendar.set(year, month, day);

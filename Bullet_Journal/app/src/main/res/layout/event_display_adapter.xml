@@ -1,35 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    android:weightSum="10"
-    android:paddingTop="10dp" android:paddingBottom="10dp" >
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="horizontal">
 
-
-
-    <TextView
-        android:id="@+id/event_title"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:id="@+id/task_box"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="10dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:textSize="18dp"
-        android:layout_gravity="center_vertical"
-        android:text="Anything you want here"
-        />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/event_date"
-        android:layout_gravity="center_vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="8"
-        android:textSize="12dp"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="@color/colorAccent"
+                android:text="@string/title_time"/>
+
+            <TextView
+                android:id="@+id/task_time_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:textColor="@color/colorAccent"
+                android:layout_marginLeft="5dp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/task_event_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:textSize="16sp"
+            android:text="Title" />
+
+        <TextView
+            android:id="@+id/task_event_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Text" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="@string/reminders_num"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:layout_marginLeft="5dp"
+                android:text="("/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text="0"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="10sp"
+                android:text=")"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -116,7 +116,7 @@ public class MoodTrackerActivity extends RootActivity {
 
     private void fetchDays(CalendarDay day){
 
-        dayCollectionRef.whereGreaterThan("date", CalendarCalculationsUtils.getBeginingOfTheMonth(day.getMonth()-1, day.getYear()))
+        dayCollectionRef.whereGreaterThan("date", CalendarCalculationsUtils.getBeginningOfTheMonth(day.getMonth()-1, day.getYear()))
                 .whereLessThan("date", CalendarCalculationsUtils.getEndOfTheMonth(day.getMonth()-1, day.getYear())).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

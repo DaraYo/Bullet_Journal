@@ -100,13 +100,14 @@ ma
         android:id="@+id/rating_category_spinner"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></Spinner>
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"></Spinner>
 
     <EditText
         android:id="@+id/rating_title"
         android:layout_width="match_parent"
         android:hint="@string/add_rating_title"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_height="60dp" />
 
     <EditText
@@ -114,7 +115,7 @@ ma
         android:layout_width="match_parent"
         android:gravity="top"
         android:hint="@string/add_rating_text"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:layout_height="100dp" />
 
     <LinearLayout

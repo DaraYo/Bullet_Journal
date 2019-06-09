@@ -8,21 +8,35 @@
     android:layout_margin="15dp">
 
     <LinearLayout
-        android:id="@+id/current_date_layout_2"
+        android:id="@+id/current_date_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="5dp"
+        android:layout_height="86dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
         android:padding="5dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/rounded_bg"
+        android:background="@drawable/date_bg"
         android:orientation="vertical">
 
         <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/day_date_display"
+            android:id="@+id/text_view_date"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:text="@string/title_date" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/day_of_week"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/text_view_date"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textSize="20dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/date_display"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/day_of_week"
             android:layout_weight="2"
             android:gravity="center"
             android:textSize="20dp" />
@@ -33,12 +47,10 @@
         android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
         android:layout_marginTop="5dp"
         android:padding="5dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/rounded_bg"
+        android:background="@color/colorPrimaryLight"
         android:orientation="vertical">
 
         <android.support.v7.widget.AppCompatTextView
@@ -48,7 +60,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
-            android:textSize="20dp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -61,10 +73,8 @@
 
         <ListView
             android:id="@+id/tasks_list_view"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_width="match_parent"
-            android:layout_height="150dp" />
+            android:layout_height="120dp" />
 
     </LinearLayout>
 
@@ -73,12 +83,10 @@
         android:id="@+id/layout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
         android:layout_marginTop="5dp"
         android:padding="5dp"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/rounded_bg"
+        android:background="@color/colorPrimaryLight"
         android:orientation="vertical">
 
         <android.support.v7.widget.AppCompatTextView
@@ -88,7 +96,7 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:gravity="center"
-            android:textSize="20dp" />
+            android:textSize="18sp" />
 
     </LinearLayout>
 
@@ -101,45 +109,24 @@
 
         <ListView
             android:id="@+id/events_list_view"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
             android:layout_width="match_parent"
-            android:layout_height="130dp" />
+            android:layout_height="120dp" />
 
     </LinearLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_gravity="center"
-        >
+        android:layout_gravity="center">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/add_task"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-
             android:layout_margin="@dimen/fab_margin"
             app:backgroundTint="@color/colorPrimaryDark"
             app:srcCompat="@drawable/ic_add_btn_light" />
 
     </LinearLayout>
-
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:gravity="center">-->
-
-        <!--<android.support.design.widget.FloatingActionButton-->
-            <!--android:id="@+id/add_task"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_margin="@dimen/fab_margin"-->
-            <!--app:backgroundTint="@color/colorPrimaryDark"-->
-            <!--app:srcCompat="@drawable/ic_add_btn_light" />-->
-    <!--</LinearLayout>-->
 
 </LinearLayout>

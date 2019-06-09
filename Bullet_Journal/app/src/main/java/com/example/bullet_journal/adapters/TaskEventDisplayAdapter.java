@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.bullet_journal.R;
@@ -36,13 +37,12 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
         if(mode.equals(TaskType.TASK)){
 
             View view = LayoutInflater.from(getContext()).inflate(R.layout.task_display_adapter, parent, false);
-
             final Task taskEventObj = getItem(position);
 
-            TextView taskEventTitle = view.findViewById(R.id.task_event_title);
-            taskEventTitle.setText(taskEventObj.getTitle());
+            buildView(view, taskEventObj);
 
-            taskEventTitle.setOnClickListener(new View.OnClickListener() {
+            LinearLayout taskBox = view.findViewById(R.id.task_box);
+            taskBox.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
@@ -58,25 +58,12 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
         }else if(mode.equals(TaskType.EVENT)){
 
             View view = LayoutInflater.from(getContext()).inflate(R.layout.event_display_adapter, parent, false);
-
             final Task taskEventObj = getItem(position);
 
-            TextView taskEventTitle = view.findViewById(R.id.event_title);
-            taskEventTitle.setText(taskEventObj.getTitle());
+            buildView(view, taskEventObj);
 
-            taskEventTitle.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(context, EventActivity.class);
-                    context.startActivity(intent);
-                }
-            });
-
-            TextView eventDate = view.findViewById(R.id.event_date);
-            eventDate.setText(CalendarCalculationsUtils.dateMillisToString(taskEventObj.getDate()));
-
-            eventDate.setOnClickListener(new View.OnClickListener() {
+            LinearLayout taskBox = view.findViewById(R.id.task_box);
+            taskBox.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
@@ -89,5 +76,17 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
         }
 
         return null;
+    }
+
+    private void buildView(View view, Task taskObj){
+
+        TextView taskEventTime = view.findViewById(R.id.task_time_str);
+        taskEventTime.setText(CalendarCalculationsUtils.dateMillisToStringTime(taskObj.getDate()));
+
+        TextView taskEventTitle = view.findViewById(R.id.task_event_title);
+        taskEventTitle.setText(taskObj.getTitle());
+
+        TextView taskEventText = view.findViewById(R.id.task_event_text);
+        taskEventText.setText(taskObj.getText());
     }
 }

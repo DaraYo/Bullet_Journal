@@ -67,12 +67,16 @@
 
     <!-- Main activity labels -->
     <string name="title_date">Date :</string>
+    <string name="title_time">Time :</string>
+    <string name="for_date">For Date :</string>
+    <string name="select_time">Select Time :</string>
 
     <string name="add_description">Add description...</string>
 
     <!-- Common button labels -->
     <string name="ok_str">Ok</string>
     <string name="cancel_str">Cancel</string>
+    <string name="continue_str">Continue</string>
 
     <!-- Mood tracking -->
     <string name="title_activity_mood_tracker">Mood Tracker</string>
@@ -130,6 +134,14 @@
     <string name="item_name">Name</string>
     <string name="income">INCOME</string>
     <string name="spending">SPENDING</string>
+
+    <!-- Tasks and Events -->
+    <string name="reminders_num" >Reminders</string>
+    <string name="add_reminders" >Reminders?</string>
+    <string name="task_event_title">Add Title...</string>
+    <string name="task_event_description">Add Description...</string>
+    <string name="task_event_type_task">Task</string>
+    <string name="task_event_type_event">Event</string>
 
     <!-- Error and Warning messages -->
     <string name="basic_error">Error occurred</string>
