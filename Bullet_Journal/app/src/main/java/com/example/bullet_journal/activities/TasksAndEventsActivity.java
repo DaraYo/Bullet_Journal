@@ -61,8 +61,8 @@ public class TasksAndEventsActivity extends RootActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         dateDisplay = (TextView) findViewById(R.id.date_display);
-        choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
         dateMillis = CalendarCalculationsUtils.trimTimeFromDateMillis(System.currentTimeMillis());
+        choosenDate = CalendarCalculationsUtils.dateMillisToString(dateMillis);
         dateDisplay.setText(choosenDate);
 
         weekDisplay = (TextView) findViewById(R.id.day_of_week);

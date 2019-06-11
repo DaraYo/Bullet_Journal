@@ -38,7 +38,7 @@ public class NewTaskEventActivity extends RootActivity {
         dateMillis = bundle.getLong("date");
         choosenDate = CalendarCalculationsUtils.dateMillisToString(dateMillis);
 
-        picker = findViewById(R.id.mood_time_picker);
+        picker = findViewById(R.id.task_time_picker);
         picker.setIs24HourView(true);
 
         dropdown = findViewById(R.id.spinner1);
@@ -68,64 +68,32 @@ public class NewTaskEventActivity extends RootActivity {
             }
         });
 
-        Button btn_continue = (Button) findViewById(R.id.btn_save);
-        btn_continue.setOnClickListener(new View.OnClickListener() {
+        Button btn_done = (Button) findViewById(R.id.btn_done);
+        btn_done.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                if (selectedLabel.equals("Event")){
+                finish();
+            }
+        });
+
+        Button btn_reminders = (Button) findViewById(R.id.btn_reminders);
+        btn_reminders.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedLabel.equals("Event")) {
                     Intent intent = new Intent(context, EventActivity.class);
                     startActivity(intent);
-                } else{
+                } else {
                     Intent intent = new Intent(context, TaskActivity.class);
                     startActivity(intent);
                 }
             }
         });
-
-
-
-//        choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
-//        dateDayDisplay.setText(choosenDate);
-//
-//
-//        dateSwitchPannel = (LinearLayout) findViewById(R.id.current_date_layout_2);
-//        dateSwitchPannel.setVisibility(View.GONE);
-//
-//        dateSwitchPanel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Calendar cal = Calendar.getInstance();
-//                int year = cal.get(Calendar.YEAR);
-//                int month = cal.get(Calendar.MONTH);
-//                int day = cal.get(Calendar.DAY_OF_MONTH);
-//
-//                DatePickerDialog dialog = new DatePickerDialog(NewTaskEventActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener,  year, month, day);
-//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                dialog.show();
-//            }
-//        });
-//
-//        onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-//
-//                Date newDate = CalendarCalculationsUtils.convertCalendarDialogDate(day, month+1, year);
-//                DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
-//
-//                choosenDate = targetFormat.format(newDate);
-//                dateDayDisplay.setText(choosenDate);
-//
-//            }
-//        };
-
-
-
     }
 
+}
 
-
-//
 //    private void cancelAlarm() {
 //        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 //        Intent intent = new Intent(this, AlertReceiver.class);
@@ -133,46 +101,3 @@ public class NewTaskEventActivity extends RootActivity {
 //
 //        alarmManager.cancel(pendingIntent);
 //    }
-}
-
-
-//        choosenDate = CalendarCalculationsUtils.setCurrentDate("");
-//        dateDayDisplay.setText(choosenDate);
-//
-//        dateSwitchPannel = (LinearLayout) findViewById(R.id.current_date_layout_2);
-//        dateSwitchPannel.setVisibility(View.GONE);
-//
-//        dateSwitchPannel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Calendar cal = Calendar.getInstance();
-//                int year = cal.get(Calendar.YEAR);
-//                int month = cal.get(Calendar.MONTH);
-//                int day = cal.get(Calendar.DAY_OF_MONTH);
-//
-//                DatePickerDialog dialog = new DatePickerDialog(NewTaskEventActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener, year, month, day);
-//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                dialog.show();
-//            }
-//        });
-//
-//        onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-//                month = month + 1;
-//
-//                DateFormat originalFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
-//                DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
-//
-//                Date date = null;
-//                try {
-//                    date = originalFormat.parse(month + "/" + day + "/" + year);
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                dateChoosen= date;
-//                choosenDate = targetFormat.format(date);
-//                dateDayDisplay.setText(choosenDate);
-//            }
-//        };

@@ -4,73 +4,77 @@
     android:layout_height="wrap_content"
     android:layout_margin="15dp">
 
+
+    <LinearLayout
+        android:id="@+id/current_date_layout"
+        android:layout_width="match_parent"
+        android:layout_height="86dp"
+        android:layout_marginLeft="80dp"
+        android:layout_marginRight="80dp"
+        android:padding="5dp"
+        android:background="@drawable/date_bg"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/text_view_date"
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:text="@string/title_date" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/day_of_week"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/text_view_date"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textSize="20dp" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/date_display"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/day_of_week"
+            android:layout_weight="2"
+            android:gravity="center"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+
     <TextView
-        android:id="@+id/add_mood_dialog_title"
+        android:id="@+id/add_reminder_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Choose time:"
+        android:text="@string/select_time"
         android:background="@color/colorPrimaryLight"
         android:textSize="18dp" />
 
-
     <LinearLayout
-        android:id="@+id/current_date_layout_2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="5dp"
-        android:padding="5dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/rounded_bg"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_height="120dp"
+        android:gravity="center">
 
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/day_date_display"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:textSize="20dp" />
-
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/current_time_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="5dp"
-        android:padding="5dp"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/rounded_bg"
-        android:orientation="vertical">
-
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/day_time_display"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:textSize="20dp" />
+        <TimePicker
+            android:id="@+id/reminder_time_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:timePickerMode="spinner" />
 
     </LinearLayout>
 
-    <TextView android:id="@+id/time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/add_reminder_dialog_description"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/add_description"
-        android:background="@color/colorPrimaryLight"
-        android:layout_marginTop="10dp"
-        android:textSize="18sp" />
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="80dp" />
+        android:layout_height="80dp"
+        android:gravity="top"
+        android:hint="@string/add_rating_title"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="top"
+        android:hint="@string/add_description"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,7 +88,7 @@
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/dialogButtonText"
+            android:background="@drawable/rounded_bg_light"
             android:text="@string/cancel_str"/>
 
         <Button
@@ -92,7 +96,7 @@
             android:layout_margin="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/dialogButtonText"
+            android:background="@drawable/rounded_bg_light"
             android:text="@string/ok_str"/>
 
     </LinearLayout>

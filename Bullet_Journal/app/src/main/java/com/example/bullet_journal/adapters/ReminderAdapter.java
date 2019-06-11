@@ -13,8 +13,6 @@ import com.example.bullet_journal.dialogs.DeleteReminderDialog;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Reminder;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class ReminderAdapter extends ArrayAdapter<Reminder> {
@@ -28,36 +26,27 @@ public class ReminderAdapter extends ArrayAdapter<Reminder> {
     }
 
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.reminder_adapter, parent, false);
 
+        final Reminder reminderObj = getItem(position);
 
-            View view = LayoutInflater.from(getContext()).inflate(R.layout.reminder_adapter, parent, false);
+        TextView reminderTitle = view.findViewById(R.id.reminder);
+        reminderTitle.setText(reminderObj.getName());
 
-            final Reminder reminderObj = getItem(position);
-
-            TextView reminderTitle = view.findViewById(R.id.reminder);
-            reminderTitle.setText(reminderObj.getName());
-
-            view.setOnLongClickListener(new View.OnLongClickListener() {
-                                            public boolean onLongClick(View arg0) {
-                                                final Dialog dialog = new DeleteReminderDialog(context, reminderObj.getName());
-                                                dialog.show();
-                                                return false;
-                                            }
-                                        }
-            );
-
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            public boolean onLongClick(View arg0) {
+                final Dialog dialog = new DeleteReminderDialog(context, reminderObj.getName());
+                dialog.show();
+                return false;
+            }
+        });
 
         TextView reminderDate = view.findViewById(R.id.reminder_time);
-
-            choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
-            DateFormat targetFormat = new SimpleDateFormat("dd MMM HH:mm");
-
-            choosenDate = targetFormat.format(reminderObj.getDate());
-            reminderDate.setText(choosenDate);
+        choosenDate = CalendarCalculationsUtils.dateMillisToStringDateAndTime(System.currentTimeMillis());
+        reminderDate.setText(choosenDate);
 
         return view;
 

@@ -9,7 +9,7 @@ public class Reminder {
     private boolean status;
 
     public Reminder(String name, long date, boolean status) {
-        this.name=name;
+        this.name = name;
         this.date = date;
         this.status = status;
     }

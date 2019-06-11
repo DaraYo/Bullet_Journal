@@ -77,6 +77,10 @@
     <string name="ok_str">Ok</string>
     <string name="cancel_str">Cancel</string>
     <string name="continue_str">Continue</string>
+    <string name="back_str">Back</string>
+    <string name="edit_str">Edit</string>
+    <string name="done_str">Done</string>
+    <string name="save_str">Save</string>
 
     <!-- Mood tracking -->
     <string name="title_activity_mood_tracker">Mood Tracker</string>
@@ -142,6 +146,7 @@
     <string name="task_event_description">Add Description...</string>
     <string name="task_event_type_task">Task</string>
     <string name="task_event_type_event">Event</string>
+    <string name="task_event_done">Done?</string>
 
     <!-- Error and Warning messages -->
     <string name="basic_error">Error occurred</string>

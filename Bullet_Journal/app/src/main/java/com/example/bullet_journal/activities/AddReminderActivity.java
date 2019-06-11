@@ -3,7 +3,6 @@ package com.example.bullet_journal.activities;
 import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
-import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
@@ -21,33 +19,24 @@ import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.helpClasses.AlertReceiver;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
-import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class AddReminderActivity extends RootActivity {
     final Context context = this;
-    private MaterialCalendarView calendarView;
 
     private DatePickerDialog.OnDateSetListener onDateSetListener;
-    private TimePickerDialog.OnTimeSetListener onTimeSetListener;
-    private TextView dateDayDisplay;
+    private TimePicker timePicker;
 
-    private TextView timeDisplay;
-    LinearLayout timeSwitchPannel;
-    LinearLayout dateSwitchPannel;
-    private Spinner dropdown;
+    private TextView dateDisplay;
+    private TextView weekDisplay;
 
-    private Date choosenTime;
-    private Date dateChoosen;
     private String choosenDate = "";
-    private String choosenDate2 = "";
-    private String selectedDate;
+    private long dateMillis;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,137 +45,29 @@ public class AddReminderActivity extends RootActivity {
         getSupportActionBar().setTitle("Reminder");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-//        dateSwitchPannel = (LinearLayout) findViewById(R.id.current_date_layout_2);
-//
-//        dateSwitchPannel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Calendar cal = Calendar.getInstance();
-//                int year = cal.get(Calendar.YEAR);
-//                int month = cal.get(Calendar.MONTH);
-//                int day = cal.get(Calendar.DAY_OF_MONTH);
-//
-//                DatePickerDialog dialog = new DatePickerDialog(AddReminderActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener, year, month, day);
-//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                dialog.show();
-//            }
-//        });
-//
-//        onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-//                month = month + 1;
-//
-//                DateFormat originalFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
-//                DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
-//
-//                Date date = null;
-//                try {
-//                    date = originalFormat.parse(month + "/" + day + "/" + year);
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                dateChoosen= date;
-//                choosenDate = targetFormat.format(date);
-//                dateDayDisplay.setText(choosenDate);
-//            }
-//        };
-//        dateDayDisplay = (TextView) findViewById(R.id.day_date_display);
-//        choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
-//        dateDayDisplay.setText(choosenDate);
-//
-//        LinearLayout dateSwitchPanel = (LinearLayout) findViewById(R.id.current_date_layout);
-//
-//        dateSwitchPanel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                Calendar cal = Calendar.getInstance();
-//                int year = cal.get(Calendar.YEAR);
-//                int month = cal.get(Calendar.MONTH);
-//                int day = cal.get(Calendar.DAY_OF_MONTH);
-//
-//                DatePickerDialog dialog = new DatePickerDialog(AddReminderActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener,  year, month, day);
-//                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                dialog.show();
-//            }
-//        });
-//
-//        onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-//            @Override
-//            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-//
-//                Date newDate = CalendarCalculationsUtils.convertCalendarDialogDate(day, month+1, year);
-//                DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
-//
-//                choosenDate = targetFormat.format(newDate);
-//                dateDayDisplay.setText(choosenDate);
-//
-//            }
-//        };
+        timePicker = findViewById(R.id.reminder_time_picker);
+        timePicker.setIs24HourView(true);
 
-        timeDisplay = (TextView) findViewById(R.id.day_time_display);
-        DateFormat targetFormat = new SimpleDateFormat("HH:mm");
+        dateDisplay = (TextView) findViewById(R.id.date_display);
+        dateMillis = CalendarCalculationsUtils.trimTimeFromDateMillis(System.currentTimeMillis());
+        choosenDate = CalendarCalculationsUtils.dateMillisToString(dateMillis);
+        dateDisplay.setText(choosenDate);
 
-        Date date = null;
-        try {
-            date = targetFormat.parse(00 + ":" + 00);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        weekDisplay = (TextView) findViewById(R.id.day_of_week);
+        weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis()));
 
-        choosenDate2 = targetFormat.format(date);
-        timeDisplay.setText(choosenDate2);
+        LinearLayout dateSwitchPanel = (LinearLayout) findViewById(R.id.current_date_layout);
 
-        timeSwitchPannel = (LinearLayout) findViewById(R.id.current_time_layout);
-        timeSwitchPannel.setOnClickListener(new View.OnClickListener() {
+        dateSwitchPanel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar cal = Calendar.getInstance();
-                int hour = cal.get(Calendar.HOUR_OF_DAY);
-                int minute = cal.get(Calendar.MINUTE);
 
-                TimePickerDialog timePickerDialog = new TimePickerDialog(AddReminderActivity.this, onTimeSetListener, hour, minute, true);
-                timePickerDialog.show();
-            }
-        });
-
-        onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int hour, int minutes) {
-                DateFormat originalFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
-                DateFormat targetFormat = new SimpleDateFormat("HH:mm");
-
-                Date date = null;
-                try {
-                    date = originalFormat.parse(hour + ":" + minutes);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                choosenTime = date;
-                choosenDate2 = targetFormat.format(date);
-                timeDisplay.setText(choosenDate2);
-            }
-        };
-
-
-
-        dateDayDisplay = (TextView) findViewById(R.id.day_date_display);
-        choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
-        dateDayDisplay.setText(choosenDate);
-
-        dateSwitchPannel = (LinearLayout) findViewById(R.id.current_date_layout_2);
-
-        dateSwitchPannel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
                 Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(AddReminderActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener, year, month, day);
+                DatePickerDialog dialog = new DatePickerDialog(AddReminderActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener,  year, month, day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -195,76 +76,23 @@ public class AddReminderActivity extends RootActivity {
         onDateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-
-                DateFormat originalFormat = new SimpleDateFormat("MM/dd/yyyy", Locale.ENGLISH);
+                Date newDate = CalendarCalculationsUtils.convertCalendarDialogDate(day, month+1, year);
+                dateMillis = CalendarCalculationsUtils.trimTimeFromDateMillis(newDate.getTime());
                 DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
 
-                Date date = null;
-                try {
-                    date = originalFormat.parse(month + "/" + day + "/" + year);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-
-                dateChoosen= date;
-                choosenDate = targetFormat.format(date);
-                dateDayDisplay.setText(choosenDate);
+                choosenDate = targetFormat.format(newDate);
+                dateDisplay.setText(choosenDate);
+                weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime()));
             }
         };
-
-//        timeDisplay = (TextView) findViewById(R.id.day_time_display);
-//        DateFormat targetFormat = new SimpleDateFormat("HH:mm");
-//
-//        Date date = null;
-//        try {
-//            date = targetFormat.parse(00 + ":" + 00);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//
-//        choosenDate2 = targetFormat.format(date);
-//        timeDisplay.setText(choosenDate2);
-//
-//        timeSwitchPannel = (LinearLayout) findViewById(R.id.current_time_layout);
-//        timeSwitchPannel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Calendar cal = Calendar.getInstance();
-//                int hour = cal.get(Calendar.HOUR_OF_DAY);
-//                int minute = cal.get(Calendar.MINUTE);
-//
-//                TimePickerDialog timePickerDialog = new TimePickerDialog(AddReminderActivity.this, onTimeSetListener, hour, minute, true);
-////                timePickerDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//                timePickerDialog.show();
-//            }
-//        });
-//
-//        onTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-//            @Override
-//            public void onTimeSet(TimePicker timePicker, int hour, int minutes) {
-//                DateFormat originalFormat = new SimpleDateFormat("HH:mm", Locale.ENGLISH);
-//                DateFormat targetFormat = new SimpleDateFormat("HH:mm");
-//
-//                Date date = null;
-//                try {
-//                    date = originalFormat.parse(hour + ":" + minutes);
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//                choosenTime = date;
-//                choosenDate2 = targetFormat.format(date);
-//                timeDisplay.setText(choosenDate2);
-//            }
-//        };
 
         Button dialogOkBtn = findViewById(R.id.reminder_dialog_btn_ok);
         dialogOkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar c = Calendar.getInstance();
-                c.set(Calendar.HOUR_OF_DAY, choosenTime.getHours());
-                c.set(Calendar.MINUTE, choosenTime.getMinutes());
+                c.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
+                c.set(Calendar.MINUTE, timePicker.getCurrentMinute());
                 c.set(Calendar.SECOND, 0);
                 startAlarm(c);
                 finish();
