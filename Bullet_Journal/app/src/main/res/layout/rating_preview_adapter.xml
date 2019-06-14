@@ -6,9 +6,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         android:padding="7dp"
-        android:weightSum="4"
+        android:weightSum="9"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -18,7 +18,7 @@
             android:gravity="center"
             android:background="@color/colorPrimaryLight"
             android:weightSum="4"
-            android:layout_weight="1">
+            android:layout_weight="2.5">
 
             <TextView
                 android:id="@+id/rating_preview_date"
@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_marginLeft="10dp"
-            android:layout_weight="3">
+            android:layout_weight="5">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -68,6 +68,33 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#ffffff" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="5dp" >
+
+            <ImageButton
+                android:id="@+id/rating_edit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:src="@drawable/ic_edit_btn_light"
+                android:background="@drawable/rounded_bg_light"/>
+
+            <ImageButton
+                android:id="@+id/rating_delete_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_delete_light"
+                android:background="@drawable/rounded_bg_light"/>
 
         </LinearLayout>
 

@@ -119,8 +119,7 @@ public class HabitActivity extends RootActivity {
                 createDialogWithoutDateField().show();
             }
         });
-
-
+        
         calendarView.setSelectedDate(LocalDate.now());
         calendarView.clearSelection();
         calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
