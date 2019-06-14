@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:layout_margin="15dp">
 
-
     <LinearLayout
         android:id="@+id/current_date_layout"
         android:layout_width="match_parent"

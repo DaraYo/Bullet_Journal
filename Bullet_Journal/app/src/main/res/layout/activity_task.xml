@@ -71,6 +71,15 @@
         android:gravity="center"
         android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/reminders_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/reminders_num"
+            android:gravity="center"
+            android:background="@color/colorPrimaryLight"
+            android:textSize="16dp" />
+
         <ListView
             android:id="@+id/task_reminders_list_view"
             android:layout_margin="5dp"

@@ -45,7 +45,6 @@ public class HabitActivity extends RootActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_habit);
-//        setContentView(R.layout.activity_habit_monthly_overview);
         getSupportActionBar().setTitle("Habit Tracker");
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -98,10 +97,11 @@ public class HabitActivity extends RootActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, NewTaskEventActivity.class);
+                Intent intent = new Intent(context, AddReminderActivity.class);
                 startActivity(intent);
             }
         });
+
         ReminderAdapter remAdapter = new ReminderAdapter(this, buildReminders());
         ListView reminderListView = findViewById(R.id.habit_reminders_list_view);
         reminderListView.setAdapter(remAdapter);
