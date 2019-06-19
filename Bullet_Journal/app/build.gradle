@@ -43,6 +43,7 @@ dependencies {
         exclude module: ['exifinterface', 'support-annotations']
     }
     implementation 'com.synnapps:carouselview:0.1.5'
+    implementation 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.1.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

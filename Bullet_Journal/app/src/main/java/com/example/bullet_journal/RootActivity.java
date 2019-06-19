@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.bullet_journal.activities.HabitsActivity;
 import com.example.bullet_journal.activities.SettingsActivity;
 
 /*
@@ -34,8 +33,8 @@ public class RootActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.add_pic: {
-                Intent intent= new Intent(this, SettingsActivity.class);
-                startActivity(intent);
+//                Intent intent= new Intent(this, SettingsActivity.class);
+//                startActivity(intent);
                 return true;
             }
             case android.R.id.home : {

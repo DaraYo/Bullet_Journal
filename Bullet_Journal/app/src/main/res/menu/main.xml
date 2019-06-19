@@ -12,6 +12,18 @@
         android:title="Add picture"
         app:showAsAction="always"
         android:visible="false"/>
+    <item
+        android:id="@+id/delete_pics"
+        android:icon="@drawable/ic_delete_light"
+        android:title="Delete pictures"
+        app:showAsAction="always"
+        android:visible="false"/>
+    <item
+        android:id="@+id/cancel_operation"
+        android:icon="@drawable/ic_close_white_18dp"
+        android:title="Delete pictures"
+        app:showAsAction="always"
+        android:visible="false"/>
     <!--<item-->
         <!--android:id="@+id/action_habits"-->
         <!--android:orderInCategory="100"-->

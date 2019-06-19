@@ -13,6 +13,7 @@
         android:layout_margin="10dp"
         android:columnWidth="100dp"
         android:numColumns="auto_fit"
+        android:drawSelectorOnTop="true"
         android:verticalSpacing="24dp"
         android:horizontalSpacing="10dp"
         android:stretchMode="spacingWidthUniform"
