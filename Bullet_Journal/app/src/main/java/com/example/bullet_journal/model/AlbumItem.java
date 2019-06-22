@@ -2,7 +2,9 @@ package com.example.bullet_journal.model;
 
 import android.net.Uri;
 
-public class AlbumItem {
+import java.io.Serializable;
+
+public class AlbumItem implements Serializable {
     private Uri imageUri;
     private boolean isSelected;
 

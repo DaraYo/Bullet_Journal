@@ -55,7 +55,7 @@ public class AlbumActivity extends RootActivity {
     static final int PICK_IMAGE_MULTIPLE=1;
     static final Integer CAMERA = 0x2;
     static final Integer READ_EXST = 0x3;
-    static final Integer READ_MULTIPLE = 0x3;
+    static final Integer READ_MULTIPLE = 0x4;
 
     private String currentPhotoPath;
     private Uri photo_uri;
@@ -68,6 +68,7 @@ public class AlbumActivity extends RootActivity {
     GridView gridView;
     ImagesDisplayAdapter imagesAdapter;
     private List<AlbumItem> items;
+    private List<AlbumItem> selectedItems= new ArrayList<AlbumItem>();
     private boolean isSelectionMode;
 
     private GridView galleryGrid;
@@ -75,6 +76,7 @@ public class AlbumActivity extends RootActivity {
 
     private MenuItem deleteButton;
     private MenuItem cancelSelection;
+    private int numbOfSelectedItems=0;
 
 
     @Override
@@ -144,7 +146,12 @@ public class AlbumActivity extends RootActivity {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent= new Intent(getApplicationContext(), FullScreenImageViewActivity.class);
+//                intent.putExtra("list", (Serializable) items);
+//                intent.putExtra("selected", position);
+                startActivity(intent);
                 Toast.makeText(getApplicationContext(), "aaaaaaaaaa", Toast.LENGTH_LONG).show();
+
             }
         });
         gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -152,14 +159,25 @@ public class AlbumActivity extends RootActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 items.get(position).setSelected(!items.get(position).isSelected());
                 imagesAdapter.notifyDataSetChanged();
-                for (AlbumItem item: items
-                ) {
-                    if(item.isSelected()){
-                        isSelectionMode=true;
-                        break;
-                    }
-
+                if(items.get(position).isSelected()){
+                    selectedItems.add(items.get(position));
+                }else{
+                    selectedItems.remove(items.get(position));
                 }
+                 if(selectedItems.size()!=0){
+                     isSelectionMode=true;
+                 }
+                 else{
+                     isSelectionMode=false;
+                 }
+//                for (AlbumItem item: items
+//                ) {
+//                    if(item.isSelected()){
+//                        isSelectionMode=true;
+//                        break;
+//                    }
+//
+//                }
                 cancelSelection.setVisible(isSelectionMode);
                 deleteButton.setVisible(isSelectionMode);
                 return true;
@@ -433,12 +451,18 @@ public class AlbumActivity extends RootActivity {
         switch (id) {
             case R.id.delete_pics: {
                 Toast.makeText(context, "brisi brisi suze s' lica", Toast.LENGTH_LONG).show();
+                for (AlbumItem selected: selectedItems
+                     ) {
+                    items.remove(selected);
+                }
+                selectedItems.clear();
 //                Intent intent = new Intent();
 ////                intent.setType("image/*");
 //                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
 ////                intent.setAction(Intent.ACTION_GET_CONTENT);
 //                startActivityForResult(Intent.createChooser(intent,"Select Picture"), PICK_IMAGE_MULTIPLE);
 //                return true;
+                imagesAdapter.notifyDataSetChanged();
             }
             case R.id.cancel_operation: {
                 onBackPressed();
@@ -451,7 +475,7 @@ public class AlbumActivity extends RootActivity {
         items= new ArrayList<AlbumItem>(){
             {
                 add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
-                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), true));
+                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
                 add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
                 add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
             }
