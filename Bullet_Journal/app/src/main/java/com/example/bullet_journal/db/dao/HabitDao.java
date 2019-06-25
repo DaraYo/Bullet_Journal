@@ -7,7 +7,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.bullet_journal.model.Habit;
-import com.example.bullet_journal.model.Mood;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ public interface HabitDao {
     List<Habit> getAllHabitsForDay(Long id);
 
     @Query("SELECT * FROM habit")
-    List<Mood> getAll();
+    List<Habit> getAll();
 
     @Insert
     long insert(Habit habit);

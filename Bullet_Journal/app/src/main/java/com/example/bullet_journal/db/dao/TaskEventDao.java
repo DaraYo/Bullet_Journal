@@ -6,7 +6,6 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.bullet_journal.model.Mood;
 import com.example.bullet_journal.model.Task;
 
 import java.util.List;
@@ -18,13 +17,13 @@ public interface TaskEventDao {
     Task get(Long id);
 
     @Query("SELECT * FROM task_event WHERE day_id=:id AND type='TASK'")
-    List<Mood> getAllTasksForDay(Long id);
+    List<Task> getAllTasksForDay(Long id);
 
     @Query("SELECT * FROM task_event WHERE day_id=:id AND type='EVENT'")
-    List<Mood> getAllEventsForDay(Long id);
+    List<Task> getAllEventsForDay(Long id);
 
     @Query("SELECT * FROM task_event")
-    List<Mood> getAll();
+    List<Task> getAll();
 
     @Insert
     long insert(Task task);
