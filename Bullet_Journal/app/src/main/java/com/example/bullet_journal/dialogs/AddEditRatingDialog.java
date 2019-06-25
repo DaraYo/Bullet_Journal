@@ -3,7 +3,6 @@ package com.example.bullet_journal.dialogs;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -12,6 +11,8 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.adapters.RatingCategoryAdapter;
@@ -129,8 +130,8 @@ public class AddEditRatingDialog extends Dialog {
 
                 if(rating > 0 && selectedCategory != null){
 
-                    Rating newRating = new Rating(ratingsCollectionRef.document().getId(), rating, selectedDate, titleText, ratingText, selectedCategory.getCategory());
-                    ratingsCollectionRef.document(newRating.getId()).set(newRating).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    Rating newRating = new Rating(null, ratingsCollectionRef.document().getId(), rating, selectedDate, null, titleText, ratingText, selectedCategory.getCategory());
+                    ratingsCollectionRef.document(newRating.getFirestoreId()).set(newRating).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){

@@ -2,7 +2,7 @@ package com.example.bullet_journal.decorators;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.res.ResourcesCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.enums.MoodType;

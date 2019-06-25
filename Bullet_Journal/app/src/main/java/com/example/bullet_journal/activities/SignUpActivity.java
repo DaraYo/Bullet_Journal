@@ -3,12 +3,13 @@ package com.example.bullet_journal.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
@@ -86,7 +87,7 @@ public class SignUpActivity extends RootActivity {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    User newUser = new User(firstName, lastName, email, password);
+                    User newUser = new User(null, null, firstName, lastName, email, password);
                     final CollectionReference colRef = FirebaseFirestore.getInstance().collection("Users");
 
                     colRef.document(firebaseAuth.getCurrentUser().getUid()).set(newUser).addOnSuccessListener(

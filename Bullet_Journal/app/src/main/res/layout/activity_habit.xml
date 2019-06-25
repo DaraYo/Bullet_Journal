@@ -43,7 +43,7 @@
         android:orientation="horizontal"
         android:padding="5dp">
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/current_month"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -101,7 +101,7 @@
         android:background="@drawable/rounded_bg"
         android:orientation="horizontal">
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/day_date_display"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -177,7 +177,7 @@
         android:layout_marginLeft="20dp"
         android:gravity="right"
         >
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_reminder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -87,7 +87,7 @@
         <receiver android:name=".helpClasses.AlertReceiver" />
 
         <provider
-            android:name="android.support.v4.content.FileProvider"
+            android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.bullet_journal.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">

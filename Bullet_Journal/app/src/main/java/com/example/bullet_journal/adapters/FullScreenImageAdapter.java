@@ -2,15 +2,15 @@ package com.example.bullet_journal.adapters;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 
-import com.example.bullet_journal.model.AlbumItem;
+import com.example.bullet_journal.helpClasses.AlbumItem;
 import com.example.bullet_journal.predefinedClasses.TouchImageView;
 
 import java.util.ArrayList;

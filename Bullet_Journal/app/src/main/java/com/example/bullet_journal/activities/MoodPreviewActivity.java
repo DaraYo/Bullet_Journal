@@ -1,7 +1,7 @@
 package com.example.bullet_journal.activities;
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.widget.ListView;
 import android.widget.Toast;
 

@@ -93,7 +93,7 @@
         android:layout_marginTop="10dp"
         android:gravity="center">
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_mood"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -101,7 +101,7 @@
             app:backgroundTint="@color/colorPrimaryDark"
             app:srcCompat="@drawable/ic_add_btn_light" />
 
-        <android.support.design.widget.FloatingActionButton
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/show_in_new_mood"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

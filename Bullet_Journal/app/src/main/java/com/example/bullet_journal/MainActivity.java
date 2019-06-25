@@ -7,11 +7,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -19,6 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.bullet_journal.activities.DiaryActivity;
 import com.example.bullet_journal.activities.HabitsActivity;
@@ -30,9 +30,11 @@ import com.example.bullet_journal.activities.SignUpActivity;
 import com.example.bullet_journal.activities.TasksAndEventsActivity;
 import com.example.bullet_journal.activities.WalletActivity;
 import com.example.bullet_journal.adapters.FollowingEventsDisplayAdapter;
+import com.example.bullet_journal.db.DatabaseClient;
 import com.example.bullet_journal.enums.TaskType;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Task;
+import com.google.android.material.navigation.NavigationView;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -50,6 +52,8 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     private FollowingEventsDisplayAdapter eventAdapter;
     private SharedPreferences sharedPreferences;
 
+    private DatabaseClient databaseClient;
+
     private String choosenDate = "";
     private long dateMillis;
 
@@ -66,6 +70,8 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
+        databaseClient = DatabaseClient.getInstance(getApplicationContext());
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -181,19 +187,13 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     public List<Task> buildEvents(String theDate){
         List<Task> retVal = new ArrayList<>();
 
-        Calendar c = Calendar.getInstance();
-
-        Task event1 = new Task("Event 1", "About event 1...", true, c.getTime().getTime(), TaskType.EVENT);
-        c.add(Calendar.HOUR_OF_DAY, 3);
-        Task event2 = new Task("Event 2", "About event 2...", false, c.getTime().getTime(), TaskType.EVENT);
-        c.add(Calendar.MINUTE, 23);
-        Task event3 = new Task("Event 3", "About event 3...", true, c.getTime().getTime(), TaskType.EVENT);
-        c.add(Calendar.HOUR_OF_DAY, 1);
-        Task event4 = new Task("Event 4", "About event 4...", false, c.getTime().getTime(), TaskType.EVENT);
-        Task event5 = new Task("Event 5", "About event 5...", false, c.getTime().getTime(), TaskType.EVENT);
-        c.add(Calendar.HOUR_OF_DAY, 1);
-        Task event6 = new Task("Event 6", "About event 6...", false, c.getTime().getTime(), TaskType.EVENT);
-        Task event7 = new Task("Event 7", "About event 7...", false, c.getTime().getTime(), TaskType.EVENT);
+        Task event1 = new Task(null, null, "Event 1", "About event 1", null, System.currentTimeMillis() + 30000, false, false, TaskType.EVENT);
+        Task event2 = new Task(null, null, "Event 2", "About event 1", null, System.currentTimeMillis() + 50000, false, false, TaskType.EVENT);
+        Task event3 = new Task(null, null, "Event 3", "About event 1", null, System.currentTimeMillis() + 70000, true, false, TaskType.EVENT);
+        Task event4 = new Task(null, null, "Event 4", "About event 1", null, System.currentTimeMillis() + 90000, false, false, TaskType.EVENT);
+        Task event5 = new Task(null, null, "Event 5", "About event 1", null, System.currentTimeMillis() + 120000, false, false, TaskType.EVENT);
+        Task event6 = new Task(null, null, "Event 6", "About event 1", null, System.currentTimeMillis() + 180000, true, false, TaskType.EVENT);
+        Task event7 = new Task(null, null, "Event 7", "About event 1", null, System.currentTimeMillis() + 210000, false, false, TaskType.EVENT);
 
         retVal.add(event1);
         retVal.add(event2);

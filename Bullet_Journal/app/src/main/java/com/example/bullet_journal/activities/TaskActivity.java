@@ -16,7 +16,6 @@ import com.example.bullet_journal.adapters.ReminderAdapter;
 import com.example.bullet_journal.model.Reminder;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class TaskActivity extends RootActivity {
@@ -88,12 +87,12 @@ public class TaskActivity extends RootActivity {
     private List<Reminder> buildReminders(){
         List<Reminder> retVal = new ArrayList<>();
 
-        Reminder r1 = new Reminder("Reminder 1", new Date().getTime(), false);
-        Reminder r2 = new Reminder("Reminder 2", new Date().getTime()+1000, false);
-        Reminder r3 = new Reminder("Reminder 333333", new Date().getTime()+2000, false);
-        Reminder r4 = new Reminder("Reminder 4", new Date().getTime()+3000, false);
-        Reminder r5 = new Reminder("Reminder 5", new Date().getTime()+10000, false);
-        Reminder r6 = new Reminder("Reminder 6", new Date().getTime()+100000, false);
+        Reminder r1 = new Reminder(null, null, "Reminder1", System.currentTimeMillis() + 10000, false, null, null, false);
+        Reminder r2 = new Reminder(null, null, "Reminder2", System.currentTimeMillis() + 20000, false, null, null, false);
+        Reminder r3 = new Reminder(null, null, "Reminder3", System.currentTimeMillis() + 30000, false, null, null, false);
+        Reminder r4 = new Reminder(null, null, "Reminder4", System.currentTimeMillis() + 40000, false, null, null, false);
+        Reminder r5 = new Reminder(null, null, "Reminder5", System.currentTimeMillis() + 50000, false, null, null, false);
+        Reminder r6 = new Reminder(null, null, "Reminder6", System.currentTimeMillis() + 60000, false, null, null, false);
 
         retVal.add(r1);
         retVal.add(r2);

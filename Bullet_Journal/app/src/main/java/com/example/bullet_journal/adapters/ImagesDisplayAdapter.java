@@ -9,7 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import com.example.bullet_journal.R;
-import com.example.bullet_journal.model.AlbumItem;
+import com.example.bullet_journal.helpClasses.AlbumItem;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

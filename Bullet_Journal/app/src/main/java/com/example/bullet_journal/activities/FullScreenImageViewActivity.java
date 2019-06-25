@@ -2,7 +2,7 @@ package com.example.bullet_journal.activities;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
+import androidx.viewpager.widget.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.FullScreenImageAdapter;
-import com.example.bullet_journal.model.AlbumItem;
+import com.example.bullet_journal.helpClasses.AlbumItem;
 
 import java.util.ArrayList;
 

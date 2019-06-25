@@ -1,20 +1,76 @@
 package com.example.bullet_journal.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
 import com.example.bullet_journal.enums.WalletItemType;
 
-public class WalletItem {
+import java.io.Serializable;
 
+@Entity(tableName = "wallet_item", foreignKeys = @ForeignKey(entity = MonthlyBudget.class,
+        parentColumns = "id",
+        childColumns = "wallet_id",
+        onDelete = ForeignKey.CASCADE),
+        indices = {@Index("wallet_id")})
+public class WalletItem implements Serializable {
+
+    @PrimaryKey(autoGenerate = true)
+    private Long id;
+
+    @ColumnInfo(name = "firestore_id")
+    private String firestoreId;
+
+    @ColumnInfo(name = "wallet_id")
+    private Long walletId;
+
+    @ColumnInfo(name = "name")
     private String name;
+
+    @ColumnInfo(name = "amount")
     private Double amount;
+
+    @ColumnInfo(name = "type")
     private WalletItemType type;
 
     public WalletItem() {
     }
 
-    public WalletItem(String name, Double amount, WalletItemType type) {
+    @Ignore
+    public WalletItem(Long id, String firestoreId, Long walletId, String name, Double amount, WalletItemType type) {
+        this.id = id;
+        this.firestoreId = firestoreId;
+        this.walletId = walletId;
         this.name = name;
         this.amount = amount;
         this.type = type;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirestoreId() {
+        return firestoreId;
+    }
+
+    public void setFirestoreId(String firestoreId) {
+        this.firestoreId = firestoreId;
+    }
+
+    public Long getWalletId() {
+        return walletId;
+    }
+
+    public void setWalletId(Long walletId) {
+        this.walletId = walletId;
     }
 
     public String getName() {

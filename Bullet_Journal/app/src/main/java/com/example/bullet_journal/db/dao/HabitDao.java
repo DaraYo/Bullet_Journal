@@ -1,0 +1,35 @@
+package com.example.bullet_journal.db.dao;
+
+import androidx.room.Dao;
+import androidx.room.Delete;
+import androidx.room.Insert;
+import androidx.room.Query;
+import androidx.room.Update;
+
+import com.example.bullet_journal.model.Habit;
+import com.example.bullet_journal.model.Mood;
+
+import java.util.List;
+
+@Dao
+public interface HabitDao {
+
+    @Query("SELECT * FROM habit WHERE id=:id")
+    Habit get(Long id);
+
+    @Query("SELECT * FROM habit WHERE day_id=:id")
+    List<Habit> getAllHabitsForDay(Long id);
+
+    @Query("SELECT * FROM habit")
+    List<Mood> getAll();
+
+    @Insert
+    long insert(Habit habit);
+
+    @Delete
+    void delete(Habit habit);
+
+    @Update
+    void update(Habit habit);
+
+}

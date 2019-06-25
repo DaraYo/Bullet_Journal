@@ -91,9 +91,9 @@ public class HabitsActivity extends RootActivity {
     private List<Habit> buildHabits(){
         List<Habit> retVal = new ArrayList<>();
 
-        Habit habit1 = new Habit("Habbit 1", "About habbit 1...", false);
-        Habit habit2 = new Habit("Habbit 2", "About habbit 2...", true);
-        Habit habit3 = new Habit("Habbit 3", "About habbit 3...", false);
+        Habit habit1 = new Habit(null, null, "Habbit 1", "About habbit 1", null, System.currentTimeMillis(), false, false);
+        Habit habit2 = new Habit(null, null, "Habbit 2", "About habbit 2", null, System.currentTimeMillis(), false, false);
+        Habit habit3 = new Habit(null, null, "Habbit 3", "About habbit 3", null, System.currentTimeMillis(), false, false);
 
         retVal.add(habit1);
         retVal.add(habit2);

@@ -19,7 +19,6 @@ import com.example.bullet_journal.helpClasses.AlertReceiver;
 import com.example.bullet_journal.model.Reminder;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class EventActivity extends RootActivity {
@@ -96,7 +95,7 @@ public class EventActivity extends RootActivity {
     private List<Reminder> buildReminders(){
         List<Reminder> retVal = new ArrayList<>();
 
-        Reminder r1 = new Reminder("Reminder 1", new Date().getTime(), false);
+        Reminder r1 = new Reminder(null, null, "Reminder1", System.currentTimeMillis(), false, null, null, false);
 
         retVal.add(r1);
 

@@ -3,14 +3,15 @@ package com.example.bullet_journal.adapters;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.dialogs.AddEditMoodDialog;
@@ -113,6 +114,7 @@ public class MoodDisplayAdapter extends ArrayAdapter<Mood> {
 
             @Override
             public void onClick(View v) {
+                /*
                 dayRef.collection("Mood").document(moodObj.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -123,6 +125,7 @@ public class MoodDisplayAdapter extends ArrayAdapter<Mood> {
                         }
                     }
                 });
+                */
             }
         });
 
