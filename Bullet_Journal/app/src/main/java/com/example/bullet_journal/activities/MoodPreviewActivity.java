@@ -1,22 +1,15 @@
 package com.example.bullet_journal.activities;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.MoodDisplayAdapter;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.GetMoodsForDayAsyncTask;
 import com.example.bullet_journal.model.Mood;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +22,6 @@ public class MoodPreviewActivity extends RootActivity {
 
     private List<Mood> moods;
 
-    private FirebaseFirestore firestore;
-    private FirebaseAuth fAuth;
-    private CollectionReference moodsCollectionRef;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,38 +32,22 @@ public class MoodPreviewActivity extends RootActivity {
         Bundle bundle = getIntent().getExtras();
         dateMillis = bundle.getLong("date");
 
-        firestore = FirebaseFirestore.getInstance();
-        fAuth = FirebaseAuth.getInstance();
-        final DocumentReference dayRef = firestore.collection("Users").document(fAuth.getCurrentUser().getUid()).collection("Day").document(""+dateMillis);
-        moodsCollectionRef = dayRef.collection("Mood");
-
         moods = new ArrayList<>();
 
         listView = (ListView) findViewById(R.id.moods_preview_list);
-        moodsAdapter = new MoodDisplayAdapter(this, moods, dayRef);
+        moodsAdapter = new MoodDisplayAdapter(this, moods);
         listView.setAdapter(moodsAdapter);
 
-        fetchMoods();
-    }
-
-    private void fetchMoods(){
-        moodsCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        AsyncTask<Long, Void, List<Mood>> getMoodsForDayAsyncTask = new GetMoodsForDayAsyncTask(new AsyncResponse<List<Mood>>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    moods.clear();
-                    if(task.getResult().size() > 0){
-                        for(QueryDocumentSnapshot snapshot : task.getResult()){
-                            Mood tempMood = snapshot.toObject(Mood.class);
-                            moods.add(tempMood);
-                        }
-                        moodsAdapter.notifyDataSetChanged();
-                    }
-
-                }else{
-                    Toast.makeText(MoodPreviewActivity.this, R.string.basic_error, Toast.LENGTH_SHORT).show();
+            public void taskFinished(List<Mood> retVal) {
+                moods.clear();
+                if(retVal != null){
+                    moods.addAll(retVal);
                 }
+                moodsAdapter.notifyDataSetChanged();
             }
-        });
+        }).execute(this.dateMillis);
     }
+
 }

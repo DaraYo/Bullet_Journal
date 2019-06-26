@@ -6,29 +6,35 @@ import com.example.bullet_journal.db.DatabaseClient;
 import com.example.bullet_journal.db.MainDatabase;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Day;
+import com.example.bullet_journal.model.Mood;
 
-public class GetDayAsyncTask extends AsyncTask<Long, Void, Day> {
+import java.util.List;
+
+public class GetMoodsForDayAsyncTask extends AsyncTask<Long, Void, List<Mood>> {
 
     public AsyncResponse delegate = null;
     private MainDatabase database = DatabaseClient.getInstance(null).getDatabase();
 
-    public GetDayAsyncTask(AsyncResponse delegate){
+    public GetMoodsForDayAsyncTask(AsyncResponse delegate){
         this.delegate = delegate;
     }
 
     @Override
-    protected Day doInBackground(Long... longs) {
+    protected List<Mood> doInBackground(Long... longs) {
+
         long timeMillis = longs[0];
-        Day retVal = database.getDayDao().getByDate(CalendarCalculationsUtils.trimTimeFromDateMillis(timeMillis));
-        if( retVal == null){
+        Day dayObj = database.getDayDao().getByDate(CalendarCalculationsUtils.trimTimeFromDateMillis(timeMillis));
+        if( dayObj == null) {
             long id = database.getDayDao().insert(new Day(null, null, null, timeMillis, 0, null, null, false));
-            retVal = database.getDayDao().get(id);
+            dayObj = database.getDayDao().get(id);
         }
-        return retVal;
+
+        return database.getMoodDao().getAllMoodsForDay(dayObj.getId());
     }
 
     @Override
-    protected void onPostExecute(Day day) {
-        delegate.taskFinished(day);
+    protected void onPostExecute(List<Mood> moods) {
+
+        this.delegate.taskFinished(moods);
     }
 }

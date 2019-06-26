@@ -16,7 +16,7 @@ public interface MoodDao {
     @Query("SELECT * FROM mood WHERE id=:id")
     Mood get(Long id);
 
-    @Query("SELECT * FROM mood WHERE day_id=:id")
+    @Query("SELECT * FROM mood WHERE day_id=:id ORDER BY date DESC")
     List<Mood> getAllMoodsForDay(Long id);
 
     @Query("SELECT * FROM mood")

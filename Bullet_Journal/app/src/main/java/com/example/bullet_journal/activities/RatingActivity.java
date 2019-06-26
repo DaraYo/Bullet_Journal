@@ -3,42 +3,32 @@ package com.example.bullet_journal.activities;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.RatingDisplayAdapter;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.GetRatingsAsyncTask;
 import com.example.bullet_journal.dialogs.AddEditRatingDialog;
 import com.example.bullet_journal.enums.RatingCategory;
 import com.example.bullet_journal.model.Rating;
 import com.example.bullet_journal.wrapperClasses.RatingCategoryWrapper;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RatingActivity extends RootActivity {
 
-    final Context context  = this;
+    final Context context = this;
     private long dateMillis;
     private List<Rating> ratings;
 
     RatingDisplayAdapter listAdapter;
-
-    private FirebaseFirestore firestore;
-    private FirebaseAuth fAuth;
-    private CollectionReference ratingsCollectionRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +41,6 @@ public class RatingActivity extends RootActivity {
         listAdapter = new RatingDisplayAdapter(this, ratings);
         ListView listView = findViewById(R.id.ratings_list_view);
         listView.setAdapter(listAdapter);
-
-        firestore = FirebaseFirestore.getInstance();
-        fAuth = FirebaseAuth.getInstance();
-        ratingsCollectionRef = firestore.collection("Users").document(fAuth.getCurrentUser().getUid()).collection("Rating");
 
         Bundle bundle = getIntent().getExtras();
         dateMillis = bundle.getLong("date");
@@ -70,7 +56,6 @@ public class RatingActivity extends RootActivity {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
                         fetchRatings();
-                        listAdapter.notifyDataSetChanged();
                     }
                 });
 
@@ -82,7 +67,7 @@ public class RatingActivity extends RootActivity {
 
     }
 
-    private List<RatingCategoryWrapper> initCategories(){
+    private List<RatingCategoryWrapper> initCategories() {
 
         List<RatingCategoryWrapper> retVal = new ArrayList<>();
 
@@ -99,24 +84,16 @@ public class RatingActivity extends RootActivity {
         return retVal;
     }
 
-    private void fetchRatings(){
-        ratingsCollectionRef.whereEqualTo("date", dateMillis).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    private void fetchRatings() {
+        AsyncTask<Void, Void, List<Rating>> getRatingsAsyncTask = new GetRatingsAsyncTask(new AsyncResponse<List<Rating>>() {
+
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    ratings.clear();
-                    if(task.getResult().size() > 0){
-                        for(QueryDocumentSnapshot snapshot : task.getResult()){
-                            Rating tempRating = snapshot.toObject(Rating.class);
-                            ratings.add(tempRating);
-                        }
-                        listAdapter.notifyDataSetChanged();
-                    }
-                }else{
-                    Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
-                }
+            public void taskFinished(List<Rating> retVal) {
+                ratings.clear();
+                ratings.addAll(retVal);
+                listAdapter.notifyDataSetChanged();
             }
-        });
+        }).execute();
     }
 
 }

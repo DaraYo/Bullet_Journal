@@ -156,6 +156,8 @@
     <!-- Success messages -->
     <string name="mood_saved">Mood saved</string>
     <string name="rating_saved">Rating saved</string>
+    <string name="mood_deleted">Mood Deleted</string>
+    <string name="rating_deleted">Rating Deleted</string>
 
 
 </resources>

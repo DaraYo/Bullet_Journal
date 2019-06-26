@@ -3,38 +3,34 @@ package com.example.bullet_journal.adapters;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.example.bullet_journal.R;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.CalculateNewAverageMoodAsyncTask;
+import com.example.bullet_journal.async.DeleteMoodAsyncTask;
 import com.example.bullet_journal.dialogs.AddEditMoodDialog;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Mood;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
 public class MoodDisplayAdapter extends ArrayAdapter<Mood> {
 
     private Context context;
-    private DocumentReference dayRef;
 
-
-    public MoodDisplayAdapter(Context context, List<Mood> objects, DocumentReference dayRef) {
+    public MoodDisplayAdapter(Context context, List<Mood> objects) {
         super(context, R.layout.mood_preview_adapter, objects);
         this.context = context;
-        this.dayRef = dayRef;
     }
 
     @Override
@@ -100,7 +96,7 @@ public class MoodDisplayAdapter extends ArrayAdapter<Mood> {
                 dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                     @Override
                     public void onDismiss(DialogInterface dialog) {
-                        calculateNewAverage();
+                        calculateNewAverage(moodObj);
                         notifyDataSetChanged();
                     }
                 });
@@ -114,46 +110,36 @@ public class MoodDisplayAdapter extends ArrayAdapter<Mood> {
 
             @Override
             public void onClick(View v) {
-                /*
-                dayRef.collection("Mood").document(moodObj.getId()).delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                AsyncTask<Mood, Void, Boolean> deleteMoodAsyncTask = new DeleteMoodAsyncTask(new AsyncResponse<Boolean>(){
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
+                    public void taskFinished(Boolean retVal) {
+                        if(retVal){
+                            calculateNewAverage(moodObj);
                             remove(moodObj);
-                            calculateNewAverage();
                             notifyDataSetChanged();
+                        }else{
+                            Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
                         }
                     }
-                });
-                */
+                }).execute(moodObj);
             }
         });
 
         return view;
     }
 
-    private void calculateNewAverage(){
-        dayRef.collection("Mood").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    private void calculateNewAverage(Mood moodObj) {
+
+        AsyncTask<Mood, Void, Boolean> calculateNewAverageMoodAsyncTask = new CalculateNewAverageMoodAsyncTask(new AsyncResponse<Boolean>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()){
-                    if(task.getResult().size() > 0){
-                        double sum = 1;
-                        double num = 0;
-
-                        for(QueryDocumentSnapshot snapshot : task.getResult()){
-                            Mood tempMood = snapshot.toObject(Mood.class);
-                            sum = sum*tempMood.getRating();
-                            num++;
-                        }
-
-                        dayRef.update("avgMood", sum/num);
-                    }else{
-                        dayRef.update("avgMood", 0);
-                    }
+            public void taskFinished(Boolean retVal) {
+                if(retVal){
+                    Toast.makeText(context, R.string.mood_deleted, Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        }).execute(moodObj);
     }
 
 }

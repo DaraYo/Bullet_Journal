@@ -22,6 +22,9 @@ public interface DayDao {
     @Query("SELECT * FROM day WHERE date=:date")
     Day getByDate(long date);
 
+    @Query("SELECT * FROM day WHERE date >= :startDate AND date <= :endDate")
+    List<Day> getDaysBetween(long startDate, long endDate);
+
     @Insert
     long insert(Day day);
 

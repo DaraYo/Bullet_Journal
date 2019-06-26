@@ -8,6 +8,7 @@ import com.example.bullet_journal.converters.Converter;
 import com.example.bullet_journal.db.dao.DayDao;
 import com.example.bullet_journal.db.dao.HabitDao;
 import com.example.bullet_journal.db.dao.MoodDao;
+import com.example.bullet_journal.db.dao.RatingDao;
 import com.example.bullet_journal.db.dao.ReminderDao;
 import com.example.bullet_journal.db.dao.TaskEventDao;
 import com.example.bullet_journal.model.Day;
@@ -45,4 +46,6 @@ public abstract class MainDatabase extends RoomDatabase {
     public abstract ReminderDao getReminderDao();
 
     public abstract TaskEventDao getTaskEventDao();
+
+    public abstract RatingDao getRatingDao();
 }
