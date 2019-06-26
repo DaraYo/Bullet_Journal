@@ -14,13 +14,13 @@
         android:background="@drawable/date_bg"
         android:orientation="vertical">
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/text_view_date"
             android:layout_width="match_parent"
             android:layout_height="16dp"
             android:text="@string/title_date" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/day_of_week"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -29,7 +29,7 @@
             android:gravity="center"
             android:textSize="20dp" />
 
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/date_display"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

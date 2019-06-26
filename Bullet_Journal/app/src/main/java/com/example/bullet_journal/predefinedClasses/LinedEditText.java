@@ -6,9 +6,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.util.AttributeSet;
-import android.widget.EditText;
 
-public class LinedEditText extends android.support.v7.widget.AppCompatEditText {
+public class LinedEditText extends androidx.appcompat.widget.AppCompatEditText {
     private Rect mRect;
     private Paint mPaint;
 

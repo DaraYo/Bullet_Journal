@@ -1,16 +1,17 @@
 package com.example.bullet_journal.activities;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.viewpager.widget.ViewPager;
+
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.FullScreenImageAdapter;
+import com.example.bullet_journal.helpClasses.AlbumItem;
 import com.example.bullet_journal.helpClasses.MockupData;
-import com.example.bullet_journal.model.AlbumItem;
 
 import java.util.ArrayList;
 import java.util.Date;

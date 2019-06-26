@@ -2,9 +2,8 @@ package com.example.bullet_journal.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -13,18 +12,19 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+
 import com.example.bullet_journal.R;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.CalculateNewAverageMoodAsyncTask;
+import com.example.bullet_journal.async.GetDayAsyncTask;
+import com.example.bullet_journal.async.InsertMoodAsyncTask;
+import com.example.bullet_journal.async.UpdateMoodAsyncTask;
+import com.example.bullet_journal.db.DatabaseClient;
+import com.example.bullet_journal.db.MainDatabase;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Day;
 import com.example.bullet_journal.model.Mood;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 public class AddEditMoodDialog extends Dialog {
 
@@ -37,10 +37,7 @@ public class AddEditMoodDialog extends Dialog {
     private LinearLayout selectedView;
     private TimePicker picker;
 
-    private FirebaseFirestore firestore;
-    private FirebaseAuth fAuth;
-    private CollectionReference dayCollectionRef;
-    private CollectionReference moodsCollectionRef;
+    private MainDatabase database;
 
     private Day dayObj;
 
@@ -58,9 +55,7 @@ public class AddEditMoodDialog extends Dialog {
 
         setContentView(R.layout.add_mood_dialog);
 
-        firestore = FirebaseFirestore.getInstance();
-        fAuth = FirebaseAuth.getInstance();
-        dayCollectionRef = firestore.collection("Users").document(fAuth.getCurrentUser().getUid()).collection("Day");
+        database = DatabaseClient.getInstance(null).getDatabase();
 
         TextView dateStr = findViewById(R.id.add_mood_dialog_date_str);
         dateStr.setText(CalendarCalculationsUtils.dateMillisToString(selectedDate));
@@ -80,7 +75,13 @@ public class AddEditMoodDialog extends Dialog {
             picker.setCurrentMinute((int) ((moodObj.getDate() / (1000*60)) % 60));
         }
 
-        getDay();
+        AsyncTask<Long, Void, Day> detDayTask = new GetDayAsyncTask(new AsyncResponse<Day>(){
+
+            @Override
+            public void taskFinished(Day retVal) {
+                dayObj = retVal;
+            }
+        }).execute(selectedDate);
 
         Button dialogOkBtn = findViewById(R.id.mood_dialog_btn_ok);
         dialogOkBtn.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +90,6 @@ public class AddEditMoodDialog extends Dialog {
 
                 String description = dialogDescription.getText().toString();
                 long newTime = CalendarCalculationsUtils.addHoursAndMinutesToDate(selectedDate, picker.getCurrentHour(), picker.getCurrentMinute());
-                final boolean isEdit;
 
                 if(selectedMoodVal <= 0 || selectedMoodVal > 5){
                     Toast.makeText(getContext(), R.string.mood_select_mood_warning, Toast.LENGTH_SHORT).show();
@@ -97,26 +97,36 @@ public class AddEditMoodDialog extends Dialog {
                 }
 
                 if(moodObj == null){
-                    isEdit = false;
-                    moodObj = new Mood(moodsCollectionRef.document().getId(), newTime, selectedMoodVal, description);
+                    moodObj = new Mood(null, null, dayObj.getId(), newTime, selectedMoodVal, description, false);
+
+                    AsyncTask<Mood, Void, Boolean> insertMoodAsyncTask = new InsertMoodAsyncTask(new AsyncResponse<Boolean>(){
+
+                        @Override
+                        public void taskFinished(Boolean retVal) {
+                            if(retVal){
+                                calculateNewAverage();
+                            }
+                        }
+                    }).execute(moodObj);
+
                 }else{
-                    isEdit = true;
                     moodObj.setDescription(description);
                     moodObj.setRating(selectedMoodVal);
                     moodObj.setDate(newTime);
+
+                    AsyncTask<Mood, Void, Boolean> insertMoodAsyncTask = new UpdateMoodAsyncTask(new AsyncResponse<Boolean>(){
+
+                        @Override
+                        public void taskFinished(Boolean retVal) {
+                            if(retVal){
+                                calculateNewAverage();
+                            }
+                        }
+                    }).execute(moodObj);
+
                 }
 
-                moodsCollectionRef.document(moodObj.getId()).set(moodObj).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Toast.makeText(context, R.string.rating_saved, Toast.LENGTH_SHORT).show();
-                        }else{
-                            Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
-                        }
-                        calculateNewAverage();
-                    }
-                });
+                Toast.makeText(context, R.string.rating_saved, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -203,53 +213,18 @@ public class AddEditMoodDialog extends Dialog {
         selectedView.setBackground(ContextCompat.getDrawable(context, R.drawable.mood_border));
     }
 
-    private Day getDay(){
-
-        dayCollectionRef.document(""+selectedDate).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                DocumentSnapshot document = task.getResult();
-                if (document.exists()) {
-                    dayObj = document.toObject(Day.class);
-                } else {
-                    initializeDay();
-                }
-
-                moodsCollectionRef = dayCollectionRef.document(""+selectedDate).collection("Mood");
-            }
-        });
-
-        return dayObj;
-    }
-
-    private void initializeDay(){
-        //long selectedDateTrim = CalendarCalculationsUtils.trimTimeFromDateMillis(selectedDate);
-        dayObj = new Day(selectedDate, null);
-
-        dayCollectionRef.document(""+selectedDate).set(dayObj);
-    }
-
     private void calculateNewAverage() {
 
-        moodsCollectionRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        AsyncTask<Mood, Void, Boolean> calculateNewAverageMoodAsyncTask = new CalculateNewAverageMoodAsyncTask(new AsyncResponse<Boolean>() {
             @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.isSuccessful()) {
-                    if (task.getResult().size() > 0) {
-                        double sum = 0;
-                        int num = 0;
-
-                        for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                            Mood tempMood = snapshot.toObject(Mood.class);
-                            sum = sum + tempMood.getRating();
-                            num++;
-                        }
-                        dayObj.setAvgMood(sum/num);
-                        dayCollectionRef.document("" + dayObj.getDate()).set(dayObj);
-                        dismiss();
-                    }
+            public void taskFinished(Boolean retVal) {
+                if(retVal){
+                    Toast.makeText(context, R.string.mood_saved, Toast.LENGTH_SHORT).show();
+                    dismiss();
+                }else{
+                    Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        }).execute(moodObj);
     }
 }

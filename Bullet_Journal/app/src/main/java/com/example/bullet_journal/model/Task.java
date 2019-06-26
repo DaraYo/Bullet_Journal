@@ -1,34 +1,78 @@
 package com.example.bullet_journal.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
 import com.example.bullet_journal.enums.TaskType;
 
-import java.util.ArrayList;
-import java.util.List;
-
+@Entity(tableName = "task_event", foreignKeys = @ForeignKey(entity = Day.class,
+        parentColumns = "id",
+        childColumns = "day_id",
+        onDelete = ForeignKey.CASCADE),
+        indices = {@Index("day_id")})
 public class Task {
 
+    @PrimaryKey(autoGenerate = true)
+    private Long id;
+
+    @ColumnInfo(name = "firestore_id")
+    private String firestoreId;
+
+    @ColumnInfo(name = "title")
     private String title;
 
+    @ColumnInfo(name = "text")
     private String text;
 
-    private boolean status;
+    @ColumnInfo(name = "day_id")
+    private Long dayId;
 
+    @ColumnInfo(name = "date")
     private long date;
 
+    @ColumnInfo(name = "status")
+    private boolean status;
+
+    @ColumnInfo(name = "synced")
+    private boolean synced;
+
+    @ColumnInfo(name = "type")
     private TaskType type;
 
-    private List<Reminder> reminders;
-
-    public Task(String title, String text, boolean status, long date, TaskType type) {
-        this.title = title;
-        this.text = text;
-        this.status = status;
-        this.date = date;
-        this.type = type;
-        this.reminders = new ArrayList<>();
+    public Task() {
     }
 
-    public Task() {
+    @Ignore
+    public Task(Long id, String firestoreId, String title, String text, Long dayId, long date, boolean status, boolean synced, TaskType type) {
+        this.id = id;
+        this.firestoreId = firestoreId;
+        this.title = title;
+        this.text = text;
+        this.dayId = dayId;
+        this.date = date;
+        this.status = status;
+        this.synced = synced;
+        this.type = type;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirestoreId() {
+        return firestoreId;
+    }
+
+    public void setFirestoreId(String firestoreId) {
+        this.firestoreId = firestoreId;
     }
 
     public String getTitle() {
@@ -47,14 +91,6 @@ public class Task {
         this.text = text;
     }
 
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
     public long getDate() {
         return date;
     }
@@ -63,19 +99,35 @@ public class Task {
         this.date = date;
     }
 
+    public Long getDayId() {
+        return dayId;
+    }
+
+    public void setDayId(Long dayId) {
+        this.dayId = dayId;
+    }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public boolean isSynced() {
+        return synced;
+    }
+
+    public void setSynced(boolean synced) {
+        this.synced = synced;
+    }
+
     public TaskType getType() {
         return type;
     }
 
     public void setType(TaskType type) {
         this.type = type;
-    }
-
-    public List<Reminder> getReminders() {
-        return reminders;
-    }
-
-    public void setReminders(List<Reminder> reminders) {
-        this.reminders = reminders;
     }
 }

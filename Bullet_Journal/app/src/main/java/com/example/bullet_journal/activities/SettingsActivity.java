@@ -1,15 +1,12 @@
 package com.example.bullet_journal.activities;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.SwitchPreference;
-import android.support.v7.app.ActionBar;
+import androidx.appcompat.app.ActionBar;
 import android.view.MenuItem;
-import android.widget.Switch;
-import android.widget.Toast;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.helpClasses.PreferencesHelper;

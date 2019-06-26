@@ -1,5 +1,7 @@
 package com.example.bullet_journal.model;
 
+import com.example.bullet_journal.helpClasses.AlbumItem;
+
 import java.util.Date;
 import java.util.List;
 

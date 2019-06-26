@@ -1,4 +1,4 @@
-package com.example.bullet_journal.model;
+package com.example.bullet_journal.helpClasses;
 
 import android.net.Uri;
 

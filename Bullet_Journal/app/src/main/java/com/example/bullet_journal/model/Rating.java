@@ -1,39 +1,76 @@
 package com.example.bullet_journal.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Ignore;
+import androidx.room.Index;
+import androidx.room.PrimaryKey;
+
 import com.example.bullet_journal.enums.RatingCategory;
 
-public class Rating {
+import java.io.Serializable;
 
-    private String id;
+@Entity(tableName = "rating", foreignKeys = @ForeignKey(entity = User.class,
+        parentColumns = "id",
+        childColumns = "user_id",
+        onDelete = ForeignKey.CASCADE),
+        indices = {@Index("user_id")})
+public class Rating implements Serializable {
 
+    @PrimaryKey(autoGenerate = true)
+    private Long id;
+
+    @ColumnInfo(name = "firestore_id")
+    private String firestoreId;
+
+    @ColumnInfo(name = "rating")
     private int rating;
 
+    @ColumnInfo(name = "date")
     private long date;
 
+    @ColumnInfo(name = "user_id")
+    private Long userId;
+
+    @ColumnInfo(name = "title")
     private String title;
 
+    @ColumnInfo(name = "text")
     private String text;
 
+    @ColumnInfo(name = "category")
     private RatingCategory category;
 
     public Rating() {
     }
 
-    public Rating(String id, int rating, long date, String title, String text, RatingCategory category) {
+    @Ignore
+    public Rating(Long id, String firestoreId, int rating, long date, Long userId, String title, String text, RatingCategory category) {
         this.id = id;
+        this.firestoreId = firestoreId;
         this.rating = rating;
         this.date = date;
+        this.userId = userId;
         this.title = title;
         this.text = text;
         this.category = category;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getFirestoreId() {
+        return firestoreId;
+    }
+
+    public void setFirestoreId(String firestoreId) {
+        this.firestoreId = firestoreId;
     }
 
     public int getRating() {
@@ -50,6 +87,14 @@ public class Rating {
 
     public void setDate(long date) {
         this.date = date;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getTitle() {

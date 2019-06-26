@@ -111,9 +111,9 @@ public class TasksAndEventsActivity extends RootActivity {
     private List<Task> buildTasks(){
         List<Task> retVal = new ArrayList<>();
 
-        Task task1 = new Task("Task 1", "About task 1...", false, 0, TaskType.TASK);
-        Task task2 = new Task("Task 2", "About task 2...", true, 0, TaskType.TASK);
-        Task task3 = new Task("Task 3", "About task 3...", false, 0, TaskType.TASK);
+        Task task1 = new Task(null, null, "Task 1", "About task 1", null, System.currentTimeMillis() + 30000, false, false, TaskType.TASK);
+        Task task2 = new Task(null, null, "Task 2", "About task 2", null, System.currentTimeMillis() + 50000, true, false, TaskType.TASK);
+        Task task3 = new Task(null, null, "Task 3", "About task 3", null, System.currentTimeMillis() + 70000, false, false, TaskType.TASK);
 
         retVal.add(task1);
         retVal.add(task2);
@@ -125,13 +125,8 @@ public class TasksAndEventsActivity extends RootActivity {
     private List<Task> buildEvents(){
         List<Task> retVal = new ArrayList<>();
 
-        Calendar cal = Calendar.getInstance(); // creates calendar
-        cal.setTime(new Date()); // sets calendar time/date
-        cal.add(Calendar.HOUR_OF_DAY, 1); // adds one hour
-
-        Task event1 = new Task("Event 1", "About event 1...", true, cal.getTime().getTime(), TaskType.EVENT);
-        cal.add(Calendar.HOUR_OF_DAY, 12); // adds twelve hour
-        Task event2 = new Task("Event 2", "About event 2...", false,  cal.getTime().getTime(), TaskType.EVENT);
+        Task event1 = new Task(null, null, "Event 1", "About event 1", null, System.currentTimeMillis() + 30000, false, false, TaskType.EVENT);
+        Task event2 = new Task(null, null, "Event 1", "About event 1", null, System.currentTimeMillis() + 150000, false, false, TaskType.EVENT);
 
         retVal.add(event1);
         retVal.add(event2);

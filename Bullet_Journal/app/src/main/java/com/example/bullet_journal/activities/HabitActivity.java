@@ -148,7 +148,7 @@ public class HabitActivity extends RootActivity {
     private List<Reminder> buildReminders(){
         List<Reminder> retVal = new ArrayList<>();
 
-        Reminder r1 = new Reminder("Reminder 1", new Date().getTime(), false);
+        Reminder r1 = new Reminder(null, null, "Reminder1", System.currentTimeMillis(), false, null, null, false);
 
         retVal.add(r1);
 
