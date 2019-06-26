@@ -9,6 +9,6 @@
         android:id="@+id/album_image"
         android:layout_width="100dp"
         android:layout_height="120dp"
-        android:scaleType="fitXY"
+        android:scaleType="centerCrop"
         android:layout_gravity="center_horizontal"/>
 </LinearLayout>

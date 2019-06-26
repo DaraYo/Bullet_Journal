@@ -12,12 +12,12 @@ import com.example.bullet_journal.R;
 import com.example.bullet_journal.model.AlbumItem;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
 
 public class ImagesDisplayAdapter extends BaseAdapter {
     Context context;
-//    private List<Uri> listOfImages;
+    //    private List<Uri> listOfImages;
     private List<AlbumItem> listOfImages;
     private LayoutInflater layoutInflater;
     ImageView image;
@@ -47,38 +47,53 @@ public class ImagesDisplayAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        pos = position;
-        List<Integer> selectedPositions = new ArrayList<>();
-        layoutInflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view= layoutInflater.inflate(R.layout.album_item, parent, false);
-        image= (ImageView) view.findViewById(R.id.album_image);
-
-
-//        image.setImageURI(listOfImages.get(position));
+        ImageViewHolder holder;
+        if (convertView == null) { // if convertView is null
+            convertView = layoutInflater.inflate(R.layout.album_item,
+                    parent, false);
+            holder = new ImageViewHolder();
+            // initialize views
+            convertView.setTag(holder);  // set tag on view
+            holder.ImgView = (ImageView) convertView.findViewById(R.id.album_image);
+        } else {
+            holder = (ImageViewHolder) convertView.getTag();
+            // if not null get tag
+            // no need to initialize
+        }
 
         Uri imageSource= this.listOfImages.get(position).getImageUri();
-        if(imageSource.toString().contains("http")){
-            Picasso.get()
-                    .load(imageSource)
-                    .into(image);
-        }
-        else{
-            image.setImageURI(imageSource);
+        if(holder.ImgView.getTag()!=imageSource.toString()){
+            if(imageSource.toString().contains("http")){
+                Picasso.get()
+                        .load(imageSource)
+                        .fit()
+                        .centerCrop()
+                        .into(holder.ImgView);
+            }
+            else{
+
+                Picasso.Builder builder = new Picasso.Builder(context);
+                builder.listener(new Picasso.Listener()
+                {
+                    @Override
+                    public void onImageLoadFailed(Picasso picasso, Uri uri, Exception exception)
+                    {
+                        exception.printStackTrace();
+                    }
+                });
+                builder.build().load(new File(imageSource.toString())).resize(100, 120).into(holder.ImgView);
+            }
+            holder.ImgView.setTag(imageSource.toString());
         }
         if(this.listOfImages.get(position).isSelected()){
-            image.setAlpha(0.5f);
+            holder.ImgView.setAlpha(0.5f);
         }else{
-            image.setAlpha(1f);
+            holder.ImgView.setAlpha(1f);
         }
-//        image.setOnLongClickListener(new View.OnLongClickListener() {
-//            @Override
-//            public boolean onLongClick(View v) {
-////                image.setSelected(true);
-//                Toast.makeText(context, "Ovo je toast za klik na jednu sliku", Toast.LENGTH_LONG).show();
-//                return true;
-//            }
-//        });
-        return view;
+        return convertView;
+    }
+
+    static class ImageViewHolder {
+        ImageView ImgView;
     }
 }

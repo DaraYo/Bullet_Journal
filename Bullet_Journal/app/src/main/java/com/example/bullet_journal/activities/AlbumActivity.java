@@ -33,7 +33,9 @@ import android.widget.Toast;
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.ImagesDisplayAdapter;
+import com.example.bullet_journal.helpClasses.MockupData;
 import com.example.bullet_journal.model.AlbumItem;
+import com.example.bullet_journal.model.Diary;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -76,7 +78,8 @@ public class AlbumActivity extends RootActivity {
 
     private MenuItem deleteButton;
     private MenuItem cancelSelection;
-    private int numbOfSelectedItems=0;
+
+    private Diary diary;
 
 
     @Override
@@ -148,7 +151,8 @@ public class AlbumActivity extends RootActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent= new Intent(getApplicationContext(), FullScreenImageViewActivity.class);
 //                intent.putExtra("list", (Serializable) items);
-//                intent.putExtra("selected", position);
+                intent.putExtra("selected", position);
+                intent.putExtra("date", diary.getDiaryDate().getTime());
                 startActivity(intent);
                 Toast.makeText(getApplicationContext(), "aaaaaaaaaa", Toast.LENGTH_LONG).show();
 
@@ -170,32 +174,22 @@ public class AlbumActivity extends RootActivity {
                  else{
                      isSelectionMode=false;
                  }
-//                for (AlbumItem item: items
-//                ) {
-//                    if(item.isSelected()){
-//                        isSelectionMode=true;
-//                        break;
-//                    }
-//
-//                }
                 cancelSelection.setVisible(isSelectionMode);
                 deleteButton.setVisible(isSelectionMode);
                 return true;
             }
         });
-//        Bundle bundle = new Bundle();
-//        bundle.putParcelableArrayList("images", listOfUris);
-//// set Fragmentclass Arguments
-//        ImagesPreviewFragment fragobj = new ImagesPreviewFragment();
-//        fragobj.setArguments(bundle);
+
+
+
+
+        setResult(Activity.RESULT_OK);
     }
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         deleteButton= menu.findItem(R.id.delete_pics);
         cancelSelection= menu.findItem(R.id.cancel_operation);
-//        deleteButton.setVisible(true);
-
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -296,67 +290,10 @@ public class AlbumActivity extends RootActivity {
         try {
             if (resultCode == RESULT_OK) {
                 switch (requestCode){
-//                    case 1: {
-//                        String[] filePathColumn = { MediaStore.Images.Media.DATA };
-//                        imagesEncodedList = new ArrayList<String>();
-//                        if(data.getData()!=null){
-//
-//                            Uri mImageUri=data.getData();
-//
-//                            // Get the cursor
-//                            Cursor cursor = getContentResolver().query(mImageUri,
-//                                    filePathColumn, null, null, null);
-//                            // Move to first row
-//                            cursor.moveToFirst();
-//
-//                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//                            imageEncoded  = cursor.getString(columnIndex);
-//                            cursor.close();
-//
-//                            ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
-//                            mArrayUri.add(mImageUri);
-//                            imagesDisplayAdapter = new ImagesDisplayAdapter(getApplicationContext(),mArrayUri);
-//                            galleryGrid.setAdapter(imagesDisplayAdapter);
-//                            galleryGrid.setVerticalSpacing(galleryGrid.getHorizontalSpacing());
-//                            ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) galleryGrid
-//                                    .getLayoutParams();
-//                            mlp.setMargins(0, galleryGrid.getHorizontalSpacing(), 0, 0);
-//
-//                        } else {
-//                            if (data.getClipData() != null) {
-//                                ClipData mClipData = data.getClipData();
-//                                ArrayList<Uri> mArrayUri = new ArrayList<Uri>();
-//                                for (int i = 0; i < mClipData.getItemCount(); i++) {
-//
-//                                    ClipData.Item item = mClipData.getItemAt(i);
-//                                    Uri uri = item.getUri();
-//                                    mArrayUri.add(uri);
-//                                    // Get the cursor
-//                                    Cursor cursor = getContentResolver().query(uri, filePathColumn, null, null, null);
-//                                    // Move to first row
-//                                    cursor.moveToFirst();
-//
-//                                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-//                                    imageEncoded  = cursor.getString(columnIndex);
-//                                    imagesEncodedList.add(imageEncoded);
-//                                    cursor.close();
-//                                    imagesDisplayAdapter = new ImagesDisplayAdapter(getApplicationContext(),mArrayUri);
-//                                    galleryGrid.setAdapter(imagesDisplayAdapter);
-//                                    galleryGrid.setVerticalSpacing(galleryGrid.getHorizontalSpacing());
-//                                    ViewGroup.MarginLayoutParams mlp = (ViewGroup.MarginLayoutParams) galleryGrid
-//                                            .getLayoutParams();
-//                                    mlp.setMargins(0, galleryGrid.getHorizontalSpacing(), 0, 0);
-//
-//                                }
-//                                Log.v("LOG_TAG", "Selected Images" + mArrayUri.size());
-//                            }
-//                        }
-//                    }
                     //take a picture
                     case 2: {
                         Bitmap photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photo_uri);
                         String uri=saveToInternalStorage(photo);
-//                        listOfImages.add(Uri.parse(uri));
                         addNewAlbumItem(uri);
                         break;
                     }
@@ -374,7 +311,6 @@ public class AlbumActivity extends RootActivity {
                             Bitmap imgBitmap = BitmapFactory.decodeStream(inputStream);
                             String uri= saveToInternalStorage(imgBitmap);
                             inputStream.close();
-//                            listOfImages.add(Uri.parse(uri));
                             addNewAlbumItem(uri);
                         }catch(FileNotFoundException ex)
                         {
@@ -402,7 +338,6 @@ public class AlbumActivity extends RootActivity {
                                 Bitmap imgBitmap = BitmapFactory.decodeStream(inputStream);
                                 String storageuri= saveToInternalStorage(imgBitmap);
                                 inputStream.close();
-//                                listOfImages.add(Uri.parse(storageuri));
                                 addNewAlbumItem(storageuri);
                             }catch(FileNotFoundException ex)
                             {
@@ -412,6 +347,7 @@ public class AlbumActivity extends RootActivity {
                         }
                     }
                 }
+
             }
 //            }
         } catch (Exception e) {
@@ -432,7 +368,7 @@ public class AlbumActivity extends RootActivity {
         try {
             fos = new FileOutputStream(mypath);
             // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 20, fos);
+            bitmapImage.compress(Bitmap.CompressFormat.JPEG, 5, fos);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -448,20 +384,17 @@ public class AlbumActivity extends RootActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
+        boolean deleted= false;
         switch (id) {
             case R.id.delete_pics: {
-                Toast.makeText(context, "brisi brisi suze s' lica", Toast.LENGTH_LONG).show();
                 for (AlbumItem selected: selectedItems
                      ) {
                     items.remove(selected);
+                    File file = new File(selected.getImageUri().toString());
+                    if(file!=null)
+                        deleted= file.delete();
                 }
                 selectedItems.clear();
-//                Intent intent = new Intent();
-////                intent.setType("image/*");
-//                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-////                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(Intent.createChooser(intent,"Select Picture"), PICK_IMAGE_MULTIPLE);
-//                return true;
                 imagesAdapter.notifyDataSetChanged();
             }
             case R.id.cancel_operation: {
@@ -472,14 +405,23 @@ public class AlbumActivity extends RootActivity {
     }
 
     private void initData(){
-        items= new ArrayList<AlbumItem>(){
-            {
-                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
-                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
-                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
-                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
+        long milis= getIntent().getLongExtra("date", 0);
+        Date date = new Date(milis);
+        diary= MockupData.getDiary(date);
+        items= new ArrayList<AlbumItem>();
+        if(diary!=null && diary.getAlbumItems()!=null){
+            for (AlbumItem item: diary.getAlbumItems()
+                 ) {
+                items.add(item);
             }
-        };
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        diary.setAlbumItems(items);
+        MockupData.updateDate(diary);
     }
 
     @Override
@@ -497,6 +439,7 @@ public class AlbumActivity extends RootActivity {
         }
         else{
             super.onBackPressed();
+
         }
     }
 

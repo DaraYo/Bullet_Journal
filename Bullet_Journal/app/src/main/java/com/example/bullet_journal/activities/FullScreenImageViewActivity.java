@@ -1,6 +1,5 @@
 package com.example.bullet_journal.activities;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
@@ -10,14 +9,17 @@ import android.widget.Toast;
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.FullScreenImageAdapter;
+import com.example.bullet_journal.helpClasses.MockupData;
 import com.example.bullet_journal.model.AlbumItem;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class FullScreenImageViewActivity extends RootActivity {
     ViewPager viewPager;
     private ArrayList<AlbumItem> images;
     private MenuItem deleteButton;
+    private FullScreenImageAdapter fullScreenImageAdapter;
 
 
     @Override
@@ -25,25 +27,17 @@ public class FullScreenImageViewActivity extends RootActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen_image_view);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        initData();
 
-//        ArrayList<AlbumItem> images = (ArrayList<AlbumItem>)getIntent().getSerializableExtra("list");
-//        int position= getIntent().getIntExtra("selected", 0);
+        long milis= getIntent().getLongExtra("date", 0);
+        Date date = new Date(milis);
+        images= (ArrayList<AlbumItem>) MockupData.getDiary(date).getAlbumItems();
+
+        int position= getIntent().getIntExtra("selected", 0);
         viewPager= (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(new FullScreenImageAdapter(this, images));
-        viewPager.setCurrentItem(0);
+        fullScreenImageAdapter= new FullScreenImageAdapter(this, milis);
+        viewPager.setAdapter(fullScreenImageAdapter);
+        viewPager.setCurrentItem(position);
 
-    }
-
-    private void initData(){
-        images= new ArrayList<AlbumItem>(){
-            {
-                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
-                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
-                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
-                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
-            }
-        };
     }
 
     @Override
@@ -59,9 +53,7 @@ public class FullScreenImageViewActivity extends RootActivity {
         int id = item.getItemId();
         switch (id) {
             case R.id.delete_pics: {
-                Toast.makeText(getApplicationContext(), "brisi brisi suze s' lica", Toast.LENGTH_LONG).show();
-//                    items.remove(selected);
-//                imagesAdapter.notifyDataSetChanged();
+                Toast.makeText(getApplicationContext(), "brisi brisi suze s' lica", Toast.LENGTH_LONG).show();;
             }
         }
         return super.onOptionsItemSelected(item);
