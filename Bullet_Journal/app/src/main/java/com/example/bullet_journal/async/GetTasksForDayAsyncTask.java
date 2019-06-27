@@ -29,8 +29,7 @@ public class GetTasksForDayAsyncTask extends AsyncTask<Long, Void, List<Task>> {
             dayObj = database.getDayDao().get(id);
         }
 
-        //return database.getTaskEventDao().getAllTasksForDay(dayObj.getId());
-        return database.getTaskEventDao().getAll();
+        return database.getTaskEventDao().getAllTasksForDay(dayObj.getId());
     }
 
     @Override

@@ -65,6 +65,7 @@ public class TasksAndEventsActivity extends RootActivity {
                 intent.putExtras(bundle);
 
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -105,6 +106,9 @@ public class TasksAndEventsActivity extends RootActivity {
                 choosenDate = targetFormat.format(newDate);
                 dateDisplay.setText(choosenDate);
                 weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime()));
+
+                fetchTasks();
+                fetchEvents();
             }
         };
 
@@ -126,6 +130,7 @@ public class TasksAndEventsActivity extends RootActivity {
         AsyncTask<Long, Void, List<Task>> getTasksForDayAsyncTask = new GetTasksForDayAsyncTask(new AsyncResponse<List<Task>>(){
             @Override
             public void taskFinished(List<Task> retVal) {
+                tasks.clear();
                 tasks.addAll(retVal);
                 taskAdapter.notifyDataSetChanged();
             }
@@ -138,6 +143,7 @@ public class TasksAndEventsActivity extends RootActivity {
         AsyncTask<Long, Void, List<Task>> getEventsForDayAsyncTask = new GetEventsForDayAsyncTask(new AsyncResponse<List<Task>>(){
             @Override
             public void taskFinished(List<Task> retVal) {
+                events.clear();
                 events.addAll(retVal);
                 eventAdapter.notifyDataSetChanged();
             }

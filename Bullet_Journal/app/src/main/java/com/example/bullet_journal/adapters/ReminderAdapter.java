@@ -1,15 +1,14 @@
 package com.example.bullet_journal.adapters;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.bullet_journal.R;
-import com.example.bullet_journal.dialogs.DeleteReminderDialog;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Reminder;
 
@@ -25,7 +24,6 @@ public class ReminderAdapter extends ArrayAdapter<Reminder> {
         this.context = context;
     }
 
-
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
@@ -36,11 +34,12 @@ public class ReminderAdapter extends ArrayAdapter<Reminder> {
         TextView reminderTitle = view.findViewById(R.id.reminder);
         reminderTitle.setText(reminderObj.getName());
 
-        view.setOnLongClickListener(new View.OnLongClickListener() {
-            public boolean onLongClick(View arg0) {
-                final Dialog dialog = new DeleteReminderDialog(context, reminderObj.getName());
-                dialog.show();
-                return false;
+        ImageButton deleteBtn = view.findViewById(R.id.reminder_delete_btn);
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                remove(reminderObj);
+                notifyDataSetChanged();
             }
         });
 

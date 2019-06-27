@@ -109,6 +109,8 @@ public class NewTaskEventActivity extends RootActivity {
 
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(context, TasksAndEventsActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -123,6 +125,8 @@ public class NewTaskEventActivity extends RootActivity {
                     @Override
                     public void taskFinished(Boolean retVal) {
                         if(retVal){
+                            Intent intent = new Intent(context, TasksAndEventsActivity.class);
+                            startActivity(intent);
                             finish();
                         }
                         Toast.makeText(context, R.string.basic_error, Toast.LENGTH_LONG);
@@ -148,23 +152,19 @@ public class NewTaskEventActivity extends RootActivity {
                     taskEventObj.getTaskEvent().setType(getType(selectedLabel));
                 }
 
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("taskEventInfo", taskEventObj);
+
                 if (selectedLabel.equals("Event")) {
                     Intent intent = new Intent(context, EventActivity.class);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("taskEventInfo", taskEventObj);
                     intent.putExtras(bundle);
-
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(context, TaskActivity.class);
-
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("taskEventInfo", taskEventObj);
                     intent.putExtras(bundle);
-
                     startActivity(intent);
                 }
+
                 finish();
             }
         });
