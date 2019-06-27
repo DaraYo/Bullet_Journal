@@ -56,6 +56,10 @@ public class NewTaskEventActivity extends RootActivity {
         description = findViewById(R.id.desc);
 
         selecetdDateTextView = findViewById(R.id.task_event_dialog_date_str);
+        dropdown = findViewById(R.id.spinner1);
+        String[] items = new String[]{"Task", "Event"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
+        dropdown.setAdapter(adapter);
 
         picker = findViewById(R.id.task_time_picker);
         picker.setIs24HourView(true);
@@ -86,13 +90,16 @@ public class NewTaskEventActivity extends RootActivity {
                 description.setText(taskEventObj.getTaskEvent().getText());
                 picker.setCurrentHour((int) ((taskEventObj.getTaskEvent().getDate() / (1000 * 60 * 60)) % 24 + 2));
                 picker.setCurrentMinute((int) ((taskEventObj.getTaskEvent().getDate() / (1000 * 60)) % 60));
+
+                if(taskEventObj.getTaskEvent().getType() == TaskType.TASK){
+                    dropdown.setSelection(0);
+                    selectedLabel = "Task";
+                }else{
+                    dropdown.setSelection(1);
+                    selectedLabel = "Event";
+                }
             }
         }
-
-        dropdown = findViewById(R.id.spinner1);
-        String[] items = new String[]{"Task", "Event"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, items);
-        dropdown.setAdapter(adapter);
 
         dropdown.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -120,6 +127,7 @@ public class NewTaskEventActivity extends RootActivity {
 
             @Override
             public void onClick(View v) {
+                buildWrapper();
 
                 AsyncTask<TaskEventRemindersWrapper, Void, Boolean> insertTaskEventAsyncTask = new InsertTaskEventAsyncTask(new AsyncResponse<Boolean>() {
                     @Override
@@ -139,18 +147,7 @@ public class NewTaskEventActivity extends RootActivity {
         btn_reminders.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                long selectedTime = CalendarCalculationsUtils.addHoursAndMinutesToDate(dayObj.getDate(), picker.getCurrentHour(), picker.getCurrentMinute());
-
-                if (taskEventObj == null) {
-                    Task dataObj = new Task(null, null, title.getText().toString(), description.getText().toString(), dayObj.getId(), selectedTime, false, false, getType(selectedLabel));
-                    taskEventObj = new TaskEventRemindersWrapper(dataObj, new ArrayList<Reminder>());
-                }else{
-                    taskEventObj.getTaskEvent().setTitle(title.getText().toString());
-                    taskEventObj.getTaskEvent().setText(description.getText().toString());
-                    taskEventObj.getTaskEvent().setDate(selectedTime);
-                    taskEventObj.getTaskEvent().setType(getType(selectedLabel));
-                }
+                buildWrapper();
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("taskEventInfo", taskEventObj);
@@ -179,6 +176,20 @@ public class NewTaskEventActivity extends RootActivity {
                 return TaskType.EVENT;
         }
         return null;
+    }
+
+    private void buildWrapper(){
+        long selectedTime = CalendarCalculationsUtils.addHoursAndMinutesToDate(dayObj.getDate(), picker.getCurrentHour(), picker.getCurrentMinute());
+
+        if (taskEventObj == null) {
+            Task dataObj = new Task(null, null, title.getText().toString(), description.getText().toString(), dayObj.getId(), selectedTime, false, false, getType(selectedLabel));
+            taskEventObj = new TaskEventRemindersWrapper(dataObj, new ArrayList<Reminder>());
+        }else{
+            taskEventObj.getTaskEvent().setTitle(title.getText().toString());
+            taskEventObj.getTaskEvent().setText(description.getText().toString());
+            taskEventObj.getTaskEvent().setDate(selectedTime);
+            taskEventObj.getTaskEvent().setType(getType(selectedLabel));
+        }
     }
 
 }

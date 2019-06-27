@@ -1,6 +1,5 @@
 package com.example.bullet_journal.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -93,10 +92,22 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, EventActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("taskEventInfo", new TaskEventRemindersWrapper(taskEventObj, reminders));
+                    bundle.putBoolean("isEdit", true);
+                    intent.putExtras(bundle);
                     context.startActivity(intent);
-                    ((Activity) context).finish();
                 }
             });
+
+            final TextView reminderCount = view.findViewById(R.id.reminder_count);
+
+            AsyncTask<Long, Void, Integer> getRemindersCountForTaskEventAsyncTask = new GetRemindersCountForTaskEventAsyncTask(new AsyncResponse<Integer>(){
+                @Override
+                public void taskFinished(Integer retVal) {
+                    reminderCount.setText(retVal.toString());
+                }
+            }).execute(taskEventObj.getId());
 
             fetchReminders(taskEventObj.getId(), reminders);
 
