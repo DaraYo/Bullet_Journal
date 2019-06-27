@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -16,6 +17,9 @@ import android.widget.TextView;
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.TaskEventDisplayAdapter;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.GetEventsForDayAsyncTask;
+import com.example.bullet_journal.async.GetTasksForDayAsyncTask;
 import com.example.bullet_journal.enums.TaskType;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Task;
@@ -34,8 +38,14 @@ public class TasksAndEventsActivity extends RootActivity {
     private TextView dateDisplay;
     private TextView weekDisplay;
 
+    TaskEventDisplayAdapter taskAdapter;
+    TaskEventDisplayAdapter eventAdapter;
+
     private String choosenDate = "";
     private long dateMillis;
+
+    private List<Task> tasks = new ArrayList<>();
+    private List<Task> events = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,39 +108,39 @@ public class TasksAndEventsActivity extends RootActivity {
             }
         };
 
-        TaskEventDisplayAdapter taskAdapter = new TaskEventDisplayAdapter(this, buildTasks(), TaskType.TASK);
+        taskAdapter = new TaskEventDisplayAdapter(this, tasks, TaskType.TASK);
         ListView tasksListView = findViewById(R.id.tasks_list_view);
         tasksListView.setAdapter(taskAdapter);
 
-        TaskEventDisplayAdapter eventAdapter = new TaskEventDisplayAdapter(this, buildEvents(), TaskType.EVENT);
+        eventAdapter = new TaskEventDisplayAdapter(this, events, TaskType.EVENT);
         ListView eventsListView = findViewById(R.id.events_list_view);
         eventsListView.setAdapter(eventAdapter);
 
+        fetchTasks();
+        fetchEvents();
+
     }
 
-    private List<Task> buildTasks(){
-        List<Task> retVal = new ArrayList<>();
+    private void fetchTasks(){
 
-        Task task1 = new Task(null, null, "Task 1", "About task 1", null, System.currentTimeMillis() + 30000, false, false, TaskType.TASK);
-        Task task2 = new Task(null, null, "Task 2", "About task 2", null, System.currentTimeMillis() + 50000, true, false, TaskType.TASK);
-        Task task3 = new Task(null, null, "Task 3", "About task 3", null, System.currentTimeMillis() + 70000, false, false, TaskType.TASK);
+        AsyncTask<Long, Void, List<Task>> getTasksForDayAsyncTask = new GetTasksForDayAsyncTask(new AsyncResponse<List<Task>>(){
+            @Override
+            public void taskFinished(List<Task> retVal) {
+                tasks.addAll(retVal);
+                taskAdapter.notifyDataSetChanged();
+            }
+        }).execute(dateMillis);
 
-        retVal.add(task1);
-        retVal.add(task2);
-        retVal.add(task3);
-
-        return retVal;
     }
 
-    private List<Task> buildEvents(){
-        List<Task> retVal = new ArrayList<>();
+    private void fetchEvents(){
 
-        Task event1 = new Task(null, null, "Event 1", "About event 1", null, System.currentTimeMillis() + 30000, false, false, TaskType.EVENT);
-        Task event2 = new Task(null, null, "Event 1", "About event 1", null, System.currentTimeMillis() + 150000, false, false, TaskType.EVENT);
-
-        retVal.add(event1);
-        retVal.add(event2);
-
-        return retVal;
+        AsyncTask<Long, Void, List<Task>> getEventsForDayAsyncTask = new GetEventsForDayAsyncTask(new AsyncResponse<List<Task>>(){
+            @Override
+            public void taskFinished(List<Task> retVal) {
+                events.addAll(retVal);
+                eventAdapter.notifyDataSetChanged();
+            }
+        }).execute(dateMillis);
     }
 }

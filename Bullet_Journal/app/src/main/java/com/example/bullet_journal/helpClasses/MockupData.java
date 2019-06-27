@@ -1,7 +1,5 @@
 package com.example.bullet_journal.helpClasses;
 
-import com.example.bullet_journal.model.Diary;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;

@@ -34,7 +34,7 @@ import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.ImagesDisplayAdapter;
 import com.example.bullet_journal.helpClasses.MockupData;
-import com.example.bullet_journal.model.Diary;
+import com.example.bullet_journal.helpClasses.Diary;
 import com.example.bullet_journal.helpClasses.AlbumItem;
 
 import java.io.File;

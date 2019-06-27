@@ -2,6 +2,7 @@ package com.example.bullet_journal.dialogs;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,18 +13,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.adapters.RatingCategoryAdapter;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.InsertRatingAsyncTask;
+import com.example.bullet_journal.async.UpdateRatingAsyncTask;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Rating;
 import com.example.bullet_journal.wrapperClasses.RatingCategoryWrapper;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.List;
 
@@ -48,9 +45,11 @@ public class AddEditRatingDialog extends Dialog {
     private List<RatingCategoryWrapper> categories;
     private RatingCategoryAdapter categoryAdapter;
 
+    /*
     private FirebaseFirestore firestore;
     private FirebaseAuth fAuth;
     private CollectionReference ratingsCollectionRef;
+    */
 
     public AddEditRatingDialog(Context context, long selectedDate, Rating ratingObj, List<RatingCategoryWrapper> categories) {
         super(context);
@@ -69,12 +68,14 @@ public class AddEditRatingDialog extends Dialog {
         TextView dateStr = findViewById(R.id.rating_dialog_date_str);
         dateStr.setText(CalendarCalculationsUtils.dateMillisToString(selectedDate));
 
-        firestore = FirebaseFirestore.getInstance();
-        fAuth = FirebaseAuth.getInstance();
-        ratingsCollectionRef = firestore.collection("Users").document(fAuth.getCurrentUser().getUid()).collection("Rating");
-
         title = (EditText) findViewById(R.id.rating_text);
         review = (EditText) findViewById(R.id.rating_text);
+
+        if(ratingObj != null){
+            title.setText(ratingObj.getTitle());
+            review.setText(ratingObj.getText());
+            resolveSelection(ratingObj.getRating());
+        }
 
         ratingBtn1 = findViewById(R.id.add_rating_1);
         ratingBtn1.setOnClickListener(new View.OnClickListener(){
@@ -128,22 +129,38 @@ public class AddEditRatingDialog extends Dialog {
                 final String titleText = title.getText().toString();
                 final String ratingText = review.getText().toString();
 
-                if(rating > 0 && selectedCategory != null){
+                if(ratingObj == null){
+                    ratingObj = new Rating(null, null, rating, selectedDate, null, titleText, ratingText, selectedCategory.getCategory(), false);
 
-                    Rating newRating = new Rating(null, ratingsCollectionRef.document().getId(), rating, selectedDate, null, titleText, ratingText, selectedCategory.getCategory());
-                    ratingsCollectionRef.document(newRating.getFirestoreId()).set(newRating).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    AsyncTask<Rating, Void, Boolean> insertRatingAsyncTask = new InsertRatingAsyncTask(new AsyncResponse<Boolean>(){
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
+                        public void taskFinished(Boolean retVal) {
+                            if(retVal){
                                 Toast.makeText(context, R.string.rating_saved, Toast.LENGTH_SHORT).show();
                             }else{
                                 Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
                             }
                             dismiss();
                         }
-                    });
+                    }).execute(ratingObj);
+
                 }else{
-                    Toast.makeText(context, R.string.rating_select_mood_warning, Toast.LENGTH_SHORT).show();
+                    ratingObj.setTitle(titleText);
+                    ratingObj.setTitle(titleText);
+                    ratingObj.setCategory(selectedCategory.getCategory());
+                    ratingObj.setRating(rating);
+
+                    AsyncTask<Rating, Void, Boolean> updateRatingAsyncTask = new UpdateRatingAsyncTask(new AsyncResponse<Boolean>(){
+                        @Override
+                        public void taskFinished(Boolean retVal) {
+                            if(retVal){
+                                Toast.makeText(context, R.string.rating_saved, Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
+                            }
+                            dismiss();
+                        }
+                    }).execute(ratingObj);
                 }
             }
         });

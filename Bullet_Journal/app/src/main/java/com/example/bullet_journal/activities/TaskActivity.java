@@ -6,17 +6,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.ReminderAdapter;
-import com.example.bullet_journal.model.Reminder;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
+import com.example.bullet_journal.wrapperClasses.TaskEventRemindersWrapper;
 
 public class TaskActivity extends RootActivity {
 
@@ -25,9 +25,12 @@ public class TaskActivity extends RootActivity {
     private Button btn_back;
     private Button btn_edit;
     private Button btn_save;
-    private EditText titleET;
-    private EditText descET;
 
+    private EditText title;
+    private EditText description;
+    private CheckBox statusCheck;
+
+    private TaskEventRemindersWrapper taskEventObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,17 +41,43 @@ public class TaskActivity extends RootActivity {
 
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
+        Bundle bundle = getIntent().getExtras();
+        if(bundle.containsKey("taskEventInfo")){
+            if(bundle.getSerializable("taskEventInfo") instanceof TaskEventRemindersWrapper){
+                taskEventObj = (TaskEventRemindersWrapper) bundle.getSerializable("taskEventInfo");
+            }
+        }
+
+        if(taskEventObj == null){
+            Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT);
+            finish();
+        }
+
+        title = findViewById(R.id.title);
+        description = findViewById(R.id.desc);
+        statusCheck = findViewById(R.id.task_status);
+
+        title.setText(taskEventObj.getTaskEvent().getTitle());
+        description.setText(taskEventObj.getTaskEvent().getText());
+        statusCheck.setChecked(taskEventObj.getTaskEvent().isStatus());
+
         final ImageButton showDialogBtn = (ImageButton) findViewById(R.id.add_reminder);
         showDialogBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AddReminderActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("taskEventInfo", taskEventObj);
+                bundle.putInt("mode", 1);
+                intent.putExtras(bundle);
                 startActivity(intent);
+
+                finish();
             }
         });
 
-        ReminderAdapter remAdapter = new ReminderAdapter(this, buildReminders());
+        ReminderAdapter remAdapter = new ReminderAdapter(this, this.taskEventObj.getReminders());
         ListView reminderListView = findViewById(R.id.task_reminders_list_view);
         reminderListView.setAdapter(remAdapter);
 
@@ -60,14 +89,21 @@ public class TaskActivity extends RootActivity {
 
             @Override
             public void onClick(View v) {
-                titleET.setEnabled(!titleET.isEnabled());
-                descET.setEnabled(!descET.isEnabled());
+                title.setEnabled(!title.isEnabled());
+                description.setEnabled(!description.isEnabled());
             }
         });
 
         btn_save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                taskEventObj.getTaskEvent().setTitle(title.getText().toString());
+                taskEventObj.getTaskEvent().setText(description.getText().toString());
+                taskEventObj.getTaskEvent().setStatus(statusCheck.isChecked());
+
+                Intent intent = returnToPreviousPanel();
+                startActivity(intent);
                 finish();
             }
         });
@@ -75,32 +111,24 @@ public class TaskActivity extends RootActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Intent intent = returnToPreviousPanel();
+                startActivity(intent);
                 finish();
             }
         });
 
-        titleET = (EditText) findViewById(R.id.title);
-        descET = (EditText) findViewById(R.id.desc);
-
     }
 
-    private List<Reminder> buildReminders(){
-        List<Reminder> retVal = new ArrayList<>();
+    private Intent returnToPreviousPanel(){
+        Intent intent = new Intent(context, NewTaskEventActivity.class);
 
-        Reminder r1 = new Reminder(null, null, "Reminder1", System.currentTimeMillis() + 10000, false, null, null, false);
-        Reminder r2 = new Reminder(null, null, "Reminder2", System.currentTimeMillis() + 20000, false, null, null, false);
-        Reminder r3 = new Reminder(null, null, "Reminder3", System.currentTimeMillis() + 30000, false, null, null, false);
-        Reminder r4 = new Reminder(null, null, "Reminder4", System.currentTimeMillis() + 40000, false, null, null, false);
-        Reminder r5 = new Reminder(null, null, "Reminder5", System.currentTimeMillis() + 50000, false, null, null, false);
-        Reminder r6 = new Reminder(null, null, "Reminder6", System.currentTimeMillis() + 60000, false, null, null, false);
+        Bundle bundle = new Bundle();
+        bundle.putLong("date", CalendarCalculationsUtils.trimTimeFromDateMillis(taskEventObj.getTaskEvent().getDate()));
+        bundle.putSerializable("taskEventInfo", taskEventObj);
+        intent.putExtras(bundle);
 
-        retVal.add(r1);
-        retVal.add(r2);
-        retVal.add(r3);
-        retVal.add(r4);
-        retVal.add(r5);
-        retVal.add(r6);
-
-        return retVal;
+        return intent;
     }
+
 }

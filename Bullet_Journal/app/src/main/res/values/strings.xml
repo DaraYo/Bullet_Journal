@@ -141,6 +141,7 @@
 
     <!-- Tasks and Events -->
     <string name="reminders_num">Reminders</string>
+    <string name="reminder_str">Reminder</string>
     <string name="add_reminders">Reminders?</string>
     <string name="task_event_title">Add Title...</string>
     <string name="task_event_description">Add Description...</string>
@@ -152,6 +153,7 @@
     <string name="basic_error">Error occurred</string>
     <string name="mood_select_mood_warning">Please select mood</string>
     <string name="rating_select_mood_warning">Please select rating and category</string>
+    <string name="selected_date_missing_error">Selected date missing</string>
 
     <!-- Success messages -->
     <string name="mood_saved">Mood saved</string>

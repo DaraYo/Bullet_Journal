@@ -45,7 +45,7 @@ public class ReminderAdapter extends ArrayAdapter<Reminder> {
         });
 
         TextView reminderDate = view.findViewById(R.id.reminder_time);
-        choosenDate = CalendarCalculationsUtils.dateMillisToStringDateAndTime(System.currentTimeMillis());
+        choosenDate = CalendarCalculationsUtils.dateMillisToStringDateAndTime(reminderObj.getDate());
         reminderDate.setText(choosenDate);
 
         return view;

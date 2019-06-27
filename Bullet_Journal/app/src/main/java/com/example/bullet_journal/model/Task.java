@@ -9,12 +9,14 @@ import androidx.room.PrimaryKey;
 
 import com.example.bullet_journal.enums.TaskType;
 
+import java.io.Serializable;
+
 @Entity(tableName = "task_event", foreignKeys = @ForeignKey(entity = Day.class,
         parentColumns = "id",
         childColumns = "day_id",
         onDelete = ForeignKey.CASCADE),
         indices = {@Index("day_id")})
-public class Task {
+public class Task implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private Long id;

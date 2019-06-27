@@ -46,7 +46,7 @@ import com.example.bullet_journal.R;
 import com.example.bullet_journal.helpClasses.AlbumItem;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.helpClasses.MockupData;
-import com.example.bullet_journal.model.Diary;
+import com.example.bullet_journal.helpClasses.Diary;
 import com.example.bullet_journal.predefinedClasses.CustomAppBarLayoutBehavior;
 import com.example.bullet_journal.predefinedClasses.LinedEditText;
 import com.google.android.material.appbar.AppBarLayout;

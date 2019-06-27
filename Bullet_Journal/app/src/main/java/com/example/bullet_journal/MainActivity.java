@@ -149,30 +149,38 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         if (id == R.id.nav_tracker) {
             Intent intent= new Intent(this, MoodTrackerActivity.class);
             startActivity(intent);
+
         } else if (id == R.id.nav_diary) {
             Intent intent= new Intent(this, DiaryActivity.class);
             startActivity(intent);
+
         } else if (id == R.id.nav_ratings) {
             Intent intent= new Intent(this, RatingActivity.class);
             Bundle bundle = new Bundle();
             bundle.putLong("date", dateMillis);
             intent.putExtras(bundle);
             startActivity(intent);
+
         } else if (id == R.id.nav_tasks) {
             Intent intent= new Intent(this, TasksAndEventsActivity.class);
             startActivity(intent);
+
         } else if (id == R.id.nav_habbits) {
             Intent intent= new Intent(this, HabitsActivity.class);
             startActivity(intent);
+
         } else if (id == R.id.nav_spendings) {
             Intent intent= new Intent(this, WalletActivity.class);
             startActivity(intent);
+
         } else if (id == R.id.nav_manage) {
             Intent intent= new Intent(this, SettingsActivity.class);
             startActivity(intent);
+
         }else if (id == R.id.nav_login) {
             Intent intent= new Intent(this, LoginActivity.class);
             startActivity(intent);
+
         } else if (id == R.id.nav_signup) {
             Intent intent= new Intent(this, SignUpActivity.class);
             startActivity(intent);

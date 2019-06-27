@@ -42,11 +42,14 @@ public class Rating implements Serializable {
     @ColumnInfo(name = "category")
     private RatingCategory category;
 
+    @ColumnInfo(name = "synced")
+    private boolean synced;
+
     public Rating() {
     }
 
     @Ignore
-    public Rating(Long id, String firestoreId, int rating, long date, Long userId, String title, String text, RatingCategory category) {
+    public Rating(Long id, String firestoreId, int rating, long date, Long userId, String title, String text, RatingCategory category, boolean synced) {
         this.id = id;
         this.firestoreId = firestoreId;
         this.rating = rating;
@@ -55,6 +58,7 @@ public class Rating implements Serializable {
         this.title = title;
         this.text = text;
         this.category = category;
+        this.synced = synced;
     }
 
     public Long getId() {
@@ -119,5 +123,13 @@ public class Rating implements Serializable {
 
     public void setCategory(RatingCategory category) {
         this.category = category;
+    }
+
+    public boolean isSynced() {
+        return synced;
+    }
+
+    public void setSynced(boolean synced) {
+        this.synced = synced;
     }
 }
