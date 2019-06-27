@@ -117,6 +117,8 @@ public class TaskActivity extends RootActivity {
                         @Override
                         public void taskFinished(Boolean retVal) {
                             if(retVal){
+                                Intent intent = new Intent(context, TasksAndEventsActivity.class);
+                                startActivity(intent);
                                 finish();
                             }else{
                                 Toast.makeText(getApplicationContext(), R.string.basic_error, Toast.LENGTH_SHORT);
