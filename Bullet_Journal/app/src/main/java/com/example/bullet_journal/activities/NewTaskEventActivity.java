@@ -154,6 +154,7 @@ public class NewTaskEventActivity extends RootActivity {
 
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("taskEventInfo", taskEventObj);
+                bundle.putBoolean("isEdit", false);
 
                 if (selectedLabel.equals("Event")) {
                     Intent intent = new Intent(context, EventActivity.class);

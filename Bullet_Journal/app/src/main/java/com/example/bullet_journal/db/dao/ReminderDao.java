@@ -16,7 +16,7 @@ public interface ReminderDao {
     @Query("SELECT * FROM reminder WHERE id=:id")
     Reminder get(Long id);
 
-    @Query("SELECT * FROM reminder WHERE task_id=:id")
+    @Query("SELECT * FROM reminder WHERE task_id=:id ORDER BY date")
     List<Reminder> getAllRemindersForTask(Long id);
 
     @Query("SELECT COUNT(*) FROM reminder WHERE task_id=:id")

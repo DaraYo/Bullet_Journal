@@ -2,6 +2,7 @@ package com.example.bullet_journal.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -15,6 +16,8 @@ import android.widget.Toast;
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.ReminderAdapter;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.EditTaskEventAsyncTask;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.wrapperClasses.TaskEventRemindersWrapper;
 
@@ -31,6 +34,7 @@ public class TaskActivity extends RootActivity {
     private CheckBox statusCheck;
 
     private TaskEventRemindersWrapper taskEventObj;
+    private boolean isEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,8 @@ public class TaskActivity extends RootActivity {
                 taskEventObj = (TaskEventRemindersWrapper) bundle.getSerializable("taskEventInfo");
             }
         }
+
+        isEdit = bundle.getBoolean("isEdit");
 
         if(taskEventObj == null){
             Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT);
@@ -66,10 +72,13 @@ public class TaskActivity extends RootActivity {
 
             @Override
             public void onClick(View v) {
+                bindChanges();
+
                 Intent intent = new Intent(context, AddReminderActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("taskEventInfo", taskEventObj);
                 bundle.putInt("mode", 1);
+                bundle.putBoolean("isEdit", isEdit);
                 intent.putExtras(bundle);
                 startActivity(intent);
 
@@ -98,22 +107,36 @@ public class TaskActivity extends RootActivity {
             @Override
             public void onClick(View v) {
 
-                taskEventObj.getTaskEvent().setTitle(title.getText().toString());
-                taskEventObj.getTaskEvent().setText(description.getText().toString());
-                taskEventObj.getTaskEvent().setStatus(statusCheck.isChecked());
+                bindChanges();
 
-                Intent intent = returnToPreviousPanel();
-                startActivity(intent);
-                finish();
+                if(!isEdit){
+                    Intent intent = returnToPreviousPanel();
+                    startActivity(intent);
+                }else{
+                    AsyncTask<TaskEventRemindersWrapper, Void, Boolean> editTaskEventAsyncTask = new EditTaskEventAsyncTask(new AsyncResponse<Boolean>(){
+                        @Override
+                        public void taskFinished(Boolean retVal) {
+                            if(retVal){
+                                finish();
+                            }else{
+                                Toast.makeText(getApplicationContext(), R.string.basic_error, Toast.LENGTH_SHORT);
+                            }
+                        }
+                    }).execute(taskEventObj);
+                }
             }
         });
 
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent intent = returnToPreviousPanel();
-                startActivity(intent);
+                if(!isEdit){
+                    Intent intent = returnToPreviousPanel();
+                    startActivity(intent);
+                }else{
+                    Intent intent = new Intent(context, TasksAndEventsActivity.class);
+                    startActivity(intent);
+                }
                 finish();
             }
         });
@@ -129,6 +152,12 @@ public class TaskActivity extends RootActivity {
         intent.putExtras(bundle);
 
         return intent;
+    }
+
+    private void bindChanges(){
+        taskEventObj.getTaskEvent().setTitle(title.getText().toString());
+        taskEventObj.getTaskEvent().setText(description.getText().toString());
+        taskEventObj.getTaskEvent().setStatus(statusCheck.isChecked());
     }
 
 }

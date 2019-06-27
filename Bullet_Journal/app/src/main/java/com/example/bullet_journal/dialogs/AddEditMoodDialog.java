@@ -71,7 +71,7 @@ public class AddEditMoodDialog extends Dialog {
             dialogDescription.setHint(R.string.edit_mood_dialog_description);
             dialogDescription.setText(moodObj.getDescription());
             resolveSelection(moodObj.getRating());
-            picker.setCurrentHour((int) ((moodObj.getDate() / (1000*60*60)) % 24));
+            picker.setCurrentHour((int) ((moodObj.getDate() / (1000*60*60)) % 24 + 2));
             picker.setCurrentMinute((int) ((moodObj.getDate() / (1000*60)) % 60));
         }
 

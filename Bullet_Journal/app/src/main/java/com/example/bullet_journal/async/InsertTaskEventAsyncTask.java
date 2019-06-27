@@ -23,7 +23,6 @@ public class InsertTaskEventAsyncTask extends AsyncTask<TaskEventRemindersWrappe
     protected Boolean doInBackground(TaskEventRemindersWrapper... taskEventRemindersWrappers) {
 
         try{
-
             Task taskEvent = taskEventRemindersWrappers[0].getTaskEvent();
             ArrayList<Reminder> reminders = taskEventRemindersWrappers[0].getReminders();
 

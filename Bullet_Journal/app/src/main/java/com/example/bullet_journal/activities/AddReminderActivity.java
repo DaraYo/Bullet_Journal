@@ -45,6 +45,7 @@ public class AddReminderActivity extends RootActivity {
     /* Da znamo za sta se kreira Reminder : Task => 1, Event => 2, Habit => 3 */
     private int mode;
     private TaskEventRemindersWrapper taskEventObj;
+    private boolean isEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,8 @@ public class AddReminderActivity extends RootActivity {
             Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT);
             finish();
         }
+
+        isEdit = bundle.getBoolean("isEdit");
 
         if (bundle.containsKey("taskEventInfo")) {
             if(bundle.getSerializable("taskEventInfo") instanceof TaskEventRemindersWrapper){
@@ -160,6 +163,7 @@ public class AddReminderActivity extends RootActivity {
                     taskEventObj.getReminders().add(reminder);
                 }
                 bundle.putSerializable("taskEventInfo", taskEventObj);
+                bundle.putBoolean("isEdit", isEdit);
 
                 Intent intent = new Intent(context, TaskActivity.class);
                 intent.putExtras(bundle);
@@ -170,6 +174,7 @@ public class AddReminderActivity extends RootActivity {
                     taskEventObj.getReminders().add(reminder);
                 }
                 bundle.putSerializable("taskEventInfo", taskEventObj);
+                bundle.putBoolean("isEdit", isEdit);
 
                 Intent intent = new Intent(context, EventActivity.class);
                 intent.putExtras(bundle);

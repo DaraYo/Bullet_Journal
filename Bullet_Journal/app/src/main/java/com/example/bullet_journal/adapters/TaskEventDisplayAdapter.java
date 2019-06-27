@@ -1,8 +1,10 @@
 package com.example.bullet_journal.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +18,14 @@ import com.example.bullet_journal.activities.EventActivity;
 import com.example.bullet_journal.activities.TaskActivity;
 import com.example.bullet_journal.async.AsyncResponse;
 import com.example.bullet_journal.async.GetRemindersCountForTaskEventAsyncTask;
+import com.example.bullet_journal.async.GetRemindersForTaskEventAsyncTask;
 import com.example.bullet_journal.enums.TaskType;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
+import com.example.bullet_journal.model.Reminder;
 import com.example.bullet_journal.model.Task;
+import com.example.bullet_journal.wrapperClasses.TaskEventRemindersWrapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
@@ -36,6 +42,7 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
+        final ArrayList<Reminder> reminders = new ArrayList<>();
 
         if(mode.equals(TaskType.TASK)){
 
@@ -50,6 +57,10 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, TaskActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("taskEventInfo", new TaskEventRemindersWrapper(taskEventObj, reminders));
+                    bundle.putBoolean("isEdit", true);
+                    intent.putExtras(bundle);
                     context.startActivity(intent);
                 }
             });
@@ -66,6 +77,8 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
                 }
             }).execute(taskEventObj.getId());
 
+            fetchReminders(taskEventObj.getId(), reminders);
+
             return view;
         }else if(mode.equals(TaskType.EVENT)){
 
@@ -81,8 +94,11 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
                 public void onClick(View v) {
                     Intent intent = new Intent(context, EventActivity.class);
                     context.startActivity(intent);
+                    ((Activity) context).finish();
                 }
             });
+
+            fetchReminders(taskEventObj.getId(), reminders);
 
             return view;
         }
@@ -100,6 +116,18 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
 
         TextView taskEventText = view.findViewById(R.id.task_event_text);
         taskEventText.setText(taskObj.getText());
+    }
+
+    private void fetchReminders(Long taskId, final ArrayList<Reminder> reminders){
+
+        AsyncTask<Long, Void, List<Reminder>> getRemindersForTaskEventAsyncTask = new GetRemindersForTaskEventAsyncTask(new AsyncResponse<List<Reminder>>() {
+            @Override
+            public void taskFinished(List<Reminder> retVal) {
+                reminders.clear();
+                reminders.addAll(retVal);
+            }
+        }).execute(taskId);
+
     }
 
 }
