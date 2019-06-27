@@ -33,7 +33,7 @@ import com.example.bullet_journal.model.WalletItem;
         Task.class,
         Habit.class,
         Reminder.class
-}, version = 3)
+}, version = 4)
 @TypeConverters({Converter.class})
 public abstract class MainDatabase extends RoomDatabase {
 

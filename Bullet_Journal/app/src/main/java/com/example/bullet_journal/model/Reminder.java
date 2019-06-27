@@ -10,11 +10,11 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 
 @Entity(tableName = "reminder", foreignKeys = {
-        @ForeignKey(entity = Day.class,
+        @ForeignKey(entity = Habit.class,
                 parentColumns = "id",
                 childColumns = "habit_id",
                 onDelete = ForeignKey.CASCADE),
-        @ForeignKey(entity = Day.class,
+        @ForeignKey(entity = Task.class,
                 parentColumns = "id",
                 childColumns = "task_id",
                 onDelete = ForeignKey.CASCADE)

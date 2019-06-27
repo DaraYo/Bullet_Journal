@@ -134,7 +134,7 @@ public class MoodDisplayAdapter extends ArrayAdapter<Mood> {
             @Override
             public void taskFinished(Boolean retVal) {
                 if(retVal){
-                    Toast.makeText(context, R.string.mood_deleted, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, R.string.mood_saved, Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
                 }
