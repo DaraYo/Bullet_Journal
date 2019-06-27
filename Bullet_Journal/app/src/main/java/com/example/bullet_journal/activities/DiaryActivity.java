@@ -16,6 +16,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -43,10 +44,14 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.bullet_journal.R;
-import com.example.bullet_journal.helpClasses.AlbumItem;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.GetDayAsyncTask;
+import com.example.bullet_journal.async.GetDiaryImagesAsyncTask;
+import com.example.bullet_journal.async.InsertDiaryImageAsyncTask;
+import com.example.bullet_journal.async.UpdateDayAsyncTask;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
-import com.example.bullet_journal.helpClasses.MockupData;
-import com.example.bullet_journal.helpClasses.Diary;
+import com.example.bullet_journal.model.Day;
+import com.example.bullet_journal.model.DiaryImage;
 import com.example.bullet_journal.predefinedClasses.CustomAppBarLayoutBehavior;
 import com.example.bullet_journal.predefinedClasses.LinedEditText;
 import com.google.android.material.appbar.AppBarLayout;
@@ -86,10 +91,8 @@ public class DiaryActivity extends AppCompatActivity {
     private CarouselView carouselView;
     private ImageView buttonDone;
 
-    private ArrayList<Uri> listOfImages = new ArrayList<Uri>();
-
     private String choosenDate = "";
-    private int dayNum = 6;
+    private long choosenDateLong;
     private String textContent;
     private String title = "Diary";
 
@@ -100,7 +103,8 @@ public class DiaryActivity extends AppCompatActivity {
     static final Integer ALBUM_RESULT = 0x5;
 
     private Uri photo_uri;
-    private Diary diary;
+    private Day day;
+    private List<DiaryImage> images = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,7 +126,7 @@ public class DiaryActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, AlbumActivity.class);
-                intent.putExtra("date", diary.getDiaryDate().getTime());
+                intent.putExtra("dayId", day.getId());
                 startActivityForResult(intent, ALBUM_RESULT);
             }
         });
@@ -134,7 +138,7 @@ public class DiaryActivity extends AppCompatActivity {
 
         choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
         dateDisplay.setText(choosenDate);
-        dayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis())); //+" "+choosenDate);
+        dayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis()));
 
         buttonDone = findViewById(R.id.diary_submit);
         buttonDone.setOnClickListener(new View.OnClickListener() {
@@ -157,8 +161,6 @@ public class DiaryActivity extends AppCompatActivity {
         dateSwitchPannel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
@@ -181,18 +183,18 @@ public class DiaryActivity extends AppCompatActivity {
                 dayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime()));//+" "+choosenDate);
                 dateDisplay.setText(choosenDate);
 
-                reLoadData(newDate);
+                reLoadData(newDate.getTime());
             }
         };
 
         carouselView = (CarouselView) findViewById(R.id.carouselView);
-        carouselView.setPageCount(listOfImages.size());
+        carouselView.setPageCount(images.size());
         carouselView.setImageListener(new ImageListener() {
             @Override
             public void setImageForPosition(int position, ImageView imageView) {
-                if (listOfImages.size() > 0) {
+                if (images.size() > 0) {
                     imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    Picasso.get().load(Uri.fromFile(new File(listOfImages.get(position).toString()))).into(imageView);
+                    Picasso.get().load(Uri.fromFile(new File(images.get(position).getPath()))).into(imageView);
                 }
             }
         });
@@ -229,7 +231,7 @@ public class DiaryActivity extends AppCompatActivity {
         });
 
         //*************************************//
-        reLoadData(Calendar.getInstance().getTime());
+        reLoadData(Calendar.getInstance().getTimeInMillis());
 
     }
 
@@ -325,16 +327,10 @@ public class DiaryActivity extends AppCompatActivity {
                             }
                             case 1: {
                                 if (checkPermission(Manifest.permission.READ_EXTERNAL_STORAGE)) {
-//                                    innerIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                                    startActivityForResult(innerIntent, READ_EXST);
                                     innerIntent = new Intent();
                                     innerIntent.setType("image/*");
                                     innerIntent.setAction(Intent.ACTION_GET_CONTENT);
                                     startActivityForResult(Intent.createChooser(innerIntent, "Select Picture"), READ_EXST);
-
-//                                    innerIntent = new Intent(Intent.ACTION_GET_CONTENT); //ACTION_PICK
-//                                    innerIntent.addCategory(Intent.CATEGORY_OPENABLE);
-//                                    innerIntent.setType("image/*");
                                 } else {
                                     askPermission(Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXST);
                                 }
@@ -398,14 +394,12 @@ public class DiaryActivity extends AppCompatActivity {
                 //read multiple images from storage
                 case 4:
                     intent = new Intent(Intent.ACTION_GET_CONTENT);
-//                    intent.addCategory(Intent.CATEGORY_OPENABLE);
                     intent.setType("image/*");
                     intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                     startActivityForResult(Intent.createChooser(intent, "Select Pictures"), READ_MULTIPLE);
                     break;
 
             }
-//            Toast.makeText(this, "Permission granted", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "We need permission", Toast.LENGTH_SHORT).show();
         }
@@ -425,12 +419,9 @@ public class DiaryActivity extends AppCompatActivity {
 
                     //take a picture
                     case 2: {
-//                        Bitmap photo = (Bitmap) data.getExtras().get("data");
                         Bitmap photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photo_uri);
                         String uri = saveToInternalStorage(photo);
-                        listOfImages.add(Uri.parse(uri));
-                        carouselView.setPageCount(listOfImages.size());
-//                        imageView.setImageBitmap(photo);
+                        insertDiaryImage(uri);
                         break;
                     }
 
@@ -447,8 +438,7 @@ public class DiaryActivity extends AppCompatActivity {
                             Bitmap imgBitmap = BitmapFactory.decodeStream(inputStream);
                             String uri = saveToInternalStorage(imgBitmap);
                             inputStream.close();
-                            listOfImages.add(Uri.parse(uri));
-                            carouselView.setPageCount(listOfImages.size());
+                            insertDiaryImage(uri);
                         } catch (FileNotFoundException ex) {
                         } catch (IOException ex) {
                         }
@@ -473,8 +463,7 @@ public class DiaryActivity extends AppCompatActivity {
                                 Bitmap imgBitmap = BitmapFactory.decodeStream(inputStream);
                                 String storageuri = saveToInternalStorage(imgBitmap);
                                 inputStream.close();
-                                listOfImages.add(Uri.parse(storageuri));
-                                carouselView.setPageCount(listOfImages.size());
+                                insertDiaryImage(storageuri);
                             } catch (FileNotFoundException ex) {
                             } catch (IOException ex) {
                             }
@@ -482,15 +471,14 @@ public class DiaryActivity extends AppCompatActivity {
                         break;
                     }
                     case 5: {
-                        if (diary != null)
-                            reLoadData(diary.getDiaryDate());
+                        if (day != null)
+                            reLoadData(day.getDate());
                         break;
                     }
-
                     // Set the image in ImageView
 //                    imageView.setImageURI(selectedImageUri);
                 }
-                if (listOfImages.size() > 0) {
+                if (images.size() > 0) {
                     carouselView.setIndicatorVisibility(View.VISIBLE);
                 }
             }
@@ -568,41 +556,56 @@ public class DiaryActivity extends AppCompatActivity {
         saveData();
     }
 
-    private void reLoadData(Date date) {
-        diary = MockupData.getDiary(date);
-        if (diary == null) {
-            diary = new Diary();
-            diary.setDiaryDate(date);
-        }
-        diaryTitle.setText(diary.getTitle());
-        diaryContent.setText(diary.getThoughts());
-        if (diary.getAlbumItems() != null && diary.getAlbumItems().size() > 0) {
-            listOfImages = new ArrayList<>();
-            for (AlbumItem item :
-                    diary.getAlbumItems()) {
-                listOfImages.add(item.getImageUri());
-            }
-            carouselView.setPageCount(listOfImages.size());
-            carouselView.setIndicatorVisibility(View.VISIBLE);
-        } else {
-            listOfImages = new ArrayList<>();
-            carouselView.setPageCount(1);
-            carouselView.setIndicatorVisibility(View.INVISIBLE);
-        }
+    private void insertDiaryImage(String path){
+        DiaryImage newImg= new DiaryImage(null, null, path, day.getId(), false);
+        AsyncTask<DiaryImage, Void, DiaryImage> insertImageTask = new InsertDiaryImageAsyncTask(new AsyncResponse<DiaryImage>(){
 
+            @Override
+            public void taskFinished(DiaryImage addedImg) {
+
+                images.add(addedImg);
+                carouselView.setPageCount(images.size());
+            }
+        }).execute(newImg);
+    }
+
+    private void reLoadData(final long date) {
+        choosenDateLong = CalendarCalculationsUtils.trimTimeFromDateMillis(date);
+        AsyncTask<Long, Void, Day> getDayTask= new GetDayAsyncTask(new AsyncResponse<Day>() {
+            @Override
+            public void taskFinished(Day retVal) {
+                day = retVal;
+                diaryContent.setText(day.getDiaryInput());
+                AsyncTask<Long, Void, List<DiaryImage>> getImagesTask = new GetDiaryImagesAsyncTask(new AsyncResponse<List<DiaryImage>>(){
+
+                    @Override
+                    public void taskFinished(List<DiaryImage> retVal) {
+                        images= retVal;
+                        if (images != null && images.size() > 0) {
+
+                            carouselView.setPageCount(images.size());
+                            carouselView.setIndicatorVisibility(View.VISIBLE);
+                        } else {
+                            images = new ArrayList<>();
+                            carouselView.setPageCount(1);
+                            carouselView.setIndicatorVisibility(View.INVISIBLE);
+                        }
+                    }
+                }).execute(day.getId());
+            }
+        }).execute(choosenDateLong);
     }
 
     private void saveData() {
-        diary.setThoughts(diaryContent.getText().toString());
-        diary.setTitle(diaryTitle.getText().toString());
-        List<AlbumItem> albumItems = new ArrayList<>();
-        for (Uri uri :
-                listOfImages) {
-            AlbumItem item = new AlbumItem(uri, false);
-            albumItems.add(item);
-        }
-        diary.setAlbumItems(albumItems);
+        day.setDiaryInput(diaryContent.getText().toString());
+        day.setDate(choosenDateLong);
 
-        MockupData.updateDate(diary);
+        AsyncTask<Day, Void, Boolean> updateDayTask = new UpdateDayAsyncTask(new AsyncResponse<Boolean>(){
+
+            @Override
+            public void taskFinished(Boolean retVal) {
+                Toast.makeText(getBaseContext(), retVal ? "Success" : "Fail", Toast.LENGTH_LONG).show();
+            }
+        }).execute(day);
     }
 }

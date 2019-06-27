@@ -1,25 +1,25 @@
 package com.example.bullet_journal.activities;
 
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.FullScreenImageAdapter;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.GetDiaryImagesAsyncTask;
 import com.example.bullet_journal.helpClasses.AlbumItem;
-import com.example.bullet_journal.helpClasses.MockupData;
+import com.example.bullet_journal.model.DiaryImage;
 
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.List;
 
 public class FullScreenImageViewActivity extends RootActivity {
     ViewPager viewPager;
     private ArrayList<AlbumItem> images;
-    private MenuItem deleteButton;
     private FullScreenImageAdapter fullScreenImageAdapter;
 
 
@@ -27,36 +27,31 @@ public class FullScreenImageViewActivity extends RootActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen_image_view);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        long milis= getIntent().getLongExtra("date", 0);
-        Date date = new Date(milis);
-        images= (ArrayList<AlbumItem>) MockupData.getDiary(date).getAlbumItems();
+        long dayId= getIntent().getLongExtra("dayId", 0);
 
         int position= getIntent().getIntExtra("selected", 0);
         viewPager= (ViewPager) findViewById(R.id.pager);
-        fullScreenImageAdapter= new FullScreenImageAdapter(this, milis);
-        viewPager.setAdapter(fullScreenImageAdapter);
-        viewPager.setCurrentItem(position);
+        initData(dayId, position);
 
     }
 
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        deleteButton= menu.findItem(R.id.delete_pics);
-        deleteButton.setVisible(true);
+    private void initData(long dayId, final int position){
+        AsyncTask<Long, Void, List<DiaryImage>> getImagesTask = new GetDiaryImagesAsyncTask(new AsyncResponse<List<DiaryImage>>(){
 
-        return super.onPrepareOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.delete_pics: {
-                Toast.makeText(getApplicationContext(), "brisi brisi suze s' lica", Toast.LENGTH_LONG).show();;
+            @Override
+            public void taskFinished(List<DiaryImage> retVal) {
+                images = new ArrayList<AlbumItem>();
+                if(retVal!=null){
+                    for (DiaryImage item: retVal
+                    ) {
+                        images.add(new AlbumItem(Uri.parse(item.getPath()), false, item.getId()));
+                    }
+                    fullScreenImageAdapter= new FullScreenImageAdapter(getBaseContext(), images);
+                    viewPager.setAdapter(fullScreenImageAdapter);
+                    viewPager.setCurrentItem(position);
+                }
             }
-        }
-        return super.onOptionsItemSelected(item);
+        }).execute(dayId);
     }
 }

@@ -17,12 +17,9 @@ import java.util.List;
 
 public class ImagesDisplayAdapter extends BaseAdapter {
     Context context;
-    //    private List<Uri> listOfImages;
+
     private List<AlbumItem> listOfImages;
     private LayoutInflater layoutInflater;
-    ImageView image;
-
-    private int pos;
 
     public ImagesDisplayAdapter(Context context, List<AlbumItem> images){// List<Uri> images) {
         this.listOfImages= images;

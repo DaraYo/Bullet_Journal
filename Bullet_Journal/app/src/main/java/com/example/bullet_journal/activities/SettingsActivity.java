@@ -5,8 +5,9 @@ import android.preference.ListPreference;
 import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.SwitchPreference;
-import androidx.appcompat.app.ActionBar;
 import android.view.MenuItem;
+
+import androidx.appcompat.app.ActionBar;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.helpClasses.PreferencesHelper;
@@ -23,12 +24,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
-//        getFragmentManager().beginTransaction().replace(android.R.id.content,
-//        new MyPreferenceFragment()).commit();
-//        new NotificationPreferenceFragment()).commit();
+
         getListView().setPadding(0,0,0,0);
         setupActionBar();
-//        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
 
         languageSwitch= (ListPreference)findPreference(this.getResources().getString((R.string.language_setting_key)));
         languageSwitch.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -53,11 +51,10 @@ public class SettingsActivity extends AppCompatPreferenceActivity{
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 HashSet<String> selectedItems= (HashSet<String>)newValue;
+                PreferencesHelper.saveMenuItems(getApplicationContext(), selectedItems);
                 return true;
             }
         });
-
-
 }
 
     /**
@@ -80,40 +77,4 @@ public class SettingsActivity extends AppCompatPreferenceActivity{
         }
         return super.onOptionsItemSelected(item);
     }
-
-
-//    public static class NotificationPreferenceFragment extends PreferenceFragment{
-//        @Override
-//        public void onCreate(Bundle savedInstanceState) {
-//            super.onCreate(savedInstanceState);
-//            addPreferencesFromResource(R.xml.preferences);
-//            setHasOptionsMenu(true);
-//
-//            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-//            // to their values. When their values change, their summaries are
-//            // updated to reflect the new value, per the Android Design
-//            // guidelines.
-////            bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
-//        }
-//
-//        @Override
-//        public boolean onOptionsItemSelected(MenuItem item) {
-//            int id = item.getItemId();
-//            if (id == android.R.id.home) {
-//                startActivity(new Intent(getActivity(), SettingsActivity.class));
-//                return true;
-//            }
-//            return super.onOptionsItemSelected(item);
-//        }
-//    }
-
-//    public static class MyPreferenceFragment extends PreferenceFragment{
-//        @Override
-//        public void onCreate(Bundle savedInstanceState) {
-//            super.onCreate(savedInstanceState);
-//
-//            // Load the preferences from an XML resource
-//            addPreferencesFromResource(R.xml.preferences);
-//        }
-//    }
 }

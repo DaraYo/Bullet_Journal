@@ -7,13 +7,13 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -33,6 +33,7 @@ import com.example.bullet_journal.adapters.FollowingEventsDisplayAdapter;
 import com.example.bullet_journal.db.DatabaseClient;
 import com.example.bullet_journal.enums.TaskType;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
+import com.example.bullet_journal.helpClasses.PreferencesHelper;
 import com.example.bullet_journal.model.Task;
 import com.google.android.material.navigation.NavigationView;
 
@@ -42,6 +43,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class MainActivity extends RootActivity implements NavigationView.OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
@@ -56,6 +58,8 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
     private String choosenDate = "";
     private long dateMillis;
+
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +77,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
         databaseClient = DatabaseClient.getInstance(getApplicationContext());
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         dateDisplay = (TextView) findViewById(R.id.date_display_1);
@@ -126,7 +130,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
         setupSharedPreferences();
 
-
+        hideDrawerMenu();
 
     }
 
@@ -221,6 +225,37 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-        Toast.makeText(getApplicationContext(), "Promenjena podesavanja", Toast.LENGTH_LONG).show();
+//        Toast.makeText(getApplicationContext(), "Promenjena podesavanja", Toast.LENGTH_LONG).show();
+        hideDrawerMenu();
+    }
+
+    private void hideDrawerMenu(){
+        Menu nav_Menu = navigationView.getMenu();
+        Set<String> items = PreferencesHelper.getMenuItems(this);
+        String[] defaultItems = getResources().getStringArray(R.array.pref_options_values);
+
+        for (String item: defaultItems) {
+            boolean visibility = items.contains(item);
+            nav_Menu.findItem(getMenuId(item)).setVisible(visibility);
+        }
+    }
+
+    private int getMenuId(String item){
+        switch (item){
+            case "mood_tracker":
+                return R.id.nav_tracker;
+            case "diary":
+                return R.id.nav_diary;
+            case "ratings":
+                return R.id.nav_ratings;
+            case "tasks":
+                return R.id.nav_tasks;
+            case "habbits":
+                return R.id.nav_habbits;
+            case "spendings":
+                return R.id.nav_spendings;
+            default:
+                return  -1;
+        }
     }
 }

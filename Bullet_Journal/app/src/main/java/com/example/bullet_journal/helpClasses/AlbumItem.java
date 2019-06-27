@@ -7,6 +7,7 @@ import java.io.Serializable;
 public class AlbumItem implements Serializable {
     private Uri imageUri;
     private boolean isSelected;
+    private long id;
 
     public void setImageUri(Uri imageUri) {
         this.imageUri = imageUri;
@@ -24,8 +25,17 @@ public class AlbumItem implements Serializable {
         return isSelected;
     }
 
-    public AlbumItem(Uri imageUri, boolean isSelected) {
+    public AlbumItem(Uri imageUri, boolean isSelected, long id) {
         this.imageUri = imageUri;
         this.isSelected = isSelected;
+        this.id= id;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

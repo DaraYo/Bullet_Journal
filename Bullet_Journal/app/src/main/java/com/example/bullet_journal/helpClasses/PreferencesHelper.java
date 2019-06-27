@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 
 import com.example.bullet_journal.R;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class PreferencesHelper {
@@ -58,5 +59,16 @@ public class PreferencesHelper {
         editor.commit();
     }
 
+    public static Set<String> getMenuItems(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        Set<String> emptySet = new HashSet<>();
+        return sharedPreferences.getStringSet(context.getString(R.string.options_setting_key), emptySet);
+    }
 
+    public static void saveMenuItems(Context context, Set<String> val){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor= sharedPreferences.edit();
+        editor.putStringSet(context.getString(R.string.options_setting_key), val);
+        editor.commit();
+    }
 }

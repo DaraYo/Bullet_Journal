@@ -6,6 +6,7 @@ import androidx.room.TypeConverters;
 
 import com.example.bullet_journal.converters.Converter;
 import com.example.bullet_journal.db.dao.DayDao;
+import com.example.bullet_journal.db.dao.DiaryImageDao;
 import com.example.bullet_journal.db.dao.HabitDao;
 import com.example.bullet_journal.db.dao.MoodDao;
 import com.example.bullet_journal.db.dao.RatingDao;
@@ -48,4 +49,6 @@ public abstract class MainDatabase extends RoomDatabase {
     public abstract TaskEventDao getTaskEventDao();
 
     public abstract RatingDao getRatingDao();
+
+    public abstract DiaryImageDao getDiaryImageDao();
 }

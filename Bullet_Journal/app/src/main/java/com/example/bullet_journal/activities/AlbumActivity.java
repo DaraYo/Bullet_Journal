@@ -12,16 +12,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
-import androidx.appcompat.app.AlertDialog;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -30,12 +24,23 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
+
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.ImagesDisplayAdapter;
-import com.example.bullet_journal.helpClasses.MockupData;
-import com.example.bullet_journal.helpClasses.Diary;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.DeleteDiaryImageAsyncTask;
+import com.example.bullet_journal.async.GetDiaryImagesAsyncTask;
+import com.example.bullet_journal.async.InsertDiaryImageAsyncTask;
 import com.example.bullet_journal.helpClasses.AlbumItem;
+import com.example.bullet_journal.model.DiaryImage;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -50,11 +55,16 @@ import java.util.List;
 
 
 public class AlbumActivity extends RootActivity {
-    Activity context= this;
-    private static final int CONTENT_VIEW_ID = 10101010;
+    private Activity context= this;
 
-    FloatingActionButton addPicture;
-    static final int PICK_IMAGE_MULTIPLE=1;
+    private GridView gridView;
+    private FloatingActionButton addPicture;
+
+    private MenuItem deleteButton;
+    private MenuItem cancelSelection;
+
+    private ImagesDisplayAdapter imagesAdapter;
+
     static final Integer CAMERA = 0x2;
     static final Integer READ_EXST = 0x3;
     static final Integer READ_MULTIPLE = 0x4;
@@ -62,37 +72,26 @@ public class AlbumActivity extends RootActivity {
     private String currentPhotoPath;
     private Uri photo_uri;
 
-    String imageEncoded;
-    List<String> imagesEncodedList;
-    ArrayList<Uri> listOfUris;
-
-
-    GridView gridView;
-    ImagesDisplayAdapter imagesAdapter;
-    private List<AlbumItem> items;
+    private List<AlbumItem> items = new ArrayList<>();;
     private List<AlbumItem> selectedItems= new ArrayList<AlbumItem>();
     private boolean isSelectionMode;
 
-    private GridView galleryGrid;
-    private ImagesDisplayAdapter imagesDisplayAdapter;
-
-    private MenuItem deleteButton;
-    private MenuItem cancelSelection;
-
-    private Diary diary;
-
+    private long dayId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        dayId= getIntent().getLongExtra("dayId", dayId);
+
         addPicture = (FloatingActionButton) findViewById(R.id.attach_picture);
         addPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final CharSequence options[] = new CharSequence[]{"Take photo", "Select photo", "Select multiple photos"};
-//                }
+
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(false);
                 builder.setTitle("Select your option:");
@@ -141,20 +140,15 @@ public class AlbumActivity extends RootActivity {
             }
         });
         initData();
-        // Inflate the layout for this fragment
-        gridView= (GridView)findViewById(R.id.imagesGridview);
-        imagesAdapter= new ImagesDisplayAdapter(this, items);
-        gridView.setAdapter(imagesAdapter);
 
+        gridView= (GridView)findViewById(R.id.imagesGridview);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent= new Intent(getApplicationContext(), FullScreenImageViewActivity.class);
-//                intent.putExtra("list", (Serializable) items);
                 intent.putExtra("selected", position);
-                intent.putExtra("date", diary.getDiaryDate().getTime());
+                intent.putExtra("dayId", dayId);
                 startActivity(intent);
-                Toast.makeText(getApplicationContext(), "aaaaaaaaaa", Toast.LENGTH_LONG).show();
 
             }
         });
@@ -179,8 +173,6 @@ public class AlbumActivity extends RootActivity {
                 return true;
             }
         });
-
-
 
 
         setResult(Activity.RESULT_OK);
@@ -286,7 +278,6 @@ public class AlbumActivity extends RootActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        Toast.makeText(getApplicationContext(), String.valueOf(requestCode), Toast.LENGTH_LONG).show();
         try {
             if (resultCode == RESULT_OK) {
                 switch (requestCode){
@@ -294,10 +285,9 @@ public class AlbumActivity extends RootActivity {
                     case 2: {
                         Bitmap photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(), photo_uri);
                         String uri=saveToInternalStorage(photo);
-                        addNewAlbumItem(uri);
+                        insertDiaryImage(uri);
                         break;
                     }
-
                     //choose photo
                     case 3: {
                         Uri selectedImageUri = data.getData();
@@ -311,7 +301,7 @@ public class AlbumActivity extends RootActivity {
                             Bitmap imgBitmap = BitmapFactory.decodeStream(inputStream);
                             String uri= saveToInternalStorage(imgBitmap);
                             inputStream.close();
-                            addNewAlbumItem(uri);
+                            insertDiaryImage(uri);
                         }catch(FileNotFoundException ex)
                         {
                         }catch(IOException ex)
@@ -338,13 +328,14 @@ public class AlbumActivity extends RootActivity {
                                 Bitmap imgBitmap = BitmapFactory.decodeStream(inputStream);
                                 String storageuri= saveToInternalStorage(imgBitmap);
                                 inputStream.close();
-                                addNewAlbumItem(storageuri);
+                                insertDiaryImage(storageuri);
                             }catch(FileNotFoundException ex)
                             {
                             }catch(IOException ex)
                             {
                             }
                         }
+                        break;
                     }
                 }
 
@@ -389,6 +380,7 @@ public class AlbumActivity extends RootActivity {
             case R.id.delete_pics: {
                 for (AlbumItem selected: selectedItems
                      ) {
+                    deleteDiaryImage(selected.getId());
                     items.remove(selected);
                     File file = new File(selected.getImageUri().toString());
                     if(file!=null)
@@ -396,32 +388,67 @@ public class AlbumActivity extends RootActivity {
                 }
                 selectedItems.clear();
                 imagesAdapter.notifyDataSetChanged();
+                cancelSelection.setVisible(isSelectionMode);
+                deleteButton.setVisible(isSelectionMode);
+                break;
             }
             case R.id.cancel_operation: {
                 onBackPressed();
+                break;
             }
         }
         return super.onOptionsItemSelected(item);
     }
 
     private void initData(){
-        long milis= getIntent().getLongExtra("date", 0);
-        Date date = new Date(milis);
-        diary= MockupData.getDiary(date);
-        items= new ArrayList<AlbumItem>();
-        if(diary!=null && diary.getAlbumItems()!=null){
-            for (AlbumItem item: diary.getAlbumItems()
-                 ) {
-                items.add(item);
+        AsyncTask<Long, Void, List<DiaryImage>> getImagesTask = new GetDiaryImagesAsyncTask(new AsyncResponse<List<DiaryImage>>(){
+
+            @Override
+            public void taskFinished(List<DiaryImage> retVal) {
+                items= new ArrayList<AlbumItem>();
+                if(retVal!=null){
+                    for (DiaryImage item: retVal
+                    ) {
+                        items.add(new AlbumItem(Uri.parse(item.getPath()), false, item.getId()));
+
+                    }
+                }
+                imagesAdapter= new ImagesDisplayAdapter(getBaseContext(), items);
+                gridView.setAdapter(imagesAdapter);
             }
-        }
+        }).execute(dayId);
+    }
+
+    private void insertDiaryImage(String path){
+        DiaryImage newImg= new DiaryImage(null, null, path, dayId, false);
+        AsyncTask<DiaryImage, Void, DiaryImage> insertImageTask = new InsertDiaryImageAsyncTask(new AsyncResponse<DiaryImage>(){
+
+            @Override
+            public void taskFinished(DiaryImage addedImg) {
+                items.add(new AlbumItem(Uri.parse(addedImg.getPath()), false, addedImg.getId()));
+                imagesAdapter.notifyDataSetChanged();
+            }
+        }).execute(newImg);
+    }
+
+    private void deleteDiaryImage(long id){
+        AsyncTask<Long, Void, Boolean> deleteImageTask = new DeleteDiaryImageAsyncTask(new AsyncResponse<Boolean>(){
+            @Override
+            public void taskFinished(Boolean result) {
+                isSelectionMode= !result;
+                cancelSelection.setVisible(isSelectionMode);
+                deleteButton.setVisible(isSelectionMode);
+            }
+        }).execute(id);
+
+
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        diary.setAlbumItems(items);
-        MockupData.updateDate(diary);
+//        diary.setAlbumItems(items);
+//        MockupData.updateDate(diary);
     }
 
     @Override
@@ -441,10 +468,5 @@ public class AlbumActivity extends RootActivity {
             super.onBackPressed();
 
         }
-    }
-
-    private void addNewAlbumItem(String path){
-        items.add(new AlbumItem(Uri.parse(path),false));
-        imagesAdapter.notifyDataSetChanged();
     }
 }

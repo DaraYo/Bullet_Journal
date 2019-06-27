@@ -1,14 +1,14 @@
 package com.example.bullet_journal.fragments;
 
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.adapters.ImagesDisplayAdapter;
@@ -23,22 +23,6 @@ public class ImagesPreviewFragment extends Fragment {
     private List<AlbumItem> items;
 
     private boolean isSelectionMode;
-//    private List<Uri> images= new ArrayList<Uri>(){
-//        {
-//            add(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"));
-//            add(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"));
-//            add(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"));
-//            add(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"));
-//        }
-//    };
-//    private List<String> images= new ArrayList<String>(){
-//        {
-//            add("http://images.math.cnrs.fr/IMG/png/section8-image.png");
-//            add("http://images.math.cnrs.fr/IMG/png/section8-image.png");
-//            add("http://images.math.cnrs.fr/IMG/png/section8-image.png");
-//            add("http://images.math.cnrs.fr/IMG/png/section8-image.png");
-//        }
-//    };
 
     public static ImagesPreviewFragment newInstance(){
         ImagesPreviewFragment imagesPreview= new ImagesPreviewFragment();
@@ -91,10 +75,10 @@ public class ImagesPreviewFragment extends Fragment {
     private void initData(){
         items= new ArrayList<AlbumItem>(){
             {
-                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
-                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), true));
-                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
-                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
+//                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
+//                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), true));
+//                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
+//                add(new AlbumItem(Uri.parse("http://images.math.cnrs.fr/IMG/png/section8-image.png"), false));
             }
         };
     }
