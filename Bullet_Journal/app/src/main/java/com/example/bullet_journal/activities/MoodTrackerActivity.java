@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -99,6 +98,7 @@ public class MoodTrackerActivity extends RootActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        calendarView.removeDecorators();
         fetchDays(this.calendarView.getSelectedDate());
     }
 
@@ -110,7 +110,6 @@ public class MoodTrackerActivity extends RootActivity {
                 dates.clear();
                 if(retVal != null){
                     dates.addAll(retVal);
-                    Log.i("IMAAAAAAAAAAA", "Ovoliko: "+retVal.size());
                 }
                 bindDecorators();
             }

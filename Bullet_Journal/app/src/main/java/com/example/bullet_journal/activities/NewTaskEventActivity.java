@@ -66,14 +66,14 @@ public class NewTaskEventActivity extends RootActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        long dayMillis = bundle.getLong("date");
+        final long dayMillis = bundle.getLong("date");
 
         AsyncTask<Long, Void, Day> getDayTask = new GetDayAsyncTask(new AsyncResponse<Day>() {
 
             @Override
             public void taskFinished(Day retVal) {
                 if (retVal == null) {
-                    Toast.makeText(context, R.string.selected_date_missing_error, Toast.LENGTH_SHORT);
+                    Toast.makeText(context, R.string.selected_date_missing_error, Toast.LENGTH_SHORT).show();
                     finish();
                 }
                 dayObj = retVal;
@@ -117,6 +117,9 @@ public class NewTaskEventActivity extends RootActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, TasksAndEventsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putLong("date", dayMillis);
+                intent.putExtras(bundle);
                 startActivity(intent);
                 finish();
             }
@@ -134,10 +137,13 @@ public class NewTaskEventActivity extends RootActivity {
                     public void taskFinished(Boolean retVal) {
                         if(retVal){
                             Intent intent = new Intent(context, TasksAndEventsActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putLong("date", CalendarCalculationsUtils.trimTimeFromDateMillis(taskEventObj.getTaskEvent().getDate()));
+                            intent.putExtras(bundle);
                             startActivity(intent);
                             finish();
                         }
-                        Toast.makeText(context, R.string.basic_error, Toast.LENGTH_LONG);
+                        Toast.makeText(context, R.string.basic_error, Toast.LENGTH_LONG).show();
                     }
                 }).execute(taskEventObj);
             }

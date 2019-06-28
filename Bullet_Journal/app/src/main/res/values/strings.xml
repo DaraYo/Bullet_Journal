@@ -160,6 +160,7 @@
     <string name="rating_saved">Rating saved</string>
     <string name="mood_deleted">Mood Deleted</string>
     <string name="rating_deleted">Rating Deleted</string>
+    <string name="task_status_updated">Task status updated</string>
 
 
 </resources>

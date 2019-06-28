@@ -44,12 +44,7 @@ public class AddEditRatingDialog extends Dialog {
 
     private List<RatingCategoryWrapper> categories;
     private RatingCategoryAdapter categoryAdapter;
-
-    /*
-    private FirebaseFirestore firestore;
-    private FirebaseAuth fAuth;
-    private CollectionReference ratingsCollectionRef;
-    */
+    private Spinner categorySpinner;
 
     public AddEditRatingDialog(Context context, long selectedDate, Rating ratingObj, List<RatingCategoryWrapper> categories) {
         super(context);
@@ -68,14 +63,8 @@ public class AddEditRatingDialog extends Dialog {
         TextView dateStr = findViewById(R.id.rating_dialog_date_str);
         dateStr.setText(CalendarCalculationsUtils.dateMillisToString(selectedDate));
 
-        title = (EditText) findViewById(R.id.rating_text);
+        title = (EditText) findViewById(R.id.rating_title);
         review = (EditText) findViewById(R.id.rating_text);
-
-        if(ratingObj != null){
-            title.setText(ratingObj.getTitle());
-            review.setText(ratingObj.getText());
-            resolveSelection(ratingObj.getRating());
-        }
 
         ratingBtn1 = findViewById(R.id.add_rating_1);
         ratingBtn1.setOnClickListener(new View.OnClickListener(){
@@ -122,6 +111,30 @@ public class AddEditRatingDialog extends Dialog {
             }
         });
 
+        categorySpinner = findViewById(R.id.rating_category_spinner);
+        categoryAdapter = new RatingCategoryAdapter(context, categories);
+        categorySpinner.setAdapter(categoryAdapter);
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectedCategory = (RatingCategoryWrapper) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                selectedCategory = null;
+            }
+        });
+
+        if(ratingObj != null){
+            title.setText(ratingObj.getTitle());
+            review.setText(ratingObj.getText());
+            resolveSelection(ratingObj.getRating());
+            categorySpinner.setSelection(resolveCategory());
+            selectedCategory = (RatingCategoryWrapper) categorySpinner.getSelectedItem();
+        }
+
         Button dialogOkBtn = findViewById(R.id.rating_dialog_btn_ok);
         dialogOkBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -130,7 +143,7 @@ public class AddEditRatingDialog extends Dialog {
                 final String ratingText = review.getText().toString();
 
                 if(ratingObj == null){
-                    ratingObj = new Rating(null, null, rating, selectedDate, null, titleText, ratingText, selectedCategory.getCategory(), false);
+                    ratingObj = new Rating(null, null, rating, System.currentTimeMillis(), null, titleText, ratingText, selectedCategory.getCategory(), false);
 
                     AsyncTask<Rating, Void, Boolean> insertRatingAsyncTask = new InsertRatingAsyncTask(new AsyncResponse<Boolean>(){
                         @Override
@@ -146,7 +159,7 @@ public class AddEditRatingDialog extends Dialog {
 
                 }else{
                     ratingObj.setTitle(titleText);
-                    ratingObj.setTitle(titleText);
+                    ratingObj.setText(ratingText);
                     ratingObj.setCategory(selectedCategory.getCategory());
                     ratingObj.setRating(rating);
 
@@ -170,22 +183,6 @@ public class AddEditRatingDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 dismiss();
-            }
-        });
-
-        Spinner categorySpinner = findViewById(R.id.rating_category_spinner);
-        categoryAdapter = new RatingCategoryAdapter(context, categories);
-        categorySpinner.setAdapter(categoryAdapter);
-        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedCategory = (RatingCategoryWrapper) parent.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                selectedCategory = null;
             }
         });
     }
@@ -233,5 +230,17 @@ public class AddEditRatingDialog extends Dialog {
                 break;
         }
 
+    }
+
+    private int resolveCategory(){
+
+        switch (ratingObj.getCategory()) {
+            case ACTIVITY : return 0;
+            case BOOK : return 1;
+            case MUSIC : return 2;
+            case MOVIE : return 3;
+        }
+
+        return -1;
     }
 }

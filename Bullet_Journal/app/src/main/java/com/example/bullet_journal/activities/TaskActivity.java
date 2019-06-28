@@ -17,7 +17,7 @@ import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.ReminderAdapter;
 import com.example.bullet_journal.async.AsyncResponse;
-import com.example.bullet_journal.async.EditTaskEventAsyncTask;
+import com.example.bullet_journal.async.UpdateTaskEventAsyncTask;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.wrapperClasses.TaskEventRemindersWrapper;
 
@@ -110,15 +110,14 @@ public class TaskActivity extends RootActivity {
                 bindChanges();
 
                 if(!isEdit){
-                    Intent intent = returnToPreviousPanel();
-                    startActivity(intent);
+                    startActivity(resolvePreviousPanel());
+                    finish();
                 }else{
-                    AsyncTask<TaskEventRemindersWrapper, Void, Boolean> editTaskEventAsyncTask = new EditTaskEventAsyncTask(new AsyncResponse<Boolean>(){
+                    AsyncTask<TaskEventRemindersWrapper, Void, Boolean> editTaskEventAsyncTask = new UpdateTaskEventAsyncTask(new AsyncResponse<Boolean>(){
                         @Override
                         public void taskFinished(Boolean retVal) {
                             if(retVal){
-                                Intent intent = new Intent(context, TasksAndEventsActivity.class);
-                                startActivity(intent);
+                                startActivity(resolvePreviousPanel());
                                 finish();
                             }else{
                                 Toast.makeText(getApplicationContext(), R.string.basic_error, Toast.LENGTH_SHORT);
@@ -132,26 +131,27 @@ public class TaskActivity extends RootActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isEdit){
-                    Intent intent = returnToPreviousPanel();
-                    startActivity(intent);
-                }else{
-                    Intent intent = new Intent(context, TasksAndEventsActivity.class);
-                    startActivity(intent);
-                }
+                startActivity(resolvePreviousPanel());
                 finish();
             }
         });
 
     }
 
-    private Intent returnToPreviousPanel(){
-        Intent intent = new Intent(context, NewTaskEventActivity.class);
+    private Intent resolvePreviousPanel(){
 
+        Intent intent;
         Bundle bundle = new Bundle();
         bundle.putLong("date", CalendarCalculationsUtils.trimTimeFromDateMillis(taskEventObj.getTaskEvent().getDate()));
-        bundle.putSerializable("taskEventInfo", taskEventObj);
-        intent.putExtras(bundle);
+
+        if(isEdit){
+            intent = new Intent(context, TasksAndEventsActivity.class);
+            intent.putExtras(bundle);
+        }else {
+            intent = new Intent(context, NewTaskEventActivity.class);
+            bundle.putSerializable("taskEventInfo", taskEventObj);
+            intent.putExtras(bundle);
+        }
 
         return intent;
     }
