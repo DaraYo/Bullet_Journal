@@ -11,12 +11,12 @@ import com.example.bullet_journal.wrapperClasses.TaskEventRemindersWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EditTaskEventAsyncTask extends AsyncTask<TaskEventRemindersWrapper, Void, Boolean> {
+public class UpdateTaskEventAsyncTask extends AsyncTask<TaskEventRemindersWrapper, Void, Boolean> {
 
     public AsyncResponse delegate = null;
     private MainDatabase database = DatabaseClient.getInstance(null).getDatabase();
 
-    public EditTaskEventAsyncTask(AsyncResponse delegate){
+    public UpdateTaskEventAsyncTask(AsyncResponse delegate){
         this.delegate = delegate;
     }
 

@@ -71,8 +71,15 @@ public class TasksAndEventsActivity extends RootActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Bundle bundle = getIntent().getExtras();
+        dateMillis =  System.currentTimeMillis();
+        if(bundle != null){
+            if(bundle.containsKey("date")){
+                dateMillis = bundle.getLong("date");
+            }
+        }
+
         dateDisplay = (TextView) findViewById(R.id.date_display);
-        dateMillis = CalendarCalculationsUtils.trimTimeFromDateMillis(System.currentTimeMillis());
         choosenDate = CalendarCalculationsUtils.dateMillisToString(dateMillis);
         dateDisplay.setText(choosenDate);
 

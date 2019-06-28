@@ -10,13 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.ReminderAdapter;
 import com.example.bullet_journal.async.AsyncResponse;
-import com.example.bullet_journal.async.EditTaskEventAsyncTask;
+import com.example.bullet_journal.async.UpdateTaskEventAsyncTask;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.wrapperClasses.TaskEventRemindersWrapper;
 
@@ -64,6 +65,9 @@ public class EventActivity extends RootActivity {
         title.setText(taskEventObj.getTaskEvent().getTitle());
         description.setText(taskEventObj.getTaskEvent().getText());
 
+        TextView eventTime = findViewById(R.id.event_time);
+        eventTime.setText(CalendarCalculationsUtils.dateMillisToStringTime(taskEventObj.getTaskEvent().getDate()));
+
         final ImageButton showDialogBtn = (ImageButton) findViewById(R.id.add_reminder);
         showDialogBtn.setOnClickListener(new View.OnClickListener() {
 
@@ -106,15 +110,14 @@ public class EventActivity extends RootActivity {
                 bindChanges();
 
                 if(!isEdit){
-                    Intent intent = returnToPreviousPanel();
-                    startActivity(intent);
+                    startActivity(resolvePreviousPanel());
+                    finish();
                 }else{
-                    AsyncTask<TaskEventRemindersWrapper, Void, Boolean> editTaskEventAsyncTask = new EditTaskEventAsyncTask(new AsyncResponse<Boolean>(){
+                    AsyncTask<TaskEventRemindersWrapper, Void, Boolean> updateTaskEventAsyncTask = new UpdateTaskEventAsyncTask(new AsyncResponse<Boolean>(){
                         @Override
                         public void taskFinished(Boolean retVal) {
                             if(retVal){
-                                Intent intent = new Intent(context, TasksAndEventsActivity.class);
-                                startActivity(intent);
+                                startActivity(resolvePreviousPanel());
                                 finish();
                             }else{
                                 Toast.makeText(getApplicationContext(), R.string.basic_error, Toast.LENGTH_SHORT);
@@ -128,25 +131,26 @@ public class EventActivity extends RootActivity {
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isEdit){
-                    Intent intent = returnToPreviousPanel();
-                    startActivity(intent);
-                }else{
-                    Intent intent = new Intent(context, TasksAndEventsActivity.class);
-                    startActivity(intent);
-                }
+                startActivity(resolvePreviousPanel());
                 finish();
             }
         });
     }
 
-    private Intent returnToPreviousPanel(){
-        Intent intent = new Intent(context, NewTaskEventActivity.class);
+    private Intent resolvePreviousPanel(){
 
+        Intent intent;
         Bundle bundle = new Bundle();
         bundle.putLong("date", CalendarCalculationsUtils.trimTimeFromDateMillis(taskEventObj.getTaskEvent().getDate()));
-        bundle.putSerializable("taskEventInfo", taskEventObj);
-        intent.putExtras(bundle);
+
+        if(isEdit){
+            intent = new Intent(context, TasksAndEventsActivity.class);
+            intent.putExtras(bundle);
+        }else {
+            intent = new Intent(context, NewTaskEventActivity.class);
+            bundle.putSerializable("taskEventInfo", taskEventObj);
+            intent.putExtras(bundle);
+        }
 
         return intent;
     }

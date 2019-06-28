@@ -16,10 +16,10 @@ public interface TaskEventDao {
     @Query("SELECT * FROM task_event WHERE id=:id")
     Task get(Long id);
 
-    @Query("SELECT * FROM task_event WHERE day_id=:id AND type='TASK'")
+    @Query("SELECT * FROM task_event WHERE day_id=:id AND type='TASK' ORDER BY date")
     List<Task> getAllTasksForDay(Long id);
 
-    @Query("SELECT * FROM task_event WHERE day_id=:id AND type='EVENT'")
+    @Query("SELECT * FROM task_event WHERE day_id=:id AND type='EVENT' ORDER BY date")
     List<Task> getAllEventsForDay(Long id);
 
     @Query("SELECT * FROM task_event")

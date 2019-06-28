@@ -4,22 +4,22 @@ import android.os.AsyncTask;
 
 import com.example.bullet_journal.db.DatabaseClient;
 import com.example.bullet_journal.db.MainDatabase;
-import com.example.bullet_journal.model.Mood;
+import com.example.bullet_journal.model.Rating;
 
-public class DeleteMoodAsyncTask extends AsyncTask<Mood, Void, Boolean> {
+public class DeleteRatingAsyncTask extends AsyncTask<Rating, Void, Boolean> {
 
     public AsyncResponse delegate = null;
     private MainDatabase database = DatabaseClient.getInstance(null).getDatabase();
 
-    public DeleteMoodAsyncTask(AsyncResponse delegate){
+    public DeleteRatingAsyncTask(AsyncResponse delegate){
         this.delegate = delegate;
     }
 
     @Override
-    protected Boolean doInBackground(Mood... moods) {
+    protected Boolean doInBackground(Rating... ratings) {
 
         try{
-            database.getMoodDao().delete(moods[0]);
+            database.getRatingDao().delete(ratings[0]);
             return true;
         }catch (Exception e){
             e.printStackTrace();

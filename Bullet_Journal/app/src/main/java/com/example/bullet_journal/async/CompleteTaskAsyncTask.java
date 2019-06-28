@@ -4,22 +4,24 @@ import android.os.AsyncTask;
 
 import com.example.bullet_journal.db.DatabaseClient;
 import com.example.bullet_journal.db.MainDatabase;
-import com.example.bullet_journal.model.Mood;
+import com.example.bullet_journal.model.Task;
 
-public class DeleteMoodAsyncTask extends AsyncTask<Mood, Void, Boolean> {
+public class CompleteTaskAsyncTask extends AsyncTask<Task, Void, Boolean> {
 
     public AsyncResponse delegate = null;
     private MainDatabase database = DatabaseClient.getInstance(null).getDatabase();
 
-    public DeleteMoodAsyncTask(AsyncResponse delegate){
+    public CompleteTaskAsyncTask(AsyncResponse delegate){
         this.delegate = delegate;
     }
 
     @Override
-    protected Boolean doInBackground(Mood... moods) {
+    protected Boolean doInBackground(Task... tasks) {
 
         try{
-            database.getMoodDao().delete(moods[0]);
+            Task toComplete = tasks[0];
+            toComplete.setStatus(!toComplete.isStatus());
+            database.getTaskEventDao().update(toComplete);
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -29,6 +31,7 @@ public class DeleteMoodAsyncTask extends AsyncTask<Mood, Void, Boolean> {
 
     @Override
     protected void onPostExecute(Boolean aBoolean) {
-        this.delegate.taskFinished(aBoolean);
+
+        delegate.taskFinished(aBoolean);
     }
 }
