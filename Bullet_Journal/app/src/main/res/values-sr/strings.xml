@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Bullet Journal</string>
     <string name="navigation_drawer_open">Otvori navigacioni bar</string>
@@ -161,6 +160,7 @@
     <string name="rating_saved">Ocena je sačuvana</string>
     <string name="mood_deleted">Raspoloženje je uklonjeno</string>
     <string name="rating_deleted">Ocena je uklonjena</string>
+    <string name="task_status_updated">Status zadatka promenjen</string>
 
     <!-- Dani u sedmici -->
     <string name="mon">Ponedeljak</string>

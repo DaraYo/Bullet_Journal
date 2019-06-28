@@ -108,6 +108,7 @@ public class DiaryActivity extends RootActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
         appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
