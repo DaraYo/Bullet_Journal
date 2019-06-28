@@ -94,7 +94,7 @@ public class AlbumActivity extends RootActivity {
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(false);
-                builder.setTitle("Select your option:");
+                builder.setTitle(getString(R.string.choose_option));
                 builder.setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

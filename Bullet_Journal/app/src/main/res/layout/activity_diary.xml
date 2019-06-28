@@ -105,6 +105,7 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_attach_location" />
                     <TextView
+                        android:id="@+id/add_location"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/location_icon"

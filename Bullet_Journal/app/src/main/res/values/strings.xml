@@ -174,6 +174,6 @@
     <!-- album activity options -->
     <string name="choose_option">Select your option:</string>
     <string name="take_a_pic">Take photo</string>
-    <string name="choose_img">Select photo:</string>
-    <string name="choose_multiple_img">Select multiple photos:</string>
+    <string name="choose_img">Select photo</string>
+    <string name="choose_multiple_img">Select multiple photos</string>
 </resources>

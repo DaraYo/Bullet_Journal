@@ -90,6 +90,7 @@ public class DiaryActivity extends RootActivity {
     private CoordinatorLayout.LayoutParams layoutParams;
     private CarouselView carouselView;
     private ImageView buttonDone;
+    private TextView addLocation;
 
     private String choosenDate = "";
     private long choosenDateLong;
@@ -227,6 +228,18 @@ public class DiaryActivity extends RootActivity {
                 } else {
                     ((CustomAppBarLayoutBehavior) layoutParams.getBehavior()).setScrollBehavior(true);
                     editTextToolbar.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        addLocation= findViewById(R.id.add_location);
+        addLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    //lokacija... samo vidi da li ti bas ova permisija treba
+                    //ako ti je dozvoljena permisija, ide na fju onActivityResult
+                    //ako nije, onda na onRequestPermissionsResult
                 }
             }
         });
