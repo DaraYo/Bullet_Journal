@@ -90,7 +90,7 @@ public class AlbumActivity extends RootActivity {
         addPicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final CharSequence options[] = new CharSequence[]{"Take photo", "Select photo", "Select multiple photos"};
+                final CharSequence options[] = new CharSequence[]{getString(R.string.take_a_pic), getString(R.string.choose_img), getString(R.string.choose_multiple_img)};
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(false);
@@ -267,7 +267,7 @@ public class AlbumActivity extends RootActivity {
                     intent.setType("image/*");
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                    startActivityForResult(Intent.createChooser(intent, "Select Pictures"),READ_MULTIPLE);
+                    startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_multiple_img)),READ_MULTIPLE);
                     break;
             }
         }else{

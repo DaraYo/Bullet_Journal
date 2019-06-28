@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Bullet Journal</string>
+    <string name="navigation_drawer_open">Otvori navigacioni bar</string>
+    <string name="navigation_drawer_close">Zatvori navigacioni bar</string>
+    <string name="nav_header_title">Misa Misic</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Zaglavlje navigacije</string>
+    <string name="action_settings">Podešavanja</string>
+    <string name="title_activity_settings">Podešavanja</string>
+
+    <!-- Navigation drawer items -->
+    <string name="mood_tracker">Raspoloženja</string>
+    <string name="diary">Dnevnik</string>
+    <string name="ratings">Ocene</string>
+    <string name="tasks">Zadaci</string>
+    <string name="habbits">Navike</string>
+    <string name="spendings">Novčani troškovi</string>
+
+    <!-- Strings related to Settings -->
+    <!-- account settings-->
+    <string name="account_settings">Profil</string>
+
+    <string name="change_pass">Promeni šifru</string>
+    <string name="change_pass_key">change_password</string>
+    <!-- reminders settings-->
+    <string name="reminders_settings">Podsetnici</string>
+    <string name="reminders_settings_key">reminders_settings</string>
+    <!-- personalize-->
+    <string name="personalization_settings">Uredi</string>
+
+    <string name="theme_title">Tamna tema</string>
+    <string name="theme_key">dark_mode</string>
+    <!-- general options-->
+    <string name="general_settings">Opšte</string>
+    <string name="general_settings_key">general_settings</string>
+
+    <string name="language_setting">Jezik</string>
+    <string name="language_setting_key">language_list</string>
+    <string name="language_dialog_title">Odaberi jezik</string>
+
+
+    <string name="options_setting">Prikaži/sakrij opcije</string>
+    <string name="options_setting_key">show_options</string>
+    <string name="options_dialog_name">Izaberi opcije</string>
+    <!-- support us-->
+    <string name="support_us_settings">Podrži nas</string>
+
+    <string name="tutorial_settings">Demo prikaz</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_header_notifications">Obaveštenja</string>
+
+    <string name="pref_title_new_message_notifications">Nova notifikacija</string>
+
+    <string name="pref_title_ringtone">Zvuk</string>
+    <string name="pref_ringtone_silent">Tišina</string>
+
+    <string name="pref_title_vibrate">Vibracija</string>
+
+    <!-- Diary activity labels -->
+    <string name="title_activity_diary">Dnevnik</string>
+    <string name="attach_section_title">Dodaj u svoj dan:</string>
+    <string name="title_thoughts">Naslov...</string>
+    <string name="thoughts">Tvoj današnji dan...</string>
+    <string name="done_button">Gotovo</string>
+    <string name="choose_date">Izaberi datum...</string>
+
+    <!-- Main activity labels -->
+    <string name="title_date">Datum :</string>
+    <string name="title_time">Vreme :</string>
+    <string name="for_date">Za datum :</string>
+    <string name="select_time">Izaberi vreme :</string>
+
+    <string name="add_description">Dodaj opis...</string>
+
+    <!-- Common button labels -->
+    <string name="ok_str">Ok</string>
+    <string name="cancel_str">Poništi</string>
+    <string name="continue_str">Nastavi</string>
+    <string name="back_str">Nazad</string>
+    <string name="edit_str">Izmeni</string>
+    <string name="done_str">Gotovo</string>
+    <string name="save_str">Sačuvaj</string>
+
+    <!-- Mood tracking -->
+    <string name="title_activity_mood_tracker">Prati raspoloženja</string>
+    <string name="title_activity_mood_preview">Pregled raspoloženja</string>
+    <string name="add_mood_dialog_title">Dodaj raspoloženje:</string>
+    <string name="add_mood_dialog_description">Dodaj opis</string>
+    <string name="edit_mood_dialog_title">Promeni raspoloženje:</string>
+    <string name="edit_mood_dialog_description">Izmeni opis</string>
+
+    <string name="mood_awesome">SJAJNO</string>
+    <string name="mood_good">DOBRO</string>
+    <string name="mood_average">ONAKO</string>
+    <string name="mood_bad">LOŠE</string>
+    <string name="mood_terrible">UŽASNO</string>
+
+    <!-- Ratings -->
+    <string name="title_activity_ratings">Ocene</string>
+    <string name="add_rating_dialog_title">Unesi ocenu:</string>
+    <string name="add_rating_dialog_type">Odaberi tip:</string>
+    <string name="add_rating_title">Dodaj naslov...</string>
+    <string name="add_rating_text">Unesi svoje mišljenje...</string>
+    <string name="edit_rating_dialog_title">Izmeni ocenu:</string>
+    <string name="edit_rating_title">Izmeni naslov:</string>
+    <string name="edit_rating_text">Izmeni mišljenje:</string>
+
+    <string name="rating_category_book">Knjiga</string>
+    <string name="rating_category_activity">Aktivnost</string>
+    <string name="rating_category_movie">Film</string>
+    <string name="rating_category_music">Muzika</string>
+
+    <!-- Habit tracking -->
+    <string name="title_activity_habit_tracker">Navike</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello :D</string>
+
+    <!-- Login activity labels -->
+    <string name="title_activity_login">Prijava</string>
+    <string name="not_member_yet">Nemaš nalog? Registruj se!</string>
+
+    <!-- Sign up activity labels -->
+    <string name="title_activity_signup">Registracija</string>
+    <string name="first_name">Ime</string>
+    <string name="last_name">Prezime</string>
+    <string name="email">Email</string>
+    <string name="password">Šifra</string>
+    <string name="confirm_password">Potvrdi šifru</string>
+    <string name="already_member">Već imaš nalog? Prijavi se!</string>
+
+    <!-- Wallet activity labels -->
+    <string name="title_activity_wallet">Novčanik</string>
+    <string name="add_item_dialog_title">Dodaj novu stavku</string>
+    <string name="choose_month">Odaberi mesec...</string>
+    <string name="item_amount">Iznos</string>
+    <string name="item_name">Naziv</string>
+    <string name="income">Prihod</string>
+    <string name="spending">Rashod</string>
+
+    <!-- Tasks and Events -->
+    <string name="reminders_num">Podsetnici</string>
+    <string name="reminder_str">Podsetnik</string>
+    <string name="add_reminders">Podsetnici?</string>
+    <string name="task_event_title">Dodaj naslov...</string>
+    <string name="task_event_description">Dodaj opis...</string>
+    <string name="task_event_type_task">Zadatak</string>
+    <string name="task_event_type_event">Dogadjaj</string>
+    <string name="task_event_done">Gotovo?</string>
+
+    <!-- Error and Warning messages -->
+    <string name="basic_error">Greška</string>
+    <string name="mood_select_mood_warning">Molimo Vas odaberite raspoloženje</string>
+    <string name="rating_select_mood_warning">Molimo Vas odaberite ocenu i kategoriju</string>
+    <string name="selected_date_missing_error">Nedostaje datum</string>
+
+    <!-- Success messages -->
+    <string name="mood_saved">Raspoloženje je sačuvano</string>
+    <string name="rating_saved">Ocena je sačuvana</string>
+    <string name="mood_deleted">Raspoloženje je uklonjeno</string>
+    <string name="rating_deleted">Ocena je uklonjena</string>
+
+    <!-- Dani u sedmici -->
+    <string name="mon">Ponedeljak</string>
+    <string name="tue">Utorak</string>
+    <string name="wed">Sreda</string>
+    <string name="thu">Četvrtak</string>
+    <string name="fri">Petak</string>
+    <string name="sat">Subota</string>
+    <string name="sun">Nedelja</string>
+
+    <!-- album activity options -->
+    <string name="choose_option">Izaberi opciju:</string>
+    <string name="take_a_pic">Uslikaj</string>
+    <string name="choose_img">Odaberi sliku</string>
+    <string name="choose_multiple_img">Odaberi više slika</string>
+</resources>

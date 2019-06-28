@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--jezik-->
+    <string-array name="pref_languages_entries">
+        <item>Engleski</item>
+        <item>Srpski</item>
+    </string-array>
+
+    <string-array name="pref_languages_values">
+        <item>en</item>
+        <item>sr</item>
+    </string-array>
+
+    <!--options of Bullet Journal-->
+    <string-array name="pref_options_entries">
+        <item>Mood tracker</item>
+        <item>Dnevnik</item>
+        <item>Ocenjivanje</item>
+        <item>Zadaci</item>
+        <item>Navike</item>
+        <item>Potrosnja</item>
+    </string-array>
+
+    <string-array name="pref_options_values">
+        <item>mood_tracker</item>
+        <item>diary</item>
+        <item>ratings</item>
+        <item>tasks</item>
+        <item>habbits</item>
+        <item>spendings</item>
+    </string-array>
+
+
+
+</resources>

@@ -17,7 +17,7 @@ public class PreferencesHelper {
 //        SharedPreferences prefs= context.getSharedPreferences(prefs_name, Context.MODE_PRIVATE);
 //        return prefs.getString("lang", "en");
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getString(context.getString(R.string.language_setting_key), "dsgfgh");
+        return sharedPreferences.getString(context.getString(R.string.language_setting_key), "en");
     }
 
     public static void saveLanguage(Context context, String val){

@@ -7,38 +7,38 @@
     <group android:id="@+id/functionalities" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_tracker"
-            android:title="Mood tracker" />
+            android:title="@string/mood_tracker" />
         <item
             android:id="@+id/nav_diary"
-            android:title="Diary" />
+            android:title="@string/diary" />
         <item
             android:id="@+id/nav_ratings"
-            android:title="Ratings" />
+            android:title="@string/ratings" />
         <item
             android:id="@+id/nav_tasks"
-            android:title="Tasks" />
+            android:title="@string/tasks" />
         <item
             android:id="@+id/nav_habbits"
-            android:title="Habbits" />
+            android:title="@string/habbits" />
         <item
             android:id="@+id/nav_spendings"
-            android:title="Spendings" />
+            android:title="@string/spendings" />
     </group>
 
     <item
         android:id="@+id/nav_manage"
         android:icon="@drawable/ic_menu_manage"
-        android:title="Settings" />
-    <item android:title="Account">
+        android:title="@string/action_settings" />
+    <item android:title="@string/account_settings">
         <menu>
             <item
                 android:id="@+id/nav_login"
                 android:icon="@drawable/ic_menu_login"
-                android:title="Log in" />
+                android:title="@string/title_activity_login" />
             <item
                 android:id="@+id/nav_signup"
                 android:icon="@drawable/ic_menu_signup"
-                android:title="Sign up" />
+                android:title="@string/title_activity_signup" />
         </menu>
     </item>
 

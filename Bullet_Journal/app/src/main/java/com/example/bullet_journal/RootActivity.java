@@ -1,11 +1,11 @@
 package com.example.bullet_journal;
 
 import android.content.Intent;
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.bullet_journal.activities.SettingsActivity;
+import com.zeugmasolutions.localehelper.LocaleAwareCompatActivity;
 
 /*
 Dodato kako bi se isti gornji meni nalazio u svim aktivnostima.
@@ -13,7 +13,15 @@ Posto RootActivity vec nasledjuje AppCompatActivity i redefinisana je metoda - o
 ostale aktivnosti trebaju naslediti RootActivity
 */
 
-public class RootActivity extends AppCompatActivity {
+public class RootActivity extends LocaleAwareCompatActivity {
+    private String initialLocale;
+
+//    @Override
+//    public void onCreate(@Nullable Bundle savedInstanceState, @Nullable PersistableBundle persistentState) {
+//        super.onCreate(savedInstanceState, persistentState);
+//        initialLocale = LocaleHelper.getPersistedLocale(this);
+//
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -45,5 +53,18 @@ public class RootActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+//    @Override
+//    protected void attachBaseContext(Context base) {
+//        super.attachBaseContext(LocaleHelper.onAttach(base));
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        if (initialLocale != null && !initialLocale.equals(LocaleHelper.getPersistedLocale(this))) {
+//            recreate();
+//        }
+//    }
 
 }

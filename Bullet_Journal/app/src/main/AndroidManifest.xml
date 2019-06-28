@@ -44,7 +44,6 @@
         <activity android:name=".activities.RatingActivity" />
         <activity
             android:name=".activities.DiaryActivity"
-            android:label="@string/title_activity_diary"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".activities.MoodPreviewActivity" />
@@ -76,8 +75,7 @@
             android:label="@string/title_activity_habit_tracker" />
         <activity android:name=".RootActivity" />
         <activity
-            android:name=".activities.SettingsActivity"
-            android:label="@string/title_activity_settings">
+            android:name=".activities.SettingsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />

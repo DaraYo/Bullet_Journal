@@ -161,5 +161,18 @@
     <string name="mood_deleted">Mood Deleted</string>
     <string name="rating_deleted">Rating Deleted</string>
 
+    <!-- Days in week -->
+    <string name="mon">Monday</string>
+    <string name="tue">Tuesday</string>
+    <string name="wed">Wednesday</string>
+    <string name="thu">Thursday</string>
+    <string name="fri">Friday</string>
+    <string name="sat">Saturday</string>
+    <string name="sun">Sunday</string>
 
+    <!-- album activity options -->
+    <string name="choose_option">Select your option:</string>
+    <string name="take_a_pic">Take photo</string>
+    <string name="choose_img">Select photo:</string>
+    <string name="choose_multiple_img">Select multiple photos:</string>
 </resources>

@@ -41,4 +41,17 @@
     <color name="moodYellow">#F8FF90</color>
     <color name="moodGreen">#ADFF99</color>
     <color name="moodPurple">#BD83B6</color>
+
+    <!--dark theme colors -->
+    <color name="primaryColor">#424242</color>
+    <color name="primaryLightColor">#6d6d6d</color>
+    <color name="primaryDarkColor">#1b1b1b</color>
+    <color name="secondaryColor">#7b1fa2</color>
+    <color name="secondaryLightColor">#ae52d4</color>
+    <color name="secondaryDarkColor">#4a0072</color>
+    <color name="primaryTextColor">#e1bee7</color>
+    <color name="secondaryTextColor">#fafafa</color>
+
+    <color name="grayLight">#eeeeee</color>
+
 </resources>

@@ -77,7 +77,7 @@ public class TasksAndEventsActivity extends RootActivity {
         dateDisplay.setText(choosenDate);
 
         weekDisplay = (TextView) findViewById(R.id.day_of_week);
-        weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis()));
+        weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis(), context));
 
         LinearLayout dateSwitchPanel = (LinearLayout) findViewById(R.id.current_date_layout);
 
@@ -105,7 +105,7 @@ public class TasksAndEventsActivity extends RootActivity {
 
                 choosenDate = targetFormat.format(newDate);
                 dateDisplay.setText(choosenDate);
-                weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime()));
+                weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime(), context));
 
                 fetchTasks();
                 fetchEvents();

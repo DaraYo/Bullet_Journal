@@ -64,7 +64,7 @@ public class AddReminderActivity extends RootActivity {
         dateDisplay.setText(choosenDate);
 
         weekDisplay = (TextView) findViewById(R.id.day_of_week);
-        weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis()));
+        weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis(), context));
 
         title = findViewById(R.id.reminder_title);
 
@@ -110,7 +110,7 @@ public class AddReminderActivity extends RootActivity {
 
                 choosenDate = targetFormat.format(newDate);
                 dateDisplay.setText(choosenDate);
-                weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime()));
+                weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime(), getApplicationContext()));
             }
         };
 

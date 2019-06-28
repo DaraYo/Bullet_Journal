@@ -36,7 +36,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityCompat;
@@ -44,6 +43,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.example.bullet_journal.R;
+import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.async.AsyncResponse;
 import com.example.bullet_journal.async.GetDayAsyncTask;
 import com.example.bullet_journal.async.GetDiaryImagesAsyncTask;
@@ -74,7 +74,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-public class DiaryActivity extends AppCompatActivity {
+public class DiaryActivity extends RootActivity {
     AppBarLayout appBarLayout;
     final Context context = this;
     private MaterialCalendarView calendarView;
@@ -112,7 +112,7 @@ public class DiaryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_diary);
         appBarLayout = (AppBarLayout) findViewById(R.id.app_bar_layout);
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-//        collapsingToolbarLayout.setTitle("Diary");
+        collapsingToolbarLayout.setTitle(getString(R.string.title_activity_diary));
 
         layoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
         ((CustomAppBarLayoutBehavior) layoutParams.getBehavior()).setScrollBehavior(true);
@@ -138,7 +138,7 @@ public class DiaryActivity extends AppCompatActivity {
 
         choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
         dateDisplay.setText(choosenDate);
-        dayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis()));
+        dayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis(), context));
 
         buttonDone = findViewById(R.id.diary_submit);
         buttonDone.setOnClickListener(new View.OnClickListener() {
@@ -180,7 +180,7 @@ public class DiaryActivity extends AppCompatActivity {
                 DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
                 choosenDate = targetFormat.format(newDate);
 
-                dayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime()));//+" "+choosenDate);
+                dayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime(), context));//+" "+choosenDate);
                 dateDisplay.setText(choosenDate);
 
                 reLoadData(newDate.getTime());
@@ -308,10 +308,10 @@ public class DiaryActivity extends AppCompatActivity {
                 return true;
             }
             case R.id.add_pic: {
-                final CharSequence options[] = new CharSequence[]{"Take photo", "Select photo", "Select multiple photos"};
+                final CharSequence options[] = new CharSequence[]{getString(R.string.take_a_pic), getString(R.string.choose_img), getString(R.string.choose_multiple_img)};
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setCancelable(false);
-                builder.setTitle("Select your option:");
+                builder.setTitle(getString(R.string.choose_option));
                 builder.setItems(options, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -330,7 +330,7 @@ public class DiaryActivity extends AppCompatActivity {
                                     innerIntent = new Intent();
                                     innerIntent.setType("image/*");
                                     innerIntent.setAction(Intent.ACTION_GET_CONTENT);
-                                    startActivityForResult(Intent.createChooser(innerIntent, "Select Picture"), READ_EXST);
+                                    startActivityForResult(Intent.createChooser(innerIntent, getString(R.string.choose_img)), READ_EXST);
                                 } else {
                                     askPermission(Manifest.permission.READ_EXTERNAL_STORAGE, READ_EXST);
                                 }
@@ -341,7 +341,7 @@ public class DiaryActivity extends AppCompatActivity {
                                     innerIntent = new Intent(Intent.ACTION_GET_CONTENT);//, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                                     innerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                                     innerIntent.setType("image/*");
-                                    startActivityForResult(Intent.createChooser(innerIntent, "Select Pictures"), READ_MULTIPLE);
+                                    startActivityForResult(Intent.createChooser(innerIntent, getString(R.string.choose_multiple_img)), READ_MULTIPLE);
                                 } else {
                                     askPermission(Manifest.permission.READ_EXTERNAL_STORAGE, READ_MULTIPLE);
                                 }
@@ -388,7 +388,7 @@ public class DiaryActivity extends AppCompatActivity {
                     intent = new Intent();
                     intent.setAction(Intent.ACTION_GET_CONTENT);
                     intent.setType("image/*");
-                    startActivityForResult(Intent.createChooser(intent, "Select Picture"), READ_EXST);
+                    startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_img)), READ_EXST);
                     break;
 
                 //read multiple images from storage
@@ -396,7 +396,7 @@ public class DiaryActivity extends AppCompatActivity {
                     intent = new Intent(Intent.ACTION_GET_CONTENT);
                     intent.setType("image/*");
                     intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-                    startActivityForResult(Intent.createChooser(intent, "Select Pictures"), READ_MULTIPLE);
+                    startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_multiple_img)), READ_MULTIPLE);
                     break;
 
             }
@@ -553,7 +553,8 @@ public class DiaryActivity extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        saveData();
+        if(day!=null)
+            saveData();
     }
 
     private void insertDiaryImage(String path){

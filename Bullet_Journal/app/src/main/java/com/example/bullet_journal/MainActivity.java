@@ -1,12 +1,16 @@
 package com.example.bullet_journal;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,6 +18,7 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
@@ -43,6 +48,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 public class MainActivity extends RootActivity implements NavigationView.OnNavigationItemSelectedListener, SharedPreferences.OnSharedPreferenceChangeListener {
@@ -65,6 +71,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        final Context context = this;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -86,7 +93,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         dateDisplay.setText(choosenDate);
 
         weekDisplay = (TextView) findViewById(R.id.day_of_week_1);
-        weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis()));
+        weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis(), context));
 
         eventAdapter = new FollowingEventsDisplayAdapter(MainActivity.this, buildEvents(choosenDate));
         eventListView = findViewById(R.id.event_preview_list_view);
@@ -120,7 +127,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
                 choosenDate = targetFormat.format(newDate);
                 dateDisplay.setText(choosenDate);
 
-                weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime()));
+                weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime(), context));
 
                 eventAdapter = new FollowingEventsDisplayAdapter(MainActivity.this, buildEvents(choosenDate));
                 eventAdapter.notifyDataSetChanged();
@@ -225,6 +232,19 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+        switch (key) {
+            case "language_list": {
+                Toast.makeText(this, PreferencesHelper.getLanguage(getApplicationContext()), Toast.LENGTH_LONG).show();
+                Locale myLocale= new Locale(PreferencesHelper.getLanguage(getApplicationContext()));
+                Resources res = getResources();
+                DisplayMetrics dm = res.getDisplayMetrics();
+                Configuration conf = res.getConfiguration();
+//                conf.locale = myLocale;
+//                res.updateConfiguration(conf, dm);
+                updateLocale(myLocale);
+                break;
+            }
+        }
 //        Toast.makeText(getApplicationContext(), "Promenjena podesavanja", Toast.LENGTH_LONG).show();
         hideDrawerMenu();
     }

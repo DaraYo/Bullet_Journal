@@ -1,6 +1,10 @@
 package com.example.bullet_journal.helpClasses;
 
 
+import android.content.Context;
+
+import com.example.bullet_journal.R;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -33,6 +37,24 @@ public class CalendarCalculationsUtils {
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
         calendar.setTimeInMillis(milliseconds);
         return dateFormat.format(calendar.getTime());
+    }
+
+    public static String calculateWeekDay(long milliseconds, Context context){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(milliseconds);
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        switch(dayOfWeek) {
+            case 1 : return context.getString(R.string.sun);
+            case 2 : return context.getString(R.string.mon);
+            case 3 : return context.getString(R.string.tue);
+            case 4 : return context.getString(R.string.wed);
+            case 5 : return context.getString(R.string.thu);
+            case 6 : return context.getString(R.string.fri);
+            case 7 : return context.getString(R.string.sat);
+        }
+
+        return "";
     }
 
     public static String calculateWeekDay(long milliseconds){

@@ -53,7 +53,7 @@ public class HabitsActivity extends RootActivity {
 
         dateDayDisplay = (TextView) findViewById(R.id.day_date_display);
         choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
-        dateDayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis())+" "+choosenDate);
+        dateDayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis(), context)+" "+choosenDate);
 
         LinearLayout dateSwitchPannel = (LinearLayout) findViewById(R.id.current_date_layout_2);
 
@@ -78,7 +78,7 @@ public class HabitsActivity extends RootActivity {
                 DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
 
                 choosenDate = targetFormat.format(newDate);
-                dateDayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis())+" "+choosenDate);
+                dateDayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis(), context)+" "+choosenDate);
             }
         };
 
