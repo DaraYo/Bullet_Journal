@@ -18,7 +18,7 @@ import androidx.annotation.NonNull;
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.async.AsyncResponse;
-import com.example.bullet_journal.async.PullFromFirestoreAsyncTask;
+import com.example.bullet_journal.synchronization.PullFromFirestoreAsyncTask;
 import com.example.bullet_journal.recivers.NetworkBroadcastReciver;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

@@ -28,7 +28,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SignUpActivity extends RootActivity {
 
-    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private NetworkBroadcastReciver networkBroadcastReciver;
 
     EditText _firstName, _lastName, _email, _password, _confirmPassword;
@@ -41,7 +41,10 @@ public class SignUpActivity extends RootActivity {
         setContentView(R.layout.activity_signup);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        if(firebaseAuth.getCurrentUser() != null){
+            Toast.makeText(getBaseContext(), "You are Logged In", Toast.LENGTH_LONG).show();
+            finish();
+        }
 
         _firstName = findViewById(R.id.input_first_name);
         _lastName = findViewById(R.id.input_last_name);
