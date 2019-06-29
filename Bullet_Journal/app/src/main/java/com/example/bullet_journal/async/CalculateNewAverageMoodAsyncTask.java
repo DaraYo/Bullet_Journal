@@ -35,6 +35,7 @@ public class CalculateNewAverageMoodAsyncTask extends AsyncTask<Mood, Void, Bool
             Day day = database.getDayDao().get(moods[0].getDayId());
             day.setAvgMood((num <= 0) ? 0 : sum/num);
 
+            day.setSynced(false);
             database.getDayDao().update(day);
             return true;
         } catch (Exception e) {

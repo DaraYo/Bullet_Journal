@@ -17,8 +17,10 @@ public class UpdateMoodAsyncTask  extends AsyncTask<Mood, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Mood... moods) {
+        Mood mood = moods[0];
         try {
-            database.getMoodDao().update(moods[0]);
+            mood.setSynced(false);
+            database.getMoodDao().update(mood);
             return true;
         }catch (Exception e){
             return false;

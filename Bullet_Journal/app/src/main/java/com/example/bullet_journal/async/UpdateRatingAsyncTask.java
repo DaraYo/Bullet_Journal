@@ -17,8 +17,10 @@ public class UpdateRatingAsyncTask extends AsyncTask<Rating, Void, Boolean> {
 
     @Override
     protected Boolean doInBackground(Rating... ratings) {
+        Rating rating = ratings[0];
         try{
-            database.getRatingDao().update(ratings[0]);
+            rating.setSynced(false);
+            database.getRatingDao().update(rating);
             return true;
         }catch(Exception e) {
             return false;

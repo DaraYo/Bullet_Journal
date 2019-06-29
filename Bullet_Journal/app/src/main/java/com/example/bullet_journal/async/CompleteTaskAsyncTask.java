@@ -21,6 +21,7 @@ public class CompleteTaskAsyncTask extends AsyncTask<Task, Void, Boolean> {
         try{
             Task toComplete = tasks[0];
             toComplete.setStatus(!toComplete.isStatus());
+            toComplete.setSynced(false);
             database.getTaskEventDao().update(toComplete);
             return true;
         }catch (Exception e){

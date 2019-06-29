@@ -10,6 +10,7 @@ import com.example.bullet_journal.helpClasses.FirebaseUserDTO;
 import com.example.bullet_journal.model.Day;
 import com.example.bullet_journal.model.Mood;
 import com.example.bullet_journal.model.Rating;
+import com.example.bullet_journal.model.Reminder;
 import com.example.bullet_journal.model.User;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -134,6 +135,7 @@ public class PullFromFirestoreAsyncTask extends AsyncTask<Void, Void, Boolean> {
                 com.example.bullet_journal.model.Task task = snapshot.toObject(com.example.bullet_journal.model.Task.class);
                 task.setDayId(day.getId());
                 database.getTaskEventDao().insert(task);
+                fetchAllRemindersForTasks(day, task);
             }
 
             Log.i("TASKS FETCH", "SUCCESS");
@@ -142,9 +144,22 @@ public class PullFromFirestoreAsyncTask extends AsyncTask<Void, Void, Boolean> {
         }
     }
 
-    private boolean fetchAllRemindersForTasks(){
+    private void fetchAllRemindersForTasks(Day day, com.example.bullet_journal.model.Task task){
 
-        return true;
+        try {
+            Task<QuerySnapshot> getRemindersTask = dayCollectionRef.document(day.getFirestoreId()).collection("Tasks").document(task.getFirestoreId()).collection("Reminders").get();
+            QuerySnapshot remindersResult = Tasks.await(getRemindersTask);
+
+            for(QueryDocumentSnapshot snapshot : remindersResult){
+                Reminder reminder = snapshot.toObject(Reminder.class);
+                reminder.setTaskId(task.getId());
+                database.getTaskEventDao().insert(task);
+            }
+
+            Log.i("REMINDERS FETCH", "SUCCESS");
+        }catch (Exception e){
+            Log.i("REMINDERS FETCH", "FAILED");
+        }
     }
 
 

@@ -17,6 +17,7 @@ public class UpdateDayAsyncTask extends AsyncTask<Day, Void, Boolean> {
     protected Boolean doInBackground(Day... days) {
         Day day= days[0];
         try{
+            day.setSynced(false);
             database.getDayDao().update(day);
             return true;
         }catch (Exception ex){

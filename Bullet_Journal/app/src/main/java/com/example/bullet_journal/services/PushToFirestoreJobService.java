@@ -11,6 +11,8 @@ import com.example.bullet_journal.db.MainDatabase;
 import com.example.bullet_journal.synchronization.GetDaysForSyncTask;
 import com.example.bullet_journal.synchronization.GetMoodsForSyncTask;
 import com.example.bullet_journal.synchronization.GetRatingsForSyncTask;
+import com.example.bullet_journal.synchronization.GetRemindersForSyncTask;
+import com.example.bullet_journal.synchronization.GetTasksForSyncTask;
 
 public class PushToFirestoreJobService extends JobService {
 
@@ -75,6 +77,28 @@ public class PushToFirestoreJobService extends JobService {
                                 Log.i("** SYNC DONE **", "MOODS, SUCCESS");
                             } else {
                                 Log.i("** SYNC DONE **", "MOODS, FAILED");
+                            }
+                        }
+                    }).execute();
+
+                    AsyncTask<Void, Void, Boolean> manageTasksTask = new GetTasksForSyncTask(new AsyncResponse<Boolean>() {
+                        @Override
+                        public void taskFinished(Boolean retVal) {
+                            if (retVal) {
+                                Log.i("** SYNC DONE **", "TASKS, SUCCESS");
+                            } else {
+                                Log.i("** SYNC DONE **", "TASKS, FAILED");
+                            }
+                        }
+                    }).execute();
+
+                    AsyncTask<Void, Void, Boolean> manageRemindersTask = new GetRemindersForSyncTask(new AsyncResponse<Boolean>() {
+                        @Override
+                        public void taskFinished(Boolean retVal) {
+                            if (retVal) {
+                                Log.i("** SYNC DONE **", "REMINDERS, SUCCESS");
+                            } else {
+                                Log.i("** SYNC DONE **", "REMINDERS, FAILED");
                             }
                         }
                     }).execute();

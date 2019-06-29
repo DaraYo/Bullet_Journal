@@ -27,6 +27,7 @@ public class UpdateTaskEventAsyncTask extends AsyncTask<TaskEventRemindersWrappe
             Task taskEvent = taskEventRemindersWrappers[0].getTaskEvent();
             ArrayList<Reminder> reminders = taskEventRemindersWrappers[0].getReminders();
 
+            taskEvent.setSynced(false);
             database.getTaskEventDao().update(taskEvent);
 
             List<Reminder> dbReminedrs = database.getReminderDao().getAllRemindersForTask(taskEvent.getId());

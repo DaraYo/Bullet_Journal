@@ -299,6 +299,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         JobInfo jobInfoObj = new JobInfo.Builder(777, componentName)
                 .setPeriodic(PushToFirestoreJobService.REDO_FIRESTORE_PULL)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .setPersisted(true)
                 .build();
 
         JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
