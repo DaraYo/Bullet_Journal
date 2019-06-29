@@ -76,9 +76,9 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
                         @Override
                         public void taskFinished(Boolean retVal) {
                             if (retVal) {
-                                Toast.makeText(context, R.string.task_status_updated, Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, R.string.task_status_updated, Toast.LENGTH_SHORT).show();
                             } else {
-                                Toast.makeText(context, R.string.basic_error, Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
                             }
                         }
                     }).execute(taskEventObj);

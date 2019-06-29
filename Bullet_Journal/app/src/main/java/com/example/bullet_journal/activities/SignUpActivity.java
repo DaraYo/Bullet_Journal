@@ -2,6 +2,8 @@ package com.example.bullet_journal.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +15,8 @@ import androidx.annotation.NonNull;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
-import com.example.bullet_journal.model.User;
+import com.example.bullet_journal.helpClasses.FirebaseUserDTO;
+import com.example.bullet_journal.recivers.NetworkBroadcastReciver;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -26,6 +29,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 public class SignUpActivity extends RootActivity {
 
     private FirebaseAuth firebaseAuth;
+    private NetworkBroadcastReciver networkBroadcastReciver;
 
     EditText _firstName, _lastName, _email, _password, _confirmPassword;
     Button _signUpButton;
@@ -48,6 +52,8 @@ public class SignUpActivity extends RootActivity {
         _signUpButton = (Button) findViewById(R.id.btn_signup);
         TextView _loginLink = (TextView) findViewById(R.id.link_login);
 
+        networkBroadcastReciver = new NetworkBroadcastReciver();
+
         _signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -58,16 +64,16 @@ public class SignUpActivity extends RootActivity {
         _loginLink.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
                 Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
                 startActivity(i);
+                finish();
             }
         });
     }
 
     public void signup() {
         if (!validate()) {
-            onSignupFailed();
+            Toast.makeText(getBaseContext(), "Registration failed", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -75,7 +81,6 @@ public class SignUpActivity extends RootActivity {
                 R.style.AppTheme_PopupOverlay);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Creating Account...");
-        progressDialog.show();
 
         final String firstName = _firstName.getText().toString();
         final String lastName = _lastName.getText().toString();
@@ -83,44 +88,53 @@ public class SignUpActivity extends RootActivity {
         final String password = _password.getText().toString();
         String confirmPassword = _confirmPassword.getText().toString();
 
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    User newUser = new User(null, null, firstName, lastName, email, password);
-                    final CollectionReference colRef = FirebaseFirestore.getInstance().collection("Users");
+        if(networkBroadcastReciver.isWifiOn() || networkBroadcastReciver.isDataOn()){
+            progressDialog.show();
+            firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(task.isSuccessful()){
+                        FirebaseUserDTO newUser = new FirebaseUserDTO(firebaseAuth.getUid(), firstName, lastName, email, password);
+                        final CollectionReference colRef = FirebaseFirestore.getInstance().collection("Users");
 
-                    colRef.document(firebaseAuth.getCurrentUser().getUid()).set(newUser).addOnSuccessListener(
-                            new OnSuccessListener< Void >() {
-                                @Override
-                                public void onSuccess(Void aVoid) {
-                                    progressDialog.dismiss();
-
-                                    finish();
-                                    Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
-                                    startActivity(i);
+                        colRef.document(firebaseAuth.getCurrentUser().getUid()).set(newUser).addOnSuccessListener(
+                                new OnSuccessListener< Void >() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        progressDialog.dismiss();
+                                        Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
+                                        startActivity(i);
+                                        finish();
+                                    }
                                 }
+                        ).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getBaseContext(), R.string.basic_error, Toast.LENGTH_SHORT).show();
                             }
-                    ).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(getBaseContext(), "Error!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                        });
 
-                }else{
-                    Toast.makeText(getBaseContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(getBaseContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
-        });
+            });
+        }else{
+            Toast.makeText(getBaseContext(), "Turn Wifi or Data to proceed", Toast.LENGTH_LONG).show();
+        }
     }
 
-
-    public void onSignupSuccess() {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkBroadcastReciver, intentFilter);
     }
 
-    public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), "Registration failed", Toast.LENGTH_LONG).show();
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(networkBroadcastReciver);
     }
 
     public boolean validate() {

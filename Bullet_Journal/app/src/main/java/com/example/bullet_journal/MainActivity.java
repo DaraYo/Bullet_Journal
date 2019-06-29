@@ -144,7 +144,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
         setupSharedPreferences();
 
-        hideDrawerMenu();
+
 
         if(fAuth.getCurrentUser() != null){
             scheduleJob();
@@ -259,11 +259,13 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     private void hideDrawerMenu(){
         Menu nav_Menu = navigationView.getMenu();
         Set<String> items = PreferencesHelper.getMenuItems(this);
-        String[] defaultItems = getResources().getStringArray(R.array.pref_options_values);
+        if(!items.contains("not_initialized")) {
+            String[] defaultItems = getResources().getStringArray(R.array.pref_options_values);
 
-        for (String item: defaultItems) {
-            boolean visibility = items.contains(item);
-            nav_Menu.findItem(getMenuId(item)).setVisible(visibility);
+            for (String item : defaultItems) {
+                boolean visibility = items.contains(item);
+                nav_Menu.findItem(getMenuId(item)).setVisible(visibility);
+            }
         }
     }
 
@@ -284,6 +286,12 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
             default:
                 return  -1;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideDrawerMenu();
     }
 
     public void scheduleJob() {

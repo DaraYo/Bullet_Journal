@@ -33,7 +33,6 @@ public class MoodTrackerActivity extends RootActivity {
 
     final Context context = this;
     private MaterialCalendarView calendarView;
-
     private List<Day> dates;
 
     @Override
@@ -92,7 +91,6 @@ public class MoodTrackerActivity extends RootActivity {
         });
 
         fetchDays(calendarView.getSelectedDate());
-
     }
 
     @Override
@@ -154,6 +152,5 @@ public class MoodTrackerActivity extends RootActivity {
         calendarView.addDecorator(new DayViewMoodDecorator(this, terrible, MoodType.TERRIBLE));
 
     }
-
 
 }

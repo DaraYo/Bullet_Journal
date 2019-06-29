@@ -142,8 +142,9 @@ public class NewTaskEventActivity extends RootActivity {
                             intent.putExtras(bundle);
                             startActivity(intent);
                             finish();
+                        }else {
+                            Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(context, R.string.basic_error, Toast.LENGTH_LONG).show();
                     }
                 }).execute(taskEventObj);
             }

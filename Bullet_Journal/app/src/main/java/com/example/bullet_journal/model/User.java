@@ -3,11 +3,13 @@ package com.example.bullet_journal.model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(tableName = "user")
+@Entity(tableName = "user",
+        indices = {@Index(value = {"firestore_id"}, unique = true)})
 public class User implements Serializable {
 
     @PrimaryKey(autoGenerate = true)

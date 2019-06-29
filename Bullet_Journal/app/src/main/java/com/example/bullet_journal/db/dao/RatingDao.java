@@ -19,6 +19,12 @@ public interface RatingDao {
     @Query("SELECT * FROM rating ORDER BY date DESC")
     List<Rating> getAll();
 
+    @Query("SELECT * FROM rating WHERE firestore_id IS NULL AND synced = 0")
+    List<Rating> getAllForInsert();
+
+    @Query("SELECT * FROM rating WHERE firestore_id IS NOT NULL AND synced = 0")
+    List<Rating> getAllForUpdate();
+
     @Insert
     long insert(Rating rating);
 

@@ -22,6 +22,12 @@ public interface MoodDao {
     @Query("SELECT * FROM mood")
     List<Mood> getAll();
 
+    @Query("SELECT * FROM mood WHERE firestore_id IS NULL AND synced = 0")
+    List<Mood> getAllForInsert();
+
+    @Query("SELECT * FROM mood WHERE firestore_id IS NOT NULL AND synced = 0")
+    List<Mood> getAllForUpdate();
+
     @Insert
     long insert(Mood mood);
 

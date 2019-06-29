@@ -28,6 +28,12 @@ public interface ReminderDao {
     @Query("SELECT * FROM reminder")
     List<Reminder> getAll();
 
+    @Query("SELECT * FROM reminder WHERE firestore_id IS NULL AND synced = 0")
+    List<Reminder> getAllForInsert();
+
+    @Query("SELECT * FROM reminder WHERE firestore_id IS NOT NULL AND synced = 0")
+    List<Reminder> getAllForUpdate();
+
     @Insert
     long insert(Reminder reminder);
 

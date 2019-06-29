@@ -25,6 +25,12 @@ public interface TaskEventDao {
     @Query("SELECT * FROM task_event")
     List<Task> getAll();
 
+    @Query("SELECT * FROM task_event WHERE firestore_id IS NULL AND synced = 0")
+    List<Task> getAllForInsert();
+
+    @Query("SELECT * FROM task_event WHERE firestore_id IS NOT NULL AND synced = 0")
+    List<Task> getAllForUpdate();
+
     @Insert
     long insert(Task task);
 
