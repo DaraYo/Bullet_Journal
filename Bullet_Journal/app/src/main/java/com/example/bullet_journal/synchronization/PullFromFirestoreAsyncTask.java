@@ -153,7 +153,7 @@ public class PullFromFirestoreAsyncTask extends AsyncTask<Void, Void, Boolean> {
             for(QueryDocumentSnapshot snapshot : remindersResult){
                 Reminder reminder = snapshot.toObject(Reminder.class);
                 reminder.setTaskId(task.getId());
-                database.getTaskEventDao().insert(task);
+                database.getReminderDao().insert(reminder);
             }
 
             Log.i("REMINDERS FETCH", "SUCCESS");
