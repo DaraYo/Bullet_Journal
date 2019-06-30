@@ -43,11 +43,11 @@ public class GetDaysForSyncTask extends AsyncTask<Void, Void, Boolean> {
                 Tasks.await(dayCollectionRef.document("" + day.getDate()).set(day));
                 database.getDayDao().update(day);
             }
-            Log.i("DAY SYNC END", "SUCCESS");
+            Log.i("DAY INSERT END", "SUCCESS");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            Log.i("DAY SYNC END", "FAILED");
+            Log.i("DAY INSERT END", "FAILED");
             return false;
         }
     }

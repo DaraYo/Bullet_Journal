@@ -19,7 +19,9 @@ public class DeleteMoodAsyncTask extends AsyncTask<Mood, Void, Boolean> {
     protected Boolean doInBackground(Mood... moods) {
 
         try{
-            database.getMoodDao().delete(moods[0]);
+            Mood forDelete = moods[0];
+            forDelete.setDeleted(true);
+            database.getMoodDao().update(forDelete);
             return true;
         }catch (Exception e){
             e.printStackTrace();

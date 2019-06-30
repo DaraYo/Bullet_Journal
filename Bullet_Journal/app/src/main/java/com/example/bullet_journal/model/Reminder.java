@@ -45,6 +45,9 @@ public class Reminder implements Serializable {
     @ColumnInfo(name = "synced")
     private boolean synced;
 
+    @ColumnInfo(name = "deleted")
+    private boolean deleted;
+
     public Reminder() {
     }
 
@@ -58,6 +61,7 @@ public class Reminder implements Serializable {
         this.habitId = habitId;
         this.taskId = taskId;
         this.synced = synced;
+        this.deleted = false;
     }
 
     public Long getId() {
@@ -122,5 +126,13 @@ public class Reminder implements Serializable {
 
     public void setSynced(boolean synced) {
         this.synced = synced;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

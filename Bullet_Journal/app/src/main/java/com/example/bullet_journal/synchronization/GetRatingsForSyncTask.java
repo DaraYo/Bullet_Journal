@@ -29,7 +29,7 @@ public class GetRatingsForSyncTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... voids) {
 
-        return pushRatings() & updateRatings();
+        return deleteRatings() & pushRatings() & updateRatings();
     }
 
     private boolean pushRatings(){
@@ -45,11 +45,11 @@ public class GetRatingsForSyncTask extends AsyncTask<Void, Void, Boolean> {
                 database.getRatingDao().update(rating);
             }
 
-            Log.i("RATINGS SYNC END", "SUCCESS");
+            Log.i("RATINGS INSERT END", "SUCCESS");
             return true;
         }catch (Exception e){
             e.printStackTrace();
-            Log.i("RATINGS SYNC END", "FAILED");
+            Log.i("RATINGS INSERT END", "FAILED");
             return false;
         }
     }
@@ -65,11 +65,34 @@ public class GetRatingsForSyncTask extends AsyncTask<Void, Void, Boolean> {
                 database.getRatingDao().update(rating);
             }
 
-            Log.i("RATINGS SYNC END", "SUCCESS");
+            Log.i("RATINGS UPDATE END", "SUCCESS");
             return true;
         }catch (Exception e){
             e.printStackTrace();
-            Log.i("RATINGS SYNC END", "FAILED");
+            Log.i("RATINGS UPDATE END", "FAILED");
+            return false;
+        }
+    }
+
+    private boolean deleteRatings(){
+        try{
+            List<Rating> forUpdate = database.getRatingDao().getAllForDelete();
+            Log.i("RATINGS FOR DELETE", "NUM: "+forUpdate.size());
+
+            for(Rating rating : forUpdate){
+
+                if(rating.getFirestoreId() != null && !rating.getFirestoreId().isEmpty()){
+                    Tasks.await(ratingsCollectionRef.document(rating.getFirestoreId()).delete());
+                }
+
+                database.getRatingDao().update(rating);
+            }
+
+            Log.i("RATINGS DELETE END", "SUCCESS");
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            Log.i("RATINGS DELETE END", "FAILED");
             return false;
         }
     }

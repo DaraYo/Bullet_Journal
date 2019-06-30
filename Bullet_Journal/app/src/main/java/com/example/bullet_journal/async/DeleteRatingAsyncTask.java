@@ -19,7 +19,9 @@ public class DeleteRatingAsyncTask extends AsyncTask<Rating, Void, Boolean> {
     protected Boolean doInBackground(Rating... ratings) {
 
         try{
-            database.getRatingDao().delete(ratings[0]);
+            Rating forDelete = ratings[0];
+            forDelete.setDeleted(true);
+            database.getRatingDao().update(forDelete);
             return true;
         }catch (Exception e){
             e.printStackTrace();

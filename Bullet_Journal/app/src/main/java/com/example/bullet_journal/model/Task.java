@@ -45,6 +45,9 @@ public class Task implements Serializable {
     @ColumnInfo(name = "type")
     private TaskType type;
 
+    @ColumnInfo(name = "deleted")
+    private boolean deleted;
+
     public Task() {
     }
 
@@ -59,6 +62,7 @@ public class Task implements Serializable {
         this.status = status;
         this.synced = synced;
         this.type = type;
+        this.deleted = false;
     }
 
     public Long getId() {
@@ -131,5 +135,13 @@ public class Task implements Serializable {
 
     public void setType(TaskType type) {
         this.type = type;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

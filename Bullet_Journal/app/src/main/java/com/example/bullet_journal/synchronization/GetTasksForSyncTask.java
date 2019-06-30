@@ -29,7 +29,7 @@ public class GetTasksForSyncTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... voids) {
 
-        return pushTasks() & updateTasks();
+        return deleteTasks() & pushTasks() & updateTasks();
     }
 
     private boolean pushTasks() {
@@ -74,6 +74,29 @@ public class GetTasksForSyncTask extends AsyncTask<Void, Void, Boolean> {
         } catch (Exception e) {
             e.printStackTrace();
             Log.i("TASKS UPDATE END", "FAILED");
+            return false;
+        }
+    }
+
+    private boolean deleteTasks() {
+        try {
+            List<com.example.bullet_journal.model.Task> forUpdate = database.getTaskEventDao().getAllForDelete();
+            Log.i("TASKS FOR DELETE", "NUM: "+forUpdate.size());
+
+            for (com.example.bullet_journal.model.Task task : forUpdate) {
+                if(task.getFirestoreId() != null && !task.getFirestoreId().isEmpty()){
+                    Day day = database.getDayDao().get(task.getDayId());
+                    CollectionReference tasksCollectionRef = dayCollectionRef.document(day.getFirestoreId()).collection("Tasks");
+                    Tasks.await(tasksCollectionRef.document(task.getFirestoreId()).delete());
+                }
+
+                database.getTaskEventDao().delete(task);
+            }
+            Log.i("TASKS DELETE END", "SUCCESS");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("TASKS DELETE END", "FAILED");
             return false;
         }
     }

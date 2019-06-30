@@ -1,6 +1,7 @@
 package com.example.bullet_journal.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -15,11 +16,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.bullet_journal.MainActivity;
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.async.AsyncResponse;
-import com.example.bullet_journal.synchronization.PullFromFirestoreAsyncTask;
 import com.example.bullet_journal.recivers.NetworkBroadcastReciver;
+import com.example.bullet_journal.synchronization.PullFromFirestoreAsyncTask;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -27,6 +29,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends RootActivity {
 
+    private final Context context = this;
     private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     private NetworkBroadcastReciver networkBroadcastReciver;
 
@@ -111,6 +114,8 @@ public class LoginActivity extends RootActivity {
                         public void taskFinished(Boolean retVal) {
                             progressDialog.dismiss();
                             if(retVal){
+                                Intent intent = new Intent(context, MainActivity.class);
+                                startActivity(intent);
                                 finish();
                             }else{
                                 Toast.makeText(getBaseContext(), R.string.basic_error, Toast.LENGTH_SHORT).show();

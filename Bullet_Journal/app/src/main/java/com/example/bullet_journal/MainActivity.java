@@ -80,6 +80,12 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         setContentView(R.layout.activity_main);
         final Context context = this;
 
+        if(fAuth.getCurrentUser() == null){
+            Intent intent= new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -143,8 +149,6 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         };
 
         setupSharedPreferences();
-
-
 
         if(fAuth.getCurrentUser() != null){
             scheduleJob();
@@ -299,7 +303,6 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         JobInfo jobInfoObj = new JobInfo.Builder(777, componentName)
                 .setPeriodic(PushToFirestoreJobService.REDO_FIRESTORE_PULL)
                 .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
-                .setPersisted(true)
                 .build();
 
         JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);

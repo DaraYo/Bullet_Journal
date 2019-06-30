@@ -16,10 +16,10 @@ public interface ReminderDao {
     @Query("SELECT * FROM reminder WHERE id=:id")
     Reminder get(Long id);
 
-    @Query("SELECT * FROM reminder WHERE task_id=:id ORDER BY date")
+    @Query("SELECT * FROM reminder WHERE task_id=:id AND deleted = 0 ORDER BY date")
     List<Reminder> getAllRemindersForTask(Long id);
 
-    @Query("SELECT COUNT(*) FROM reminder WHERE task_id=:id")
+    @Query("SELECT COUNT(*) FROM reminder WHERE task_id=:id AND deleted = 0")
     int getRemindersCountForTask(Long id);
 
     @Query("SELECT * FROM reminder WHERE habit_id=:id")
@@ -33,6 +33,9 @@ public interface ReminderDao {
 
     @Query("SELECT * FROM reminder WHERE firestore_id IS NOT NULL AND synced = 0")
     List<Reminder> getAllForUpdate();
+
+    @Query("SELECT * FROM reminder WHERE deleted = 1")
+    List<Reminder> getAllForDelete();
 
     @Insert
     long insert(Reminder reminder);

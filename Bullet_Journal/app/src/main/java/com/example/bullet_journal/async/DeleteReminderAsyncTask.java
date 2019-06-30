@@ -19,7 +19,9 @@ public class DeleteReminderAsyncTask extends AsyncTask<Reminder, Void, Boolean> 
     protected Boolean doInBackground(Reminder... reminders) {
 
         try {
-            database.getReminderDao().delete(reminders[0]);
+            Reminder forDelete = reminders[0];
+            forDelete.setDeleted(true);
+            database.getReminderDao().update(forDelete);
             return true;
         } catch (Exception e) {
             return false;

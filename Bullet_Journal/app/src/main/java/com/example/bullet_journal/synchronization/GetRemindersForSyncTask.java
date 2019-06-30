@@ -31,7 +31,7 @@ public class GetRemindersForSyncTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... voids) {
 
-        return pushReminders() & updateReminders();
+        return deleteReminders() & pushReminders() & updateReminders();
     }
 
     private boolean pushReminders() {
@@ -50,11 +50,11 @@ public class GetRemindersForSyncTask extends AsyncTask<Void, Void, Boolean> {
                 Tasks.await(remindersCollectionRef.document(firestoreId).set(reminder));
                 database.getReminderDao().update(reminder);
             }
-            Log.i("REMINDERS SYNC END", "SUCCESS");
+            Log.i("REMINDERS INSERT END", "SUCCESS");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            Log.i("REMINDERS SYNC END", "FAILED");
+            Log.i("REMINDERS INSERT END", "FAILED");
             return false;
         }
     }
@@ -78,6 +78,30 @@ public class GetRemindersForSyncTask extends AsyncTask<Void, Void, Boolean> {
         } catch (Exception e) {
             e.printStackTrace();
             Log.i("REMINDERS UPDATE END", "FAILED");
+            return false;
+        }
+    }
+
+    private boolean deleteReminders() {
+        try {
+            List<Reminder> forUpdate = database.getReminderDao().getAllForDelete();
+            Log.i("REMINDERS FOR DELETE", "NUM: "+forUpdate.size());
+
+            for (Reminder reminder : forUpdate) {
+                if(reminder.getFirestoreId() != null && !reminder.getFirestoreId().isEmpty()){
+                    Task task = database.getTaskEventDao().get(reminder.getTaskId());
+                    Day day = database.getDayDao().get(task.getDayId());
+                    CollectionReference remindersCollectionRef = dayCollectionRef.document(day.getFirestoreId()).collection("Tasks").document(task.getFirestoreId()).collection("Reminders");
+                    Tasks.await(remindersCollectionRef.document(task.getFirestoreId()).delete());
+                }
+
+                database.getReminderDao().delete(reminder);
+            }
+            Log.i("REMINDERS DELETE END", "SUCCESS");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("REMINDERS DELETE END", "FAILED");
             return false;
         }
     }

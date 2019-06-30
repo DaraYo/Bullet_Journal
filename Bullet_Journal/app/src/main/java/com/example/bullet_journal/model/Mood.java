@@ -37,6 +37,9 @@ public class Mood implements Serializable {
     @ColumnInfo(name = "synced")
     private boolean synced;
 
+    @ColumnInfo(name = "deleted")
+    private boolean deleted;
+
     public Mood() {
     }
 
@@ -49,6 +52,7 @@ public class Mood implements Serializable {
         this.rating = rating;
         this.description = description;
         this.synced = synced;
+        this.deleted = false;
     }
 
     public Long getId() {
@@ -105,5 +109,13 @@ public class Mood implements Serializable {
 
     public void setDayId(Long dayId) {
         this.dayId = dayId;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

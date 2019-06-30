@@ -16,7 +16,7 @@ public interface MoodDao {
     @Query("SELECT * FROM mood WHERE id=:id")
     Mood get(Long id);
 
-    @Query("SELECT * FROM mood WHERE day_id=:id ORDER BY date")
+    @Query("SELECT * FROM mood WHERE day_id=:id AND deleted = 0 ORDER BY date")
     List<Mood> getAllMoodsForDay(Long id);
 
     @Query("SELECT * FROM mood")
@@ -27,6 +27,9 @@ public interface MoodDao {
 
     @Query("SELECT * FROM mood WHERE firestore_id IS NOT NULL AND synced = 0")
     List<Mood> getAllForUpdate();
+
+    @Query("SELECT * FROM mood WHERE deleted = 1")
+    List<Mood> getAllForDelete();
 
     @Insert
     long insert(Mood mood);

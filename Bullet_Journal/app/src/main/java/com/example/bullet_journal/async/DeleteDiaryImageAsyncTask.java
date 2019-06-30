@@ -18,10 +18,10 @@ public class DeleteDiaryImageAsyncTask extends AsyncTask<Long, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Long... diaryImageIds) {
 
-
         try{
             DiaryImage img = database.getDiaryImageDao().get(diaryImageIds[0]);
-            database.getDiaryImageDao().delete(img);
+            img.setDeleted(true);
+            database.getDiaryImageDao().update(img);
             return true;
         }catch (Exception e){
             return false;

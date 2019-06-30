@@ -30,7 +30,7 @@ public class GetMoodsForSyncTask extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected Boolean doInBackground(Void... voids) {
 
-        return pushMoods() & updateMoods();
+        return deleteMoods() & pushMoods() & updateMoods();
     }
 
     private boolean pushMoods() {
@@ -48,11 +48,11 @@ public class GetMoodsForSyncTask extends AsyncTask<Void, Void, Boolean> {
                 Tasks.await(moodCollectionRef.document(firestoreId).set(mood));
                 database.getMoodDao().update(mood);
             }
-            Log.i("MOODS SYNC END", "SUCCESS");
+            Log.i("MOODS INSERT END", "SUCCESS");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            Log.i("MOODS SYNC END", "FAILED");
+            Log.i("MOODS INSERT END", "FAILED");
             return false;
         }
     }
@@ -75,6 +75,30 @@ public class GetMoodsForSyncTask extends AsyncTask<Void, Void, Boolean> {
         } catch (Exception e) {
             e.printStackTrace();
             Log.i("MOODS UPDATE END", "FAILED");
+            return false;
+        }
+    }
+
+    private boolean deleteMoods() {
+        try {
+            List<Mood> forUpdate = database.getMoodDao().getAllForDelete();
+            Log.i("MOODS FOR DELETE", "NUM: "+forUpdate.size());
+
+            for (Mood mood : forUpdate) {
+
+                if(mood.getFirestoreId() != null && !mood.getFirestoreId().isEmpty()){
+                    Day day = database.getDayDao().get(mood.getDayId());
+                    CollectionReference moodCollectionRef = dayCollectionRef.document(day.getFirestoreId()).collection("Moods");
+                    Tasks.await(moodCollectionRef.document(mood.getFirestoreId()).delete());
+                }
+
+                database.getMoodDao().update(mood);
+            }
+            Log.i("MOODS DELETE END", "SUCCESS");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.i("MOODS DELETE END", "FAILED");
             return false;
         }
     }
