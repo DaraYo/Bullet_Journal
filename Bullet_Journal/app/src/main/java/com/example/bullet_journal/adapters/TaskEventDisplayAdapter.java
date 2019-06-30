@@ -72,7 +72,7 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
             taskEventCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    AsyncTask<Task, Void, Boolean> completeTaskAsyncTask = new CompleteTaskAsyncTask(new AsyncResponse<Boolean>() {
+                    AsyncTask<Task, Void, Boolean> completeTaskAsyncTask = new CompleteTaskAsyncTask(context, new AsyncResponse<Boolean>() {
                         @Override
                         public void taskFinished(Boolean retVal) {
                             if (retVal) {
@@ -87,7 +87,7 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
 
             final TextView reminderCount = view.findViewById(R.id.reminder_count);
 
-            AsyncTask<Long, Void, Integer> getRemindersCountForTaskEventAsyncTask = new GetRemindersCountForTaskEventAsyncTask(new AsyncResponse<Integer>() {
+            AsyncTask<Long, Void, Integer> getRemindersCountForTaskEventAsyncTask = new GetRemindersCountForTaskEventAsyncTask(context, new AsyncResponse<Integer>() {
                 @Override
                 public void taskFinished(Integer retVal) {
                     reminderCount.setText(retVal.toString());
@@ -120,7 +120,7 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
 
             final TextView reminderCount = view.findViewById(R.id.reminder_count);
 
-            AsyncTask<Long, Void, Integer> getRemindersCountForTaskEventAsyncTask = new GetRemindersCountForTaskEventAsyncTask(new AsyncResponse<Integer>() {
+            AsyncTask<Long, Void, Integer> getRemindersCountForTaskEventAsyncTask = new GetRemindersCountForTaskEventAsyncTask(context, new AsyncResponse<Integer>() {
                 @Override
                 public void taskFinished(Integer retVal) {
                     reminderCount.setText(retVal.toString());
@@ -149,7 +149,7 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
 
     private void fetchReminders(Long taskId, final ArrayList<Reminder> reminders) {
 
-        AsyncTask<Long, Void, List<Reminder>> getRemindersForTaskEventAsyncTask = new GetRemindersForTaskEventAsyncTask(new AsyncResponse<List<Reminder>>() {
+        AsyncTask<Long, Void, List<Reminder>> getRemindersForTaskEventAsyncTask = new GetRemindersForTaskEventAsyncTask(context, new AsyncResponse<List<Reminder>>() {
             @Override
             public void taskFinished(List<Reminder> retVal) {
                 reminders.clear();

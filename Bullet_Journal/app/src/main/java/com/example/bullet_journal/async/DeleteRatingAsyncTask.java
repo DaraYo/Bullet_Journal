@@ -1,5 +1,6 @@
 package com.example.bullet_journal.async;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.bullet_journal.db.DatabaseClient;
@@ -8,11 +9,12 @@ import com.example.bullet_journal.model.Rating;
 
 public class DeleteRatingAsyncTask extends AsyncTask<Rating, Void, Boolean> {
 
-    public AsyncResponse delegate = null;
-    private MainDatabase database = DatabaseClient.getInstance(null).getDatabase();
+    public AsyncResponse delegate;
+    private MainDatabase database;
 
-    public DeleteRatingAsyncTask(AsyncResponse delegate){
+    public DeleteRatingAsyncTask(Context context, AsyncResponse delegate) {
         this.delegate = delegate;
+        this.database = DatabaseClient.getInstance(context).getDatabase();
     }
 
     @Override

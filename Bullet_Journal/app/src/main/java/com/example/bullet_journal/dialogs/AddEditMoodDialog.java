@@ -75,7 +75,7 @@ public class AddEditMoodDialog extends Dialog {
             picker.setCurrentMinute((int) ((moodObj.getDate() / (1000*60)) % 60));
         }
 
-        AsyncTask<Long, Void, Day> detDayTask = new GetDayAsyncTask(new AsyncResponse<Day>(){
+        AsyncTask<Long, Void, Day> detDayTask = new GetDayAsyncTask(context, new AsyncResponse<Day>(){
 
             @Override
             public void taskFinished(Day retVal) {
@@ -99,7 +99,7 @@ public class AddEditMoodDialog extends Dialog {
                 if(moodObj == null){
                     moodObj = new Mood(null, null, dayObj.getId(), newTime, selectedMoodVal, description, false);
 
-                    AsyncTask<Mood, Void, Boolean> insertMoodAsyncTask = new InsertMoodAsyncTask(new AsyncResponse<Boolean>(){
+                    AsyncTask<Mood, Void, Boolean> insertMoodAsyncTask = new InsertMoodAsyncTask(context, new AsyncResponse<Boolean>(){
 
                         @Override
                         public void taskFinished(Boolean retVal) {
@@ -114,7 +114,7 @@ public class AddEditMoodDialog extends Dialog {
                     moodObj.setRating(selectedMoodVal);
                     moodObj.setDate(newTime);
 
-                    AsyncTask<Mood, Void, Boolean> insertMoodAsyncTask = new UpdateMoodAsyncTask(new AsyncResponse<Boolean>(){
+                    AsyncTask<Mood, Void, Boolean> insertMoodAsyncTask = new UpdateMoodAsyncTask(context, new AsyncResponse<Boolean>(){
 
                         @Override
                         public void taskFinished(Boolean retVal) {
@@ -215,7 +215,7 @@ public class AddEditMoodDialog extends Dialog {
 
     private void calculateNewAverage() {
 
-        AsyncTask<Mood, Void, Boolean> calculateNewAverageMoodAsyncTask = new CalculateNewAverageMoodAsyncTask(new AsyncResponse<Boolean>() {
+        AsyncTask<Mood, Void, Boolean> calculateNewAverageMoodAsyncTask = new CalculateNewAverageMoodAsyncTask(context, new AsyncResponse<Boolean>() {
             @Override
             public void taskFinished(Boolean retVal) {
                 if(retVal){

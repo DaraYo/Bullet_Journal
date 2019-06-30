@@ -102,7 +102,7 @@ public class MoodTrackerActivity extends RootActivity {
 
     private void fetchDays(CalendarDay day){
 
-        AsyncTask<Long, Void, List<Day>> getDaysBetweenAsyncTask = new GetDaysBetweenAsyncTask(new AsyncResponse<List<Day>>() {
+        AsyncTask<Long, Void, List<Day>> getDaysBetweenAsyncTask = new GetDaysBetweenAsyncTask(MoodTrackerActivity.this, new AsyncResponse<List<Day>>() {
             @Override
             public void taskFinished(List<Day> retVal) {
                 dates.clear();

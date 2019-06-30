@@ -1,4 +1,7 @@
 <resources>
+
+    <string name="google_maps_api_key">AIzaSyAwXHd2TxLixDYo7AQRX2TeAHdMWNL2y9c</string>
+
     <string name="app_name">Bullet Journal</string>
     <string name="navigation_drawer_open">Otvori navigacioni bar</string>
     <string name="navigation_drawer_close">Zatvori navigacioni bar</string>

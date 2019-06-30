@@ -113,7 +113,7 @@ public class TaskActivity extends RootActivity {
                     startActivity(resolvePreviousPanel());
                     finish();
                 }else{
-                    AsyncTask<TaskEventRemindersWrapper, Void, Boolean> editTaskEventAsyncTask = new UpdateTaskEventAsyncTask(new AsyncResponse<Boolean>(){
+                    AsyncTask<TaskEventRemindersWrapper, Void, Boolean> editTaskEventAsyncTask = new UpdateTaskEventAsyncTask(TaskActivity.this, new AsyncResponse<Boolean>(){
                         @Override
                         public void taskFinished(Boolean retVal) {
                             if(retVal){

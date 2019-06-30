@@ -1,5 +1,6 @@
 package com.example.bullet_journal.async;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.bullet_journal.db.DatabaseClient;
@@ -13,11 +14,12 @@ import java.util.List;
 
 public class UpdateTaskEventAsyncTask extends AsyncTask<TaskEventRemindersWrapper, Void, Boolean> {
 
-    public AsyncResponse delegate = null;
-    private MainDatabase database = DatabaseClient.getInstance(null).getDatabase();
+    public AsyncResponse delegate;
+    private MainDatabase database;
 
-    public UpdateTaskEventAsyncTask(AsyncResponse delegate){
+    public UpdateTaskEventAsyncTask(Context context, AsyncResponse delegate) {
         this.delegate = delegate;
+        this.database = DatabaseClient.getInstance(context).getDatabase();
     }
 
     @Override

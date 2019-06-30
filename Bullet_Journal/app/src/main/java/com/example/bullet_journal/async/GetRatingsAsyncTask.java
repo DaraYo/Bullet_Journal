@@ -1,5 +1,6 @@
 package com.example.bullet_journal.async;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.bullet_journal.db.DatabaseClient;
@@ -10,11 +11,12 @@ import java.util.List;
 
 public class GetRatingsAsyncTask extends AsyncTask<Void, Void, List<Rating>> {
 
-    public AsyncResponse delegate = null;
-    private MainDatabase database = DatabaseClient.getInstance(null).getDatabase();
+    public AsyncResponse delegate;
+    private MainDatabase database;
 
-    public GetRatingsAsyncTask(AsyncResponse delegate){
+    public GetRatingsAsyncTask(Context context, AsyncResponse delegate) {
         this.delegate = delegate;
+        this.database = DatabaseClient.getInstance(context).getDatabase();
     }
 
     @Override

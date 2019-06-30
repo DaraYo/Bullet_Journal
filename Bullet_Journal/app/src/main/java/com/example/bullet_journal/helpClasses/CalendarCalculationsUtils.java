@@ -82,7 +82,7 @@ public class CalendarCalculationsUtils {
 
     public static long getBeginningOfTheMonth(int month, int year){
         Calendar calendar = Calendar.getInstance();
-        int day = 1;
+        int day = 0;
         calendar.set(year, month, day);
         return calendar.getTimeInMillis();
     }

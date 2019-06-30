@@ -38,7 +38,7 @@ public class MoodPreviewActivity extends RootActivity {
         moodsAdapter = new MoodDisplayAdapter(this, moods);
         listView.setAdapter(moodsAdapter);
 
-        AsyncTask<Long, Void, List<Mood>> getMoodsForDayAsyncTask = new GetMoodsForDayAsyncTask(new AsyncResponse<List<Mood>>() {
+        AsyncTask<Long, Void, List<Mood>> getMoodsForDayAsyncTask = new GetMoodsForDayAsyncTask(MoodPreviewActivity.this, new AsyncResponse<List<Mood>>() {
             @Override
             public void taskFinished(List<Mood> retVal) {
                 moods.clear();
