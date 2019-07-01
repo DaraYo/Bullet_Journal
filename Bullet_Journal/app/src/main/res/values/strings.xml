@@ -179,4 +179,9 @@
     <string name="take_a_pic">Take photo</string>
     <string name="choose_img">Select photo</string>
     <string name="choose_multiple_img">Select multiple photos</string>
+
+    <!-- Widget text -->
+    <string name="widget_task">TASK</string>
+    <string name="widget_event">EVENT</string>
+    <string name="widget_empty">EMPTY</string>
 </resources>

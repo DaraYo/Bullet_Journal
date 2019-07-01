@@ -112,7 +112,9 @@ public class LoginActivity extends RootActivity {
                     AsyncTask<Void, Void, Boolean> pullFromFirestoreAsyncTask = new PullFromFirestoreAsyncTask(new AsyncResponse<Boolean>(){
                         @Override
                         public void taskFinished(Boolean retVal) {
-                            progressDialog.dismiss();
+                            if(progressDialog != null){
+                                progressDialog.dismiss();
+                            }
                             if(retVal){
                                 Intent intent = new Intent(context, MainActivity.class);
                                 startActivity(intent);

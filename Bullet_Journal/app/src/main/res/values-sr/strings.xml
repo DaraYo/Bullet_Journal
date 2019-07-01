@@ -179,4 +179,9 @@
     <string name="take_a_pic">Uslikaj</string>
     <string name="choose_img">Odaberi sliku</string>
     <string name="choose_multiple_img">Odaberi više slika</string>
+
+    <!-- Widget text -->
+    <string name="widget_task">ZADATAK</string>
+    <string name="widget_event">DOGAĐAJ</string>
+    <string name="widget_empty">PRAZNO</string>
 </resources>

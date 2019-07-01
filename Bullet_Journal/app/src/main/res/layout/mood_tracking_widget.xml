@@ -1,7 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryLight"
     android:orientation="vertical"
     android:gravity="center"
     android:padding="@dimen/widget_margin">
@@ -15,6 +14,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:loopViews="true" />
+
+        <TextView
+            android:id="@+id/example_widget_empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray"
+            android:gravity="center"
+            android:text="@string/widget_empty"
+            android:textColor="@android:color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
     </FrameLayout>
 

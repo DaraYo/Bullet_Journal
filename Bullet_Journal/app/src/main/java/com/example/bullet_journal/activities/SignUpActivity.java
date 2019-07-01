@@ -104,7 +104,9 @@ public class SignUpActivity extends RootActivity {
                                 new OnSuccessListener< Void >() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        progressDialog.dismiss();
+                                        if(progressDialog != null){
+                                            progressDialog.dismiss();
+                                        }
                                         Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
                                         startActivity(i);
                                         finish();

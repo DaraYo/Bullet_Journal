@@ -10,9 +10,10 @@ import android.widget.RemoteViewsService;
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.db.DatabaseClient;
 import com.example.bullet_journal.db.MainDatabase;
+import com.example.bullet_journal.enums.TaskType;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Day;
-import com.example.bullet_journal.model.Mood;
+import com.example.bullet_journal.model.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,14 +29,14 @@ public class MoodsWidgetService extends RemoteViewsService {
     class MoodsWidgetItemFactory implements RemoteViewsFactory {
 
         private Context context;
-        private int moodWidgetId;
-        private List<Mood> moods = new ArrayList<>();
+        private int taskEventWidgetId;
+        private List<Task> tasks = new ArrayList<>();
         private CountDownLatch doneSignal = new CountDownLatch(1);
         private MainDatabase database;
 
         public MoodsWidgetItemFactory(Context context, Intent intent) {
             this.context = context;
-            this.moodWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
+            this.taskEventWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
         }
 
         @Override
@@ -47,10 +48,14 @@ public class MoodsWidgetService extends RemoteViewsService {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    Day day = database.getDayDao().getByDate(CalendarCalculationsUtils.trimTimeFromDateMillis(System.currentTimeMillis()));
-                    List<Mood> temMoods = database.getMoodDao().getAllMoodsForDay(day.getId());
-                    moods.addAll(temMoods);
-                    doneSignal.countDown();
+                    try{
+                        Day day = database.getDayDao().getByDate(CalendarCalculationsUtils.trimTimeFromDateMillis(System.currentTimeMillis()));
+                        List<Task> tempTasks = database.getTaskEventDao().getFollowingTasksAndEventsForDay(day.getId(), System.currentTimeMillis());
+                        tasks.addAll(tempTasks);
+                        doneSignal.countDown();
+                    }catch (Exception e){
+                        tasks.clear();
+                    }
                 }
             }).start();
 
@@ -74,12 +79,24 @@ public class MoodsWidgetService extends RemoteViewsService {
         @Override
         public int getCount() {
 
-            return moods.size();
+            return tasks.size();
         }
 
         @Override
         public RemoteViews getViewAt(int position) {
             RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.mood_widget_box);
+
+            Task taskObj = tasks.get(position);
+
+            views.setTextViewText(R.id.task_widget_time, CalendarCalculationsUtils.dateMillisToStringTime(taskObj.getDate()));
+            views.setTextViewText(R.id.task_event_widget_title, taskObj.getTitle());
+            views.setTextViewText(R.id.task_event_widget_text, taskObj.getText());
+
+            if(taskObj.getType().equals(TaskType.TASK)){
+                views.setInt(R.id.task_event_widget_type, "setText", R.string.widget_task);
+            }else{
+                views.setInt(R.id.task_event_widget_type, "setText", R.string.widget_event);
+            }
 
             return views;
         }

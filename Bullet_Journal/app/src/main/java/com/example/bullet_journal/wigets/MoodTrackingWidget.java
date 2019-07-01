@@ -5,7 +5,6 @@ import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.example.bullet_journal.R;
@@ -24,8 +23,7 @@ public class MoodTrackingWidget extends AppWidgetProvider {
 
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.mood_tracking_widget);
         views.setRemoteAdapter(R.id.moods_stack, serviceIntent);
-
-        Log.i("MUKA", "MOJAAAAA "+appWidgetId);
+        views.setEmptyView(R.id.moods_stack, R.id.example_widget_empty_view);
 
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
