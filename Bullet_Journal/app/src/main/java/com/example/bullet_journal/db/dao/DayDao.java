@@ -25,6 +25,12 @@ public interface DayDao {
     @Query("SELECT * FROM day WHERE date >= :startDate AND date <= :endDate")
     List<Day> getDaysBetween(long startDate, long endDate);
 
+    @Query("SELECT * FROM day WHERE firestore_id IS NULL AND synced = 0")
+    List<Day> getAllForInsert();
+
+    @Query("SELECT * FROM day WHERE firestore_id IS NOT NULL AND synced = 0")
+    List<Day> getAllForUpdate();
+
     @Insert
     long insert(Day day);
 

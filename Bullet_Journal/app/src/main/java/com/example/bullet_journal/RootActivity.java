@@ -54,17 +54,4 @@ public class RootActivity extends LocaleAwareCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//    @Override
-//    protected void attachBaseContext(Context base) {
-//        super.attachBaseContext(LocaleHelper.onAttach(base));
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        if (initialLocale != null && !initialLocale.equals(LocaleHelper.getPersistedLocale(this))) {
-//            recreate();
-//        }
-//    }
-
 }

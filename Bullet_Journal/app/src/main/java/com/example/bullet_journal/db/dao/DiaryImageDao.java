@@ -18,7 +18,7 @@ public interface DiaryImageDao {
     @Query("SELECT * FROM diary_image")
     List<DiaryImage> getAll();
 
-    @Query("SELECT * FROM diary_image WHERE day_id=:dayId")
+    @Query("SELECT * FROM diary_image WHERE day_id=:dayId AND deleted = 0")
     List<DiaryImage> getByDiaryImagesId(long dayId);
 
     @Insert

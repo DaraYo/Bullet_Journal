@@ -134,7 +134,7 @@ public class TasksAndEventsActivity extends RootActivity {
 
     private void fetchTasks(){
 
-        AsyncTask<Long, Void, List<Task>> getTasksForDayAsyncTask = new GetTasksForDayAsyncTask(new AsyncResponse<List<Task>>(){
+        AsyncTask<Long, Void, List<Task>> getTasksForDayAsyncTask = new GetTasksForDayAsyncTask(TasksAndEventsActivity.this, new AsyncResponse<List<Task>>(){
             @Override
             public void taskFinished(List<Task> retVal) {
                 tasks.clear();
@@ -147,7 +147,7 @@ public class TasksAndEventsActivity extends RootActivity {
 
     private void fetchEvents(){
 
-        AsyncTask<Long, Void, List<Task>> getEventsForDayAsyncTask = new GetEventsForDayAsyncTask(new AsyncResponse<List<Task>>(){
+        AsyncTask<Long, Void, List<Task>> getEventsForDayAsyncTask = new GetEventsForDayAsyncTask(TasksAndEventsActivity.this, new AsyncResponse<List<Task>>(){
             @Override
             public void taskFinished(List<Task> retVal) {
                 events.clear();

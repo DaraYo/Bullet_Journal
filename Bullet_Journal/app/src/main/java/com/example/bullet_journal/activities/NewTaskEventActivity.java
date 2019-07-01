@@ -68,7 +68,7 @@ public class NewTaskEventActivity extends RootActivity {
 
         final long dayMillis = bundle.getLong("date");
 
-        AsyncTask<Long, Void, Day> getDayTask = new GetDayAsyncTask(new AsyncResponse<Day>() {
+        AsyncTask<Long, Void, Day> getDayTask = new GetDayAsyncTask(NewTaskEventActivity.this, new AsyncResponse<Day>() {
 
             @Override
             public void taskFinished(Day retVal) {
@@ -132,7 +132,7 @@ public class NewTaskEventActivity extends RootActivity {
             public void onClick(View v) {
                 buildWrapper();
 
-                AsyncTask<TaskEventRemindersWrapper, Void, Boolean> insertTaskEventAsyncTask = new InsertTaskEventAsyncTask(new AsyncResponse<Boolean>() {
+                AsyncTask<TaskEventRemindersWrapper, Void, Boolean> insertTaskEventAsyncTask = new InsertTaskEventAsyncTask(NewTaskEventActivity.this, new AsyncResponse<Boolean>() {
                     @Override
                     public void taskFinished(Boolean retVal) {
                         if(retVal){
@@ -142,8 +142,9 @@ public class NewTaskEventActivity extends RootActivity {
                             intent.putExtras(bundle);
                             startActivity(intent);
                             finish();
+                        }else {
+                            Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
                         }
-                        Toast.makeText(context, R.string.basic_error, Toast.LENGTH_LONG).show();
                     }
                 }).execute(taskEventObj);
             }

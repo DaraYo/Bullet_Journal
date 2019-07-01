@@ -1,9 +1,12 @@
 package com.example.bullet_journal.activities;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -11,9 +14,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.example.bullet_journal.MainActivity;
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.recivers.NetworkBroadcastReciver;
+import com.example.bullet_journal.synchronization.PullFromFirestoreAsyncTask;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -21,8 +29,9 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends RootActivity {
 
-    private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener firebaseAuthListener;
+    private final Context context = this;
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    private NetworkBroadcastReciver networkBroadcastReciver;
 
     EditText _email, _password;
     Button _loginButton;
@@ -34,19 +43,12 @@ public class LoginActivity extends RootActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        firebaseAuth = FirebaseAuth.getInstance();
+        if(firebaseAuth.getCurrentUser() != null){
+            Toast.makeText(getBaseContext(), "You are Logged In", Toast.LENGTH_LONG).show();
+            finish();
+        }
 
-        firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(firebaseAuth.getCurrentUser() != null){
-                    Toast.makeText(getBaseContext(), "You are Logged In", Toast.LENGTH_LONG).show();
-                    finish();
-                    Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(i);
-                }
-            }
-        };
+        networkBroadcastReciver = new NetworkBroadcastReciver();
 
         _email = (EditText) findViewById(R.id.login_email);
         _password = (EditText) findViewById(R.id.login_password);
@@ -74,15 +76,20 @@ public class LoginActivity extends RootActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        firebaseAuth.addAuthStateListener(firebaseAuthListener);
+        IntentFilter intentFilter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkBroadcastReciver, intentFilter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(networkBroadcastReciver);
     }
 
     public void login() {
-        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_AppBarOverlay);
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_AppBarOverlay);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
-        progressDialog.show();
+        progressDialog.setMessage("Authenticating and fatching previous data...");
 
         String email = _email.getText().toString();
         String password = _password.getText().toString();
@@ -92,20 +99,36 @@ public class LoginActivity extends RootActivity {
             return;
         }
 
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(!task.isSuccessful()){
-                    progressDialog.dismiss();
-                    Toast.makeText(getBaseContext(), "Login Problem", Toast.LENGTH_LONG).show();
-                    return;
-                }
+        if(networkBroadcastReciver.isDataOn() || networkBroadcastReciver.isWifiOn()){
+            progressDialog.show();
+            firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if(!task.isSuccessful()){
+                        Toast.makeText(getBaseContext(), "Login Problem", Toast.LENGTH_LONG).show();
+                        return;
+                    }
 
-                finish();
-                Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(i);
-            }
-        });
+                    AsyncTask<Void, Void, Boolean> pullFromFirestoreAsyncTask = new PullFromFirestoreAsyncTask(new AsyncResponse<Boolean>(){
+                        @Override
+                        public void taskFinished(Boolean retVal) {
+                            if(progressDialog != null){
+                                progressDialog.dismiss();
+                            }
+                            if(retVal){
+                                Intent intent = new Intent(context, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }else{
+                                Toast.makeText(getBaseContext(), R.string.basic_error, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).execute();
+                }
+            });
+        }else{
+            Toast.makeText(getBaseContext(), "Turn Wifi or Data to proceed", Toast.LENGTH_SHORT).show();
+        }
 
     }
 

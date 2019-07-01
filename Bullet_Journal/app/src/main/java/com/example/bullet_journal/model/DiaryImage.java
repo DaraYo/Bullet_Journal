@@ -31,6 +31,9 @@ public class DiaryImage implements Serializable {
     @ColumnInfo(name = "synced")
     private boolean synced;
 
+    @ColumnInfo(name = "deleted")
+    private boolean deleted;
+
     public DiaryImage(){
 
     }
@@ -42,6 +45,7 @@ public class DiaryImage implements Serializable {
         this.path = path;
         this.dayId = dayId;
         this.synced = synced;
+        this.deleted = false;
     }
 
     public Long getId() {
@@ -82,5 +86,13 @@ public class DiaryImage implements Serializable {
 
     public void setSynced(boolean synced) {
         this.synced = synced;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

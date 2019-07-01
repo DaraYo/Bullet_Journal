@@ -62,6 +62,7 @@ public class PreferencesHelper {
     public static Set<String> getMenuItems(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         Set<String> emptySet = new HashSet<>();
+        emptySet.add("not_initialized");
         return sharedPreferences.getStringSet(context.getString(R.string.options_setting_key), emptySet);
     }
 

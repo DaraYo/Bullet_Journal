@@ -1,5 +1,6 @@
 package com.example.bullet_journal.async;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.bullet_journal.db.DatabaseClient;
@@ -7,11 +8,13 @@ import com.example.bullet_journal.db.MainDatabase;
 import com.example.bullet_journal.model.DiaryImage;
 
 public class InsertDiaryImageAsyncTask extends AsyncTask<DiaryImage, Void, DiaryImage> {
-    public AsyncResponse delegate = null;
-    private MainDatabase database = DatabaseClient.getInstance(null).getDatabase();
 
-    public InsertDiaryImageAsyncTask(AsyncResponse delegate){
+    public AsyncResponse delegate;
+    private MainDatabase database;
+
+    public InsertDiaryImageAsyncTask(Context context, AsyncResponse delegate) {
         this.delegate = delegate;
+        this.database = DatabaseClient.getInstance(context).getDatabase();
     }
 
     @Override

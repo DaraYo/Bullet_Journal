@@ -37,7 +37,7 @@ public class FullScreenImageViewActivity extends RootActivity {
     }
 
     private void initData(long dayId, final int position){
-        AsyncTask<Long, Void, List<DiaryImage>> getImagesTask = new GetDiaryImagesAsyncTask(new AsyncResponse<List<DiaryImage>>(){
+        AsyncTask<Long, Void, List<DiaryImage>> getImagesTask = new GetDiaryImagesAsyncTask(FullScreenImageViewActivity.this, new AsyncResponse<List<DiaryImage>>(){
 
             @Override
             public void taskFinished(List<DiaryImage> retVal) {

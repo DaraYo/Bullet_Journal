@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.bullet_journal"
-        minSdkVersion 20
+        minSdkVersion 21
         targetSdkVersion 28
         multiDexEnabled true
         versionCode 1
@@ -47,6 +47,7 @@ dependencies {
     implementation "androidx.room:room-runtime:2.1.0"
     annotationProcessor "androidx.room:room-compiler:2.1.0"
     implementation 'com.zeugmasolutions.localehelper:locale-helper-android:1.0.2'
+    implementation 'com.google.android.gms:play-services-maps:17.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

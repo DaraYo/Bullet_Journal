@@ -1,4 +1,7 @@
 <resources>
+
+    <string name="google_maps_api_key">AIzaSyAwXHd2TxLixDYo7AQRX2TeAHdMWNL2y9c</string>
+
     <string name="app_name">Bullet Journal</string>
     <string name="navigation_drawer_open">Otvori navigacioni bar</string>
     <string name="navigation_drawer_close">Zatvori navigacioni bar</string>
@@ -177,4 +180,9 @@
     <string name="take_a_pic">Uslikaj</string>
     <string name="choose_img">Odaberi sliku</string>
     <string name="choose_multiple_img">Odaberi više slika</string>
+
+    <!-- Widget text -->
+    <string name="widget_task">ZADATAK</string>
+    <string name="widget_event">DOGAĐAJ</string>
+    <string name="widget_empty">PRAZNO</string>
 </resources>
