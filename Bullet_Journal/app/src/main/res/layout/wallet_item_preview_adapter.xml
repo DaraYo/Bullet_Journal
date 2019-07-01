@@ -50,14 +50,14 @@
     >
 
     <TextView
-        android:id="@+id/spending_name"
+        android:id="@+id/wallet_item_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:layout_weight="1" />
 
     <TextView
-        android:id="@+id/spending_price"
+        android:id="@+id/wallet_item_price"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAlignment="center"

@@ -24,6 +24,7 @@ public class WalletItem implements Serializable {
     @ColumnInfo(name = "firestore_id")
     private String firestoreId;
 
+    // Monthly budget entity
     @ColumnInfo(name = "wallet_id")
     private Long walletId;
 

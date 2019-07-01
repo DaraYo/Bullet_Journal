@@ -161,6 +161,7 @@
     <string name="mood_deleted">Mood Deleted</string>
     <string name="rating_deleted">Rating Deleted</string>
     <string name="task_status_updated">Task status updated</string>
+    <string name="wallet_item_saved">Wallet item saved</string>
 
     <!-- Days in week -->
     <string name="mon">Monday</string>

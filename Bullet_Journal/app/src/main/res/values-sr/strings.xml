@@ -161,6 +161,7 @@
     <string name="mood_deleted">Raspoloženje je uklonjeno</string>
     <string name="rating_deleted">Ocena je uklonjena</string>
     <string name="task_status_updated">Status zadatka promenjen</string>
+    <string name="wallet_item_saved">Stavka je sačuvana</string>
 
     <!-- Dani u sedmici -->
     <string name="mon">Ponedeljak</string>

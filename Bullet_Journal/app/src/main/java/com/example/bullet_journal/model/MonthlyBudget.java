@@ -51,6 +51,21 @@ public class MonthlyBudget implements Serializable {
         this.synced = synced;
     }
 
+    @Ignore
+    public MonthlyBudget(int month, int year, Long userId) {
+        this.month = month;
+        this.year = year;
+        this.userId = userId;
+    }
+
+    @Ignore
+    public MonthlyBudget(int month, int year, Long userId, double balance) {
+        this.month = month;
+        this.year = year;
+        this.userId = userId;
+        this.balance = balance;
+    }
+
     public Long getId() {
         return id;
     }
