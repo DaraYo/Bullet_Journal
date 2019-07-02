@@ -80,18 +80,6 @@ public class DeleteReminderDialog extends Dialog {
                             }
                         }
                     }).execute(new HabitRemindersWrapper(habit, new ArrayList<Reminder>()));
-                } else {
-                    AsyncTask<TaskEventRemindersWrapper, Void, Boolean> deleteTaskEventAsyncTask = new DeleteTaskEventAsyncTask(new AsyncResponse<Boolean>() {
-                        @Override
-                        public void taskFinished(Boolean retVal) {
-                            if (retVal) {
-                                Intent intent = new Intent(context, TasksAndEventsActivity.class);
-                                context.startActivity(intent);
-                            } else {
-                                Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT);
-                            }
-                        }
-                    }).execute(new TaskEventRemindersWrapper(task, new ArrayList<Reminder>()));
                 }
 
             }

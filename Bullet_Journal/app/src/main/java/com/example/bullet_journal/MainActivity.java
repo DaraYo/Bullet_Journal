@@ -11,6 +11,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -39,6 +40,9 @@ import com.example.bullet_journal.activities.SignUpActivity;
 import com.example.bullet_journal.activities.TasksAndEventsActivity;
 import com.example.bullet_journal.activities.WalletActivity;
 import com.example.bullet_journal.adapters.FollowingEventsDisplayAdapter;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.GetFollowingTasksAndEventsAsyncTask;
+import com.example.bullet_journal.async.GetTasksForDayAsyncTask;
 import com.example.bullet_journal.db.DatabaseClient;
 import com.example.bullet_journal.enums.TaskType;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
@@ -71,6 +75,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
     private String choosenDate = "";
     private long dateMillis;
+    private List<Task> followingTasks = new ArrayList<>();
 
     private NavigationView navigationView;
 
@@ -108,7 +113,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         weekDisplay = (TextView) findViewById(R.id.day_of_week_1);
         weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis(), context));
 
-        eventAdapter = new FollowingEventsDisplayAdapter(MainActivity.this, buildEvents(choosenDate));
+        eventAdapter = new FollowingEventsDisplayAdapter(MainActivity.this, followingTasks);
         eventListView = findViewById(R.id.event_preview_list_view);
         eventListView.setAdapter(eventAdapter);
 
@@ -141,10 +146,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
                 dateDisplay.setText(choosenDate);
 
                 weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime(), context));
-
-                eventAdapter = new FollowingEventsDisplayAdapter(MainActivity.this, buildEvents(choosenDate));
-                eventAdapter.notifyDataSetChanged();
-                eventListView.setAdapter(eventAdapter);
+                fetchFollowingEvents();
             }
         };
 
@@ -153,7 +155,10 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         if(fAuth.getCurrentUser() != null){
             scheduleJob();
         }
+
+        fetchFollowingEvents();
     }
+
 
     @Override
     public void onBackPressed() {
@@ -220,26 +225,18 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     }
 
 
-    public List<Task> buildEvents(String theDate){
-        List<Task> retVal = new ArrayList<>();
+    public void fetchFollowingEvents(){
 
-        Task event1 = new Task(null, null, "Event 1", "About event 1", null, System.currentTimeMillis() + 30000, false, false, TaskType.EVENT);
-        Task event2 = new Task(null, null, "Event 2", "About event 1", null, System.currentTimeMillis() + 50000, false, false, TaskType.EVENT);
-        Task event3 = new Task(null, null, "Event 3", "About event 1", null, System.currentTimeMillis() + 70000, true, false, TaskType.EVENT);
-        Task event4 = new Task(null, null, "Event 4", "About event 1", null, System.currentTimeMillis() + 90000, false, false, TaskType.EVENT);
-        Task event5 = new Task(null, null, "Event 5", "About event 1", null, System.currentTimeMillis() + 120000, false, false, TaskType.EVENT);
-        Task event6 = new Task(null, null, "Event 6", "About event 1", null, System.currentTimeMillis() + 180000, true, false, TaskType.EVENT);
-        Task event7 = new Task(null, null, "Event 7", "About event 1", null, System.currentTimeMillis() + 210000, false, false, TaskType.EVENT);
-
-        retVal.add(event1);
-        retVal.add(event2);
-        retVal.add(event3);
-        retVal.add(event4);
-        retVal.add(event5);
-        retVal.add(event6);
-        retVal.add(event7);
-
-        return retVal;
+        AsyncTask<Long, Void, List<Task>> getFollowingTasksAsyncTask = new GetFollowingTasksAndEventsAsyncTask(MainActivity.this, new AsyncResponse<List<Task>>(){
+            @Override
+            public void taskFinished(List<Task> retVal) {
+                followingTasks.clear();
+                followingTasks.addAll(retVal);
+                eventAdapter = new FollowingEventsDisplayAdapter(MainActivity.this, followingTasks);
+                eventAdapter.notifyDataSetChanged();
+                eventListView.setAdapter(eventAdapter);
+            }
+        }).execute(dateMillis);
     }
 
     public void setupSharedPreferences(){
@@ -299,6 +296,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     protected void onResume() {
         super.onResume();
         hideDrawerMenu();
+        fetchFollowingEvents();
     }
 
     public void scheduleJob() {

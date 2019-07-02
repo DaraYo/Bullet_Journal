@@ -1,5 +1,6 @@
 package com.example.bullet_journal.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -64,6 +65,7 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
                     bundle.putBoolean("isEdit", true);
                     intent.putExtras(bundle);
                     context.startActivity(intent);
+                    ((Activity) context).finish();
                 }
             });
 
@@ -115,6 +117,7 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
                     bundle.putBoolean("isEdit", true);
                     intent.putExtras(bundle);
                     context.startActivity(intent);
+                    ((Activity) context).finish();
                 }
             });
 
