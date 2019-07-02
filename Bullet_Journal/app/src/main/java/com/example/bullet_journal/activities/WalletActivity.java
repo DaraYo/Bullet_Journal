@@ -37,6 +37,7 @@ public class WalletActivity extends RootActivity {
     TextView currentMonthText;
     int year;
     Month month;
+    TextView balanceText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,12 +49,11 @@ public class WalletActivity extends RootActivity {
         month = Month.valueOf(new SimpleDateFormat("MMM").format(today));
         year = Integer.parseInt(new SimpleDateFormat("YYYY").format(today));
 
-        monthlyBudget = new MonthlyBudget(month.getValue(), year, null, 0.0);
+        monthlyBudget = new MonthlyBudget(month.getValue(), year, 0.0);
 
         currentMonthText = findViewById(R.id.current_month);
-        TextView balanceText = findViewById(R.id.balance);
+        balanceText = findViewById(R.id.balance);
         currentMonthText.setText(month + ", " + year);
-        balanceText.setText(monthlyBudget.getBalance().toString() + " $");
 
         _chooseMonth = findViewById(R.id.choose_another_month);
         _chooseMonth.setOnClickListener(new View.OnClickListener() {
@@ -124,12 +124,13 @@ public class WalletActivity extends RootActivity {
 
     private void fetchWallet() {
 
-        AsyncTask<MonthlyBudget, Void, List<WalletItem>> getWalletItems = new GetWalletItemsByBudgetAsyncTask(new AsyncResponse<List<WalletItem>>() {
+        AsyncTask<MonthlyBudget, Void, ArrayList<Object>> getWalletItems = new GetWalletItemsByBudgetAsyncTask(new AsyncResponse<ArrayList<Object>>() {
 
             @Override
-            public void taskFinished(List<WalletItem> retVal) {
+            public void taskFinished(ArrayList<Object> retVal) {
                 walletItems.clear();
-                walletItems.addAll(retVal);
+                walletItems.addAll((List<WalletItem>)retVal.get(0));
+                balanceText.setText(retVal.get(1).toString());
                 walletItemAdapter.notifyDataSetChanged();
             }
         }).execute(monthlyBudget);

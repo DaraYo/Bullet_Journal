@@ -19,8 +19,8 @@ public interface MonthlyBudgetDao {
     @Query("SELECT * FROM monthly_buget")
     List<MonthlyBudget> getAll();
 
-    @Query("SELECT * FROM monthly_buget WHERE month=:month AND year=:year")
-    MonthlyBudget getByUserAndDate(int month, int year);
+    @Query("SELECT * FROM monthly_buget WHERE user_id=:userId AND month=:month AND year=:year")
+    MonthlyBudget getByUserAndDate(Long userId, int month, int year);
 
     @Insert
     long insert(MonthlyBudget monthlyBudget);
