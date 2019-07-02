@@ -111,8 +111,7 @@
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar" />
 
-        <receiver android:name=".helpClasses.AlertReceiver" />
-
+        <receiver android:name=".helpClasses.AlertReceiver"/>
         <service
             android:name=".services.PushToFirestoreJobService"
             android:permission="android.permission.BIND_JOB_SERVICE" />

@@ -25,6 +25,7 @@ import com.example.bullet_journal.model.Reminder;
 import com.example.bullet_journal.wrapperClasses.HabitRemindersWrapper;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class AddReminderHabitActivity extends RootActivity {
     final Context context = this;
@@ -33,8 +34,6 @@ public class AddReminderHabitActivity extends RootActivity {
     private TimePicker timePicker;
 
     private TextView title;
-
-    private String choosenDate = "";
     private long dateMillis;
 
 
@@ -55,7 +54,6 @@ public class AddReminderHabitActivity extends RootActivity {
         timePicker.setIs24HourView(true);
 
         dateMillis = CalendarCalculationsUtils.trimTimeFromDateMillis(System.currentTimeMillis());
-        choosenDate = CalendarCalculationsUtils.dateMillisToString(dateMillis);
 
         title = findViewById(R.id.reminder_title);
 
@@ -67,6 +65,7 @@ public class AddReminderHabitActivity extends RootActivity {
             }
         }
 
+        isEdit = bundle.getBoolean("isEdit");
 
         Button dialogOkBtn = findViewById(R.id.reminder_dialog_btn_ok);
         dialogOkBtn.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +76,7 @@ public class AddReminderHabitActivity extends RootActivity {
                 c.set(Calendar.MINUTE, timePicker.getCurrentMinute());
                 c.set(Calendar.SECOND, 0);
 
-                Intent intent = resolveReturn(false, c);
+                Intent intent = resolveReturn(false);
                 if(intent != null){
                     startActivity(intent);
                 }
@@ -90,7 +89,7 @@ public class AddReminderHabitActivity extends RootActivity {
         dialogCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = resolveReturn(true, null);
+                Intent intent = resolveReturn(true);
                 if(intent != null){
                     startActivity(intent);
                 }
@@ -100,35 +99,30 @@ public class AddReminderHabitActivity extends RootActivity {
         });
     }
 
-    private Intent resolveReturn(boolean isCancel, Calendar c){
+    private Intent resolveReturn(boolean isCancel){
+
+        Calendar calendar = Calendar.getInstance();
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH);
+        int year = calendar.get(Calendar.YEAR);
+
+        Date newDate = CalendarCalculationsUtils.convertCalendarDialogDate(day, month, year);
+        dateMillis = CalendarCalculationsUtils.trimTimeFromDateMillis(newDate.getTime());
         long selectedDate = CalendarCalculationsUtils.addHoursAndMinutesToDate(dateMillis, timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 
         Log.i("SELECTED DATE: ", "Is : "+selectedDate);
+        Toast.makeText(context, ""+selectedDate, Toast.LENGTH_LONG);
 
+        Reminder reminder = new Reminder(null, null, title.getText().toString(), selectedDate, false, null, null, false);
 
         Bundle bundle = new Bundle();
-        calendar = c;
-
         if(!isCancel){
-            Reminder reminder = new Reminder(null, null, title.getText().toString(), selectedDate, false, habitObj.getHabitEvent().getId(), null, false);
-
-            //TODO: save reminder
-            AsyncTask<Reminder, Void, Long> insertHabitAsyncTask = new InsertReminderAsyncTask(new AsyncResponse<Long>() {
-                @Override
-                public void taskFinished(Long retVal) {
-                    if(retVal==0L) {
-                        Toast.makeText(context, R.string.basic_error, Toast.LENGTH_LONG).show();
-                    }
-                }
-            }).execute(reminder);
             habitObj.getReminders().add(reminder);
-            startAlarm(habitObj.getHabitEvent());
         }
         bundle.putSerializable("habitInfo", habitObj);
         bundle.putBoolean("isEdit", isEdit);
 
         Intent intent = new Intent(context, HabitActivity.class);
-
         intent.putExtras(bundle);
         return intent;
 
@@ -142,10 +136,8 @@ public class AddReminderHabitActivity extends RootActivity {
         intent.putExtra("title", "Habit Reminder");
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, reminderId.intValue(), intent, 0);
-//        if (calendar.before(Calendar.getInstance())) {
-//            calendar.add(Calendar.DATE, 1);
-//        }
-
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 }

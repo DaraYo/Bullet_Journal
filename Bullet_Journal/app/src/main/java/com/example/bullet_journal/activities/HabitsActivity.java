@@ -130,7 +130,6 @@ public class HabitsActivity extends RootActivity {
                     finish();
                 }
                 dayObj = retVal;
-//                Toast.makeText(context, "day: "+dayObj.toString(), Toast.LENGTH_LONG).show();
                 habitAdapter = new HabitDisplayAdapter(context, habits, dayObj);
                 ListView habitsListView = findViewById(R.id.habits_list_view);
                 habitsListView.setAdapter(habitAdapter);

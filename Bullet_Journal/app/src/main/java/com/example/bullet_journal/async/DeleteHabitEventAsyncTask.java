@@ -26,11 +26,8 @@ public class DeleteHabitEventAsyncTask extends AsyncTask<HabitRemindersWrapper, 
 
         try{
             Habit habit  = habitRemindersWrappers[0].getHabitEvent();
-            ArrayList<Reminder> reminders = habitRemindersWrappers[0].getReminders();
 
-            database.getHabitDao().update(habit);
-
-            List<Reminder> dbReminedrs = database.getReminderDao().getAllRemindersForTask(habit.getId());
+            List<Reminder> dbReminedrs = database.getReminderDao().getAllRemindersForHabit(habit.getId());
             Long id = habit.getId();
 
             // Delete reminders

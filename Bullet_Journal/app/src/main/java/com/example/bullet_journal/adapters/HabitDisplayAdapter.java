@@ -11,11 +11,14 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.activities.HabitActivity;
+import com.example.bullet_journal.activities.HabitsActivity;
 import com.example.bullet_journal.async.AsyncResponse;
 import com.example.bullet_journal.async.DeleteHabitDayAsyncTask;
+import com.example.bullet_journal.async.DeleteHabitEventAsyncTask;
 import com.example.bullet_journal.async.GetHabitDayAsyncTask;
 import com.example.bullet_journal.async.GetRemindersForHabitAsyncTask;
 import com.example.bullet_journal.async.InsertHabitDayAsyncTask;
@@ -43,7 +46,7 @@ public class HabitDisplayAdapter extends ArrayAdapter<Habit>  {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.habit_preview_adapter, parent, false);
+        final View view = LayoutInflater.from(getContext()).inflate(R.layout.habit_preview_adapter, parent, false);
 
         final Habit habitObj = getItem(position);
 
@@ -112,12 +115,27 @@ public class HabitDisplayAdapter extends ArrayAdapter<Habit>  {
 
         ImageButton delete_btn = view.findViewById(R.id.delete_btn);
         delete_btn.setOnClickListener(new View.OnClickListener() {
-
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
 
-                DeleteReminderDialog dialog = new DeleteReminderDialog(context, habitObj);
-                dialog.show();
+                AsyncTask<HabitRemindersWrapper, Void, Boolean> deleteTaskEventAsyncTask = new DeleteHabitEventAsyncTask(new AsyncResponse<Boolean>() {
+                    @Override
+                    public void taskFinished(Boolean retVal) {
+                        if (retVal) {
+                            Toast.makeText(context, "succcess", Toast.LENGTH_SHORT);
+                            remove(habitObj);
+                            notifyDataSetChanged();
+//                                Intent intent = new Intent(context, HabitsActivity.class);
+//                                context.startActivity(intent);
+                        } else {
+                            Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT);
+                        }
+
+                    }
+                }).execute(new HabitRemindersWrapper(habitObj, null));
+//
+//                DeleteReminderDialog dialog = new DeleteReminderDialog(context, habitObj);
+//                dialog.show();
 
             }
         });
