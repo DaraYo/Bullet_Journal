@@ -1,6 +1,7 @@
 package com.example.bullet_journal.adapters;
 
 import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -48,7 +49,8 @@ public class ReminderAdapter extends ArrayAdapter<Reminder> {
             public void onClick(View v) {
                 remove(reminderObj);
                 cancelAlarm(reminderObj);
-                AsyncTask<Reminder, Void, Boolean> deleteHabitAsyncTask = new DeleteReminderAsyncTask(new AsyncResponse<Boolean>() {
+                AsyncTask<Reminder, Void, Boolean> deleteHabitAsyncTask = new DeleteReminderAsyncTask(
+                        new AsyncResponse<Boolean>() {
                     @Override
                     public void taskFinished(Boolean retVal) {
                         if(!retVal) {
@@ -74,9 +76,7 @@ public class ReminderAdapter extends ArrayAdapter<Reminder> {
         Intent intent = new Intent(context, AlertReceiver.class);
 
         Toast.makeText(context,reminderObj.getId()+"", Toast.LENGTH_LONG).show();
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, reminderObj.getId().intValue(), intent, 0);
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 1, intent, 0);
-
-//        alarmManager.cancel(pendingIntent);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, reminderObj.getId().intValue(), intent, 0);
+        alarmManager.cancel(pendingIntent);
     }
 }

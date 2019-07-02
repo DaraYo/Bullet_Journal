@@ -1,38 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AndroidLayouts">
-    <shared>
-      <config />
-    </shared>
-  </component>
-  <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
-  </component>
   <component name="ChangeListManager">
-    <list default="true" id="c494aee1-0a97-428d-adc0-21a3b8910405" name="Default Changelist" comment="Merge branch 'master' of https://github.com/DaraYo/Bullet_Journal&#10;&#10;# Conflicts:&#10;#&#9;Bullet_Journal/app/src/main/java/com/example/bullet_journal/MainActivity.java">
+    <list default="true" id="0dfc7a7e-04dd-470f-936a-e3ca73ea8fff" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/RootActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/RootActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/LoginActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/LoginActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/MoodTrackerActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/MoodTrackerActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/NewTaskEventActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/NewTaskEventActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/SignUpActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/SignUpActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/adapters/TaskEventDisplayAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/adapters/TaskEventDisplayAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/async/GetDayAsyncTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/async/GetDayAsyncTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/async/InsertRatingAsyncTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/async/InsertRatingAsyncTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/adapters/ReminderAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/adapters/ReminderAdapter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/async/DeleteReminderAsyncTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/async/DeleteReminderAsyncTask.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/db/MainDatabase.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/db/MainDatabase.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/db/dao/DayDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/db/dao/DayDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/db/dao/MoodDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/db/dao/MoodDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/db/dao/RatingDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/db/dao/RatingDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/db/dao/ReminderDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/db/dao/ReminderDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/db/dao/TaskEventDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/db/dao/TaskEventDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/helpClasses/CalendarCalculationsUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/helpClasses/CalendarCalculationsUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/helpClasses/PreferencesHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/helpClasses/PreferencesHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_signup.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_signup.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <ignored path="$PROJECT_DIR$/build/classes/" />
@@ -53,15 +26,14 @@
     <ignored path="$PROJECT_DIR$/app/build/intermediates/incremental-runtime-classes/" />
     <ignored path="$PROJECT_DIR$/app/build/intermediates/incremental-verifier/" />
     <ignored path="$PROJECT_DIR$/app/build/intermediates/instant-run-apk/" />
+    <ignored path="$PROJECT_DIR$/app/build/intermediates/instant-run-resources/" />
     <ignored path="$PROJECT_DIR$/app/build/intermediates/instant_app_manifest/" />
     <ignored path="$PROJECT_DIR$/app/build/intermediates/instant_run_app_info_output_file/" />
-    <ignored path="$PROJECT_DIR$/app/build/intermediates/instant_run_main_apk_resources/" />
     <ignored path="$PROJECT_DIR$/app/build/intermediates/instant_run_merged_manifests/" />
     <ignored path="$PROJECT_DIR$/app/build/intermediates/instant_run_split_apk_resources/" />
     <ignored path="$PROJECT_DIR$/app/build/intermediates/javac/" />
     <ignored path="$PROJECT_DIR$/app/build/intermediates/jniLibs/" />
     <ignored path="$PROJECT_DIR$/app/build/intermediates/legacy_multidex_aapt_derived_proguard_rules/" />
-    <ignored path="$PROJECT_DIR$/app/build/intermediates/legacy_multidex_main_dex_list/" />
     <ignored path="$PROJECT_DIR$/app/build/intermediates/lint_jar/" />
     <ignored path="$PROJECT_DIR$/app/build/intermediates/manifest-checker/" />
     <ignored path="$PROJECT_DIR$/app/build/intermediates/merged_assets/" />
@@ -92,111 +64,53 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CodeInsightWorkspaceSettings">
-    <option name="optimizeImportsOnTheFly" value="true" />
-  </component>
   <component name="ExternalProjectsManager">
     <system id="GRADLE">
       <state>
-        <projects_view>
-          <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Bullet_Journal" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
-            <select />
-          </tree_state>
-        </projects_view>
+        <projects_view />
       </state>
     </system>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/synchronization/GetMoodsForSyncTask.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/synchronization/GetRatingsForSyncTask.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-476">
-              <caret line="8" column="47" selection-start-line="8" selection-start-column="47" selection-end-line="8" selection-end-column="47" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/services/PushToFirestoreJobService.java">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/adapters/ReminderAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="48" column="35" selection-start-line="48" selection-start-column="35" selection-end-line="48" selection-end-column="35" />
+            <state relative-caret-position="208">
+              <caret line="51" column="86" selection-start-line="51" selection-start-column="86" selection-end-line="51" selection-end-column="86" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2010#2449#0" expanded="true" />
-                <element signature="e#2448#2449#0" expanded="true" />
-                <element signature="e#2560#2999#0" expanded="true" />
-                <element signature="e#2998#2999#0" expanded="true" />
+                <element signature="e#1903#2231#0" expanded="true" />
+                <element signature="e#2117#2137#0" expanded="true" />
+                <element signature="e#2230#2231#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/async/DeleteReminderAsyncTask.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="159">
+              <caret line="16" column="33" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/async/DeleteHabitDayAsyncTask.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="19" column="8" lean-forward="true" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="33" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Enum" />
-        <option value="layoutResourceFile_vertical" />
-        <option value="layoutResourceFile" />
-        <option value="resourceFile" />
-        <option value="valueResourceFile" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>diary_ti</find>
-      <find>menuItem</find>
-      <find>caro</find>
-      <find>MenuItem</find>
-      <find>ada</find>
-      <find>onRe</find>
-      <find>inflate</find>
-      <find>compress</find>
-      <find>images</find>
-      <find>numbOfSelectedItems</find>
-      <find>onActi</find>
-      <find>Database</find>
-      <find>insertDi</find>
-      <find>isSelectionMode</find>
-      <find>podes</find>
-      <find>Account</find>
-      <find>Select</find>
-      <find>get</find>
-      <find>calcula</find>
-      <find>setLoca</find>
-      <find>getPersistedLocale</find>
-      <find>onPrefe</find>
-      <find>dia</find>
-      <find>sett</find>
-      <find>Oceni</find>
-      <find>calculateWeekDay</find>
-      <find>finish</find>
-      <find>moo</find>
-      <find>main</find>
-      <find>DatePickerDialog</find>
+      <find>ala</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -205,70 +119,20 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/SplashActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/FullScreenImageViewActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/adapters/FullScreenImageAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/adapters/ImagesDisplayAdapter.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/fragments/ImagesPreviewFragment.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/menu/activity_main_drawer.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/helpClasses/CalendarCalculationsUtils.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/helpClasses/LocaleHelper.java" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/RootActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/AddReminderActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/HabitsActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/TasksAndEventsActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/async/GetMoodsForDayAsyncTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values-sr-rRS/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_add_reminder.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/day_widget.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/button_background_dark.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/date_bg_dark.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/round_btn_background_dark.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/round_button_dark.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/rounded_bg_dark.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/rounded_label_dark.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/side_nav_bar_dark.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values-sr-rRS/arrays.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values-sr_Latn_RS/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values-sr-Latn-rRS/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values-sr-Latn-RS/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values-sr-Latn/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values-sr-latn/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/arrays.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/day_widget_dark.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/drawable/rounded_bg_light.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/preferences_category.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/colors.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values-sr/arrays.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/SettingsActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values-sr/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_diary.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/DiaryActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/AlbumActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/helpClasses/PreferencesHelper.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/MainActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/model/Habit.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/model/HabitDay.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/synchronization/GetMoodsForSyncAsyncTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/synchronization/GetMoodsForSyncTask.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/services/PushToFirestoreJobService.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/db/MainDatabase.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/adapters/ReminderAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/async/DeleteReminderAsyncTask.java" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="676" />
-    <option name="width" value="697" />
-    <option name="height" value="735" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1402" />
+    <option name="height" value="791" />
   </component>
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="1" id="Add" />
-  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
-    <navigator proportions="" version="1">
+    <navigator currentView="ProjectPane" proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
@@ -331,7 +195,9 @@
               <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="res" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="bullet_journal" type="462c0819:PsiDirectoryNode" />
+              <item name="adapters" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="Bullet_Journal" type="b2602c69:ProjectViewProjectNode" />
@@ -339,19 +205,9 @@
               <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="res" type="462c0819:PsiDirectoryNode" />
-              <item name="layout" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="Bullet_Journal" type="58d84e3e:PackageViewProjectNode" />
-              <item name="app" type="616d4139:PackageViewModuleNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="bullet_journal" type="462c0819:PsiDirectoryNode" />
+              <item name="async" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -379,37 +235,18 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="Bullet_Journal" type="58d84e3e:PackageViewProjectNode" />
+              <item name="app" type="616d4139:PackageViewModuleNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
-  </component>
-  <component name="PropertiesComponent">
-    <property name="algorithm" value="Scalr" />
-    <property name="android.project.structure.last.selected" value="Project" />
-    <property name="android.project.structure.proportion" value="0.15" />
-    <property name="device.picker.selection" value="52001400c0fd2581" />
-    <property name="format" value="PNG" />
-    <property name="lastFolderRoot" value="$PROJECT_DIR$/app/src/main/res/drawable" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/app/src/main/res/drawable" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/Bullet_Journal-master/Bullet_Journal-master/Bullet_Journal" />
-    <property name="method" value="Automatic" />
-    <property name="project.structure.last.edited" value="Dependencies" />
-    <property name="project.structure.proportion" value="0.17" />
-    <property name="project.structure.side.proportion" value="0.2" />
-    <property name="resolutions" value="XHDPI&#10;MDPI&#10;HDPI&#10;XXHDPI&#10;XXXHDPI" />
-    <property name="settings.editor.selected.configurable" value="instant.run" />
-    <property name="sourceResolution" value="XHDPI" />
-    <property name="sync.plugin.last.upgrade.timestamp" value="1558875498914" />
-  </component>
-  <component name="RecentsManager">
-    <key name="android.template.packageName">
-      <recent name="com.example.bullet_journal.activities" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.example.bullet_journal.helpClasses" />
-      <recent name="com.example.bullet_journal.model" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\dara9\Desktop\PMA_projectOvajJeNaGitu\Bullet_Journal\Bullet_Journal\app\src\main\res\drawable" />
-    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -431,7 +268,7 @@
         <option name="Android.Gradle.BeforeRunTask" enabled="true" />
       </method>
     </configuration>
-    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App" activateToolWindowBeforeRun="false">
+    <configuration name="app" type="AndroidRunConfigurationType" factoryName="Android App">
       <module name="app" />
       <option name="DEPLOY" value="true" />
       <option name="DEPLOY_APK_FROM_BUNDLE" value="false" />
@@ -490,7 +327,7 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c494aee1-0a97-428d-adc0-21a3b8910405" name="Default Changelist" comment="" />
+      <changelist id="0dfc7a7e-04dd-470f-936a-e3ca73ea8fff" name="Default Changelist" comment="" />
       <created>1554628545567</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -664,49 +501,33 @@
       <option name="project" value="LOCAL" />
       <updated>1559152489910</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
-  <component name="TodoView">
-    <todo-panel id="selected-file">
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-    <todo-panel id="all">
-      <are-packages-shown value="true" />
-      <is-autoscroll-to-source value="true" />
-    </todo-panel>
-  </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="0" y="23" width="1402" height="791" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info id="Resources Explorer" order="0" weight="0.32967034" />
-      <window_info id="Captures" order="1" sideWeight="0.421875" side_tool="true" weight="0.20801815" />
-      <window_info content_ui="combo" id="Project" order="2" sideWeight="0.578125" visible="true" weight="0.34266263" />
-      <window_info id="Structure" order="3" sideWeight="0.18465228" side_tool="true" weight="0.3207262" />
-      <window_info id="Favorites" order="4" side_tool="true" />
-      <window_info id="Build Variants" order="5" side_tool="true" />
-      <window_info id="Image Layers" order="6" />
-      <window_info id="Designer" order="7" />
-      <window_info id="Capture Tool" order="8" />
-      <window_info active="true" anchor="bottom" id="Run" order="0" sideWeight="0.6119516" visible="true" weight="0.15220949" />
-      <window_info anchor="bottom" id="Logcat" order="1" sideWeight="0.49394855" weight="0.34385383" />
-      <window_info anchor="bottom" id="TODO" order="2" weight="0.32890365" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.5400314" weight="0.30932897" />
-      <window_info anchor="bottom" id="Terminal" order="4" weight="0.28805238" />
-      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.4599686" side_tool="true" weight="0.058139537" />
-      <window_info anchor="bottom" id="Version Control" order="6" sideWeight="0.49394855" weight="0.19148937" />
-      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.6800303" weight="0.33878887" />
-      <window_info anchor="bottom" id="Android Profiler" order="8" />
-      <window_info anchor="bottom" id="Find" order="9" sideWeight="0.49848714" weight="0.3535188" />
-      <window_info anchor="bottom" id="Messages" order="10" sideWeight="0.4969743" weight="0.3715221" />
-      <window_info anchor="right" id="Device File Explorer" order="0" sideWeight="0.50163937" side_tool="true" weight="0.5226929" />
-      <window_info anchor="right" id="Capture Analysis" order="1" />
-      <window_info anchor="right" id="Gradle" order="2" />
-      <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="right" id="Palette&#9;" order="4" />
-      <window_info anchor="right" id="Assistant" order="5" weight="0.3297568" />
-      <window_info anchor="right" id="Preview" order="6" sideWeight="0.49836066" weight="0.19894099" />
+      <window_info id="Capture Tool" />
+      <window_info active="true" content_ui="combo" id="Project" visible="true" weight="0.32941177" />
+      <window_info id="Structure" side_tool="true" />
+      <window_info id="Favorites" side_tool="true" />
+      <window_info id="Build Variants" side_tool="true" />
+      <window_info id="Image Layers" />
+      <window_info id="Designer" />
+      <window_info id="Resources Explorer" />
+      <window_info id="Captures" order="0" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Logcat" />
+      <window_info anchor="bottom" id="TODO" />
+      <window_info anchor="bottom" id="Terminal" />
+      <window_info anchor="bottom" id="Event Log" side_tool="true" />
+      <window_info anchor="bottom" id="Version Control" />
+      <window_info anchor="bottom" id="Build" visible="true" weight="0.32988167" />
+      <window_info anchor="bottom" id="Android Profiler" show_stripe_button="false" />
+      <window_info anchor="right" id="Device File Explorer" side_tool="true" />
+      <window_info anchor="right" id="Capture Analysis" />
+      <window_info anchor="right" id="Gradle" />
+      <window_info anchor="right" id="Theme Preview" />
+      <window_info anchor="right" id="Palette&#9;" />
     </layout>
   </component>
   <component name="VcsManagerConfiguration">
@@ -735,62 +556,7 @@
     <MESSAGE value="pull" />
     <option name="LAST_COMMIT_MESSAGE" value="pull" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/FullScreenImageViewActivity.java</url>
-          <line>30</line>
-          <properties />
-          <option name="timeStamp" value="132" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/adapters/NavItemsAdapter.java</url>
-          <line>35</line>
-          <properties />
-          <option name="timeStamp" value="143" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/RootActivity.java</url>
-          <line>58</line>
-          <properties />
-          <option name="timeStamp" value="147" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/RootActivity.java</url>
-          <line>64</line>
-          <properties />
-          <option name="timeStamp" value="148" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/RootActivity.java</url>
-          <line>21</line>
-          <properties />
-          <option name="timeStamp" value="149" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
-    <watches-manager>
-      <configuration name="app">
-        <watch expression="data" />
-        <watch expression="res" />
-        <watch expression="((StackTraceElement[])((ResponseException)e).stackTrace)[0].declaringClass" custom="java.lang.StackTraceElement[],com.squareup.picasso.NetworkRequestHandler.ResponseException" />
-      </configuration>
-    </watches-manager>
-  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-sr-rRS/arrays.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-sr_Latn_RS/strings.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-sr-Latn-rRS/strings.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values-sr-Latn-RS/strings.xml" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/arrays.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="16" selection-start-line="10" selection-start-column="16" selection-end-line="10" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/date_bg_dark.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/day_widget_dark.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/round_btn_background_dark.xml" />
     <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/round_button_dark.xml" />
@@ -914,8 +680,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/AddReminderActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
+        <state relative-caret-position="297">
+          <caret line="245" column="55" selection-start-line="245" selection-start-column="55" selection-end-line="245" selection-end-column="55" />
+          <folding>
+            <element signature="e#3633#4273#0" expanded="true" />
+            <element signature="e#4272#4273#0" expanded="true" />
+            <element signature="e#4305#5000#0" expanded="true" />
+            <element signature="e#4999#5000#0" expanded="true" />
+            <element signature="e#5114#5654#0" expanded="true" />
+            <element signature="e#5653#5654#0" expanded="true" />
+            <element signature="e#5781#6080#0" expanded="true" />
+            <element signature="e#6079#6080#0" expanded="true" />
+            <element signature="e#6883#7511#0" expanded="true" />
+            <element signature="e#7510#7511#0" expanded="true" />
+            <element signature="e#8313#9077#0" expanded="true" />
+            <element signature="e#9076#9077#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1013,16 +793,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/db/MainDatabase.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="39" column="22" selection-start-line="39" selection-start-column="22" selection-end-line="39" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/async/InsertRatingAsyncTask.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -1037,16 +807,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/synchronization/GetMoodsForSyncAsyncTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="20" column="55" selection-end-line="86" selection-end-column="1" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/synchronization/GetMoodsForSyncAsyncTask.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/synchronization/GetMoodsForSyncTask.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="17">
@@ -1067,6 +828,75 @@
             <element signature="e#2448#2449#0" expanded="true" />
             <element signature="e#2560#2999#0" expanded="true" />
             <element signature="e#2998#2999#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/EventActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-648">
+          <caret line="89" column="63" selection-start-line="89" selection-start-column="63" selection-end-line="89" selection-end-column="95" />
+          <folding>
+            <element signature="e#4269#4780#0" expanded="true" />
+            <element signature="e#4779#4780#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/TaskActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="34" selection-start-column="34" selection-end-column="34" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/activities/TasksAndEventsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1002">
+          <caret line="138" column="54" selection-start-line="138" selection-start-column="54" selection-end-line="138" selection-end-column="54" />
+          <folding>
+            <element signature="e#5489#5490#0" expanded="true" />
+            <marker date="1562068932531" expanded="true" signature="4819:5021" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/db/MainDatabase.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="54">
+          <caret line="40" column="14" selection-start-line="40" selection-start-column="14" selection-end-line="40" selection-end-column="14" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/async/DeleteHabitDayAsyncTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="19" column="8" lean-forward="true" selection-start-line="19" selection-start-column="8" selection-end-line="19" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/async/DeleteReminderAsyncTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="159">
+          <caret line="16" column="33" selection-start-line="16" selection-start-column="33" selection-end-line="16" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/bullet_journal/adapters/ReminderAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="208">
+          <caret line="51" column="86" selection-start-line="51" selection-start-column="86" selection-end-line="51" selection-end-column="86" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#1903#2231#0" expanded="true" />
+            <element signature="e#2117#2137#0" expanded="true" />
+            <element signature="e#2230#2231#0" expanded="true" />
           </folding>
         </state>
       </provider>

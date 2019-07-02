@@ -9,12 +9,12 @@ import com.example.bullet_journal.model.Reminder;
 
 public class DeleteReminderAsyncTask extends AsyncTask<Reminder, Void, Boolean> {
 
-    public AsyncResponse delegate;
-    private MainDatabase database;
+    public AsyncResponse delegate = null;
+    private MainDatabase database = DatabaseClient.getInstance(null).getDatabase();
+
 
     public DeleteReminderAsyncTask(Context context, AsyncResponse delegate) {
         this.delegate = delegate;
-        this.database = DatabaseClient.getInstance(context).getDatabase();
     }
 
     @Override
