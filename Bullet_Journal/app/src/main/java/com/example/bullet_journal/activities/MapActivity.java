@@ -86,11 +86,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                     setResult(RESULT_OK, intent);
                     finish();
                 }else{
-                    Intent intent = getIntent();
-                    intent.putExtra("success", false);
-                    setResult(RESULT_OK, intent);
                     finish();
                 }
+            }
+        });
+
+        Button cancelButton = findViewById(R.id.map_btn_cancel);
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
             }
         });
 
