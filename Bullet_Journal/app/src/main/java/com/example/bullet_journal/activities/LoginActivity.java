@@ -44,7 +44,7 @@ public class LoginActivity extends RootActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if(firebaseAuth.getCurrentUser() != null){
-            Toast.makeText(getBaseContext(), "You are Logged In", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), R.string.logged_in_alredy, Toast.LENGTH_LONG).show();
             finish();
         }
 
@@ -68,6 +68,7 @@ public class LoginActivity extends RootActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -89,13 +90,13 @@ public class LoginActivity extends RootActivity {
     public void login() {
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_AppBarOverlay);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating and fatching previous data...");
+        progressDialog.setMessage(getResources().getString(R.string.login_progress_dialog));
 
         String email = _email.getText().toString();
         String password = _password.getText().toString();
 
         if (TextUtils.isEmpty(email)|| TextUtils.isEmpty(password)) {
-            Toast.makeText(getBaseContext(), "Required field(s) are empty!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), R.string.fields_empty, Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -105,11 +106,11 @@ public class LoginActivity extends RootActivity {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(!task.isSuccessful()){
-                        Toast.makeText(getBaseContext(), "Login Problem", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), R.string.basic_error, Toast.LENGTH_LONG).show();
                         return;
                     }
 
-                    AsyncTask<Void, Void, Boolean> pullFromFirestoreAsyncTask = new PullFromFirestoreAsyncTask(new AsyncResponse<Boolean>(){
+                    AsyncTask<Void, Void, Boolean> pullFromFirestoreAsyncTask = new PullFromFirestoreAsyncTask(getApplicationContext(), new AsyncResponse<Boolean>(){
                         @Override
                         public void taskFinished(Boolean retVal) {
                             if(progressDialog != null){
@@ -127,16 +128,8 @@ public class LoginActivity extends RootActivity {
                 }
             });
         }else{
-            Toast.makeText(getBaseContext(), "Turn Wifi or Data to proceed", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getBaseContext(), R.string.network_required, Toast.LENGTH_SHORT).show();
         }
-
-    }
-
-    public void onLoginSuccess() {
-    }
-
-    public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
     }
 
 }

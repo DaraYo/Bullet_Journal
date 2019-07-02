@@ -618,6 +618,8 @@ public class DiaryActivity extends RootActivity {
                 diaryContent.setText(day.getDiaryInput());
                 if(day.getLocationTitle() != null && !day.getLocationTitle().isEmpty()){
                     addLocation.setText(day.getLocationTitle());
+                }else{
+                    addLocation.setText(null);
                 }
                 AsyncTask<Long, Void, List<DiaryImage>> getImagesTask = new GetDiaryImagesAsyncTask(DiaryActivity.this, new AsyncResponse<List<DiaryImage>>(){
 

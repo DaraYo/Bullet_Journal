@@ -68,7 +68,7 @@ public class NewTaskEventActivity extends RootActivity {
 
         final long dayMillis = bundle.getLong("date");
 
-        AsyncTask<Long, Void, Day> getDayTask = new GetDayAsyncTask(context, new AsyncResponse<Day>() {
+        AsyncTask<Long, Void, Day> getDayTask = new GetDayAsyncTask(NewTaskEventActivity.this, new AsyncResponse<Day>() {
 
             @Override
             public void taskFinished(Day retVal) {
@@ -132,7 +132,7 @@ public class NewTaskEventActivity extends RootActivity {
             public void onClick(View v) {
                 buildWrapper();
 
-                AsyncTask<TaskEventRemindersWrapper, Void, Boolean> insertTaskEventAsyncTask = new InsertTaskEventAsyncTask(context, new AsyncResponse<Boolean>() {
+                AsyncTask<TaskEventRemindersWrapper, Void, Boolean> insertTaskEventAsyncTask = new InsertTaskEventAsyncTask(NewTaskEventActivity.this, new AsyncResponse<Boolean>() {
                     @Override
                     public void taskFinished(Boolean retVal) {
                         if(retVal){
@@ -142,11 +142,9 @@ public class NewTaskEventActivity extends RootActivity {
                             intent.putExtras(bundle);
                             startActivity(intent);
                             finish();
-                        } else{
-                            Toast.makeText(context, R.string.basic_error, Toast.LENGTH_LONG).show();
+                        }else {
+                            Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
                         }
-//                        Toast.makeText(context, R.string.basic_error, Toast.LENGTH_LONG).show();
-//                        Toast.makeText(context,retVal.toString(), Toast.LENGTH_LONG).show();
                     }
                 }).execute(taskEventObj);
             }
@@ -202,11 +200,3 @@ public class NewTaskEventActivity extends RootActivity {
     }
 
 }
-
-//    private void cancelAlarm() {
-//        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//        Intent intent = new Intent(this, AlertReceiver.class);
-//        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, intent, 0);
-//
-//        alarmManager.cancel(pendingIntent);
-//    }

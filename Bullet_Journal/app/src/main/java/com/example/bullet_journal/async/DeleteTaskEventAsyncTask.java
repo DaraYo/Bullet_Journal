@@ -10,7 +10,7 @@ import com.example.bullet_journal.wrapperClasses.TaskEventRemindersWrapper;
 
 import java.util.List;
 
-public class DeleteTaskEventAsyncTask extends AsyncTask<TaskEventRemindersWrapper, Void, Boolean> {
+public class DeleteTaskEventAsyncTask extends AsyncTask<Task, Void, Boolean> {
 
     public AsyncResponse delegate = null;
     private MainDatabase database = DatabaseClient.getInstance(null).getDatabase();
@@ -20,26 +20,21 @@ public class DeleteTaskEventAsyncTask extends AsyncTask<TaskEventRemindersWrappe
     }
 
     @Override
-    protected Boolean doInBackground(TaskEventRemindersWrapper... taskEventRemindersWrapper) {
+    protected Boolean doInBackground(Task... tasks) {
 
         try{
-            Task task  = taskEventRemindersWrapper[0].getTaskEvent();
+            Task task = tasks[0];
 
+            task.setDeleted(true);
             database.getTaskEventDao().update(task);
 
-            List<Reminder> dbReminedrs = database.getReminderDao().getAllRemindersForTask(task.getId());
-            Long id = task.getId();
-
-            // Delete reminders
-            if(!dbReminedrs.isEmpty()){
-                for(Reminder tempDbReminder : dbReminedrs){
-                    database.getReminderDao().delete(tempDbReminder);
+            List<Reminder> reminders = database.getReminderDao().getAllRemindersForTask(task.getId());
+            if(!reminders.isEmpty()){
+                for(Reminder reminder : reminders){
+                    reminder.setDeleted(true);
+                    database.getReminderDao().update(reminder);
                 }
             }
-
-            database.getTaskEventDao().delete(task);
-
-            //TODO: delete task/da
 
             return true;
         }catch (Exception e){
