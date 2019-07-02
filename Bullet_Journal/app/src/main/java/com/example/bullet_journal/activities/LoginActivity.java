@@ -43,7 +43,6 @@ public class LoginActivity extends RootActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if(firebaseAuth.getCurrentUser() != null){
             Toast.makeText(getBaseContext(), R.string.logged_in_alredy, Toast.LENGTH_LONG).show();

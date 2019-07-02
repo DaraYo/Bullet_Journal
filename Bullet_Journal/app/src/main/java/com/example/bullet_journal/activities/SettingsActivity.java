@@ -32,7 +32,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity{
         super.onCreate(savedInstanceState);
         setLocale(PreferencesHelper.getLanguage(context));
         addPreferencesFromResource(R.xml.preferences);
-        getSupportActionBar().setTitle(getString(R.string.action_settings));
 
         getListView().setPadding(0,0,0,0);
         setupActionBar();
