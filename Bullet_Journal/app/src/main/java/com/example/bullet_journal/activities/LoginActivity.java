@@ -20,6 +20,8 @@ import com.example.bullet_journal.MainActivity;
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.helpClasses.PreferencesHelper;
+import com.example.bullet_journal.model.User;
 import com.example.bullet_journal.recivers.NetworkBroadcastReciver;
 import com.example.bullet_journal.synchronization.PullFromFirestoreAsyncTask;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -89,7 +91,7 @@ public class LoginActivity extends RootActivity {
     public void login() {
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this, R.style.AppTheme_AppBarOverlay);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating and fatching previous data...");
+        progressDialog.setMessage("Authenticating and fetching previous data...");
 
         String email = _email.getText().toString();
         String password = _password.getText().toString();
@@ -109,13 +111,16 @@ public class LoginActivity extends RootActivity {
                         return;
                     }
 
-                    AsyncTask<Void, Void, Boolean> pullFromFirestoreAsyncTask = new PullFromFirestoreAsyncTask(new AsyncResponse<Boolean>(){
+                    AsyncTask<Void, Void, User> pullFromFirestoreAsyncTask = new PullFromFirestoreAsyncTask(new AsyncResponse<User>(){
                         @Override
-                        public void taskFinished(Boolean retVal) {
+                        public void taskFinished(User retVal) {
                             if(progressDialog != null){
                                 progressDialog.dismiss();
                             }
-                            if(retVal){
+                            if(retVal!=null){
+                                PreferencesHelper.saveUsername(context, retVal.getEmail());
+                                PreferencesHelper.saveNameLastname(context, retVal.getFirstName()+" "+retVal.getLastName());
+
                                 Intent intent = new Intent(context, MainActivity.class);
                                 startActivity(intent);
                                 finish();

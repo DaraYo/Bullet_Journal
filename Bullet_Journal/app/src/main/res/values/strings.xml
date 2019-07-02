@@ -50,6 +50,10 @@
 
     <string name="tutorial_settings">Video tutorial</string>
 
+
+    <string name="user_username">username</string>
+    <string name="user_first_lastname">name_lastname</string>
+
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Notifications</string>
 
@@ -124,6 +128,7 @@
     <!-- Login activity labels -->
     <string name="title_activity_login">Log in</string>
     <string name="not_member_yet">Don\'t have an account? Sign up!</string>
+    <string name="title_activity_logout">Log out</string>
 
     <!-- Sign up activity labels -->
     <string name="title_activity_signup">Sign up</string>

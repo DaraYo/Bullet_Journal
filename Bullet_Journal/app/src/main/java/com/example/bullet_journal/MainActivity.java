@@ -1,5 +1,6 @@
 package com.example.bullet_journal;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.job.JobInfo;
 import android.app.job.JobScheduler;
@@ -11,6 +12,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -39,14 +41,19 @@ import com.example.bullet_journal.activities.SignUpActivity;
 import com.example.bullet_journal.activities.TasksAndEventsActivity;
 import com.example.bullet_journal.activities.WalletActivity;
 import com.example.bullet_journal.adapters.FollowingEventsDisplayAdapter;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.GetUserAsyncTask;
 import com.example.bullet_journal.db.DatabaseClient;
 import com.example.bullet_journal.enums.TaskType;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.helpClasses.PreferencesHelper;
 import com.example.bullet_journal.model.Task;
+import com.example.bullet_journal.model.User;
 import com.example.bullet_journal.services.PushToFirestoreJobService;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+
+import org.w3c.dom.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -65,12 +72,20 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     private ListView eventListView;
     private FollowingEventsDisplayAdapter eventAdapter;
     private SharedPreferences sharedPreferences;
+    private TextView navigationNameLastname;
+    private TextView navigationUsername;
+    private Toolbar toolbar;
+    private DrawerLayout drawer;
+    private ActionBarDrawerToggle toggle;
+
+    private User currentUser;
 
     private DatabaseClient databaseClient;
     private FirebaseAuth fAuth = FirebaseAuth.getInstance();
 
     private String choosenDate = "";
     private long dateMillis;
+    private final Context context= this;
 
     private NavigationView navigationView;
 
@@ -78,7 +93,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Context context = this;
+//        final Context context = this;
 
         if(fAuth.getCurrentUser() == null){
             Intent intent= new Intent(this, LoginActivity.class);
@@ -86,14 +101,33 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
             finish();
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+        toggle= new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close){
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, slideOffset);
+                navigationUsername= findViewById(R.id.username);
+                navigationUsername.setText(PreferencesHelper.getUsername(context));
+                navigationNameLastname= findViewById(R.id.name_and_lastname);
+                navigationNameLastname.setText(PreferencesHelper.getNameLastname(context));
+            }
+
+//            @Override
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//                navigationUsername= findViewById(R.id.username);
+//                navigationUsername.setText(PreferencesHelper.getUsername(context));
+//                navigationNameLastname= findViewById(R.id.name_and_lastname);
+//                navigationNameLastname.setText(PreferencesHelper.getNameLastname(context));
+//            }
+        };
         drawer.addDrawerListener(toggle);
         toggle.syncState();
+
 
         databaseClient = DatabaseClient.getInstance(getApplicationContext());
 
@@ -205,12 +239,12 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
             Intent intent= new Intent(this, SettingsActivity.class);
             startActivity(intent);
 
-        }else if (id == R.id.nav_login) {
+        }else if (id == R.id.nav_logout) {
+            PreferencesHelper.saveUsername(this, "");
+            PreferencesHelper.saveNameLastname(this, "");
+            fAuth.signOut();
             Intent intent= new Intent(this, LoginActivity.class);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_signup) {
-            Intent intent= new Intent(this, SignUpActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }
 
