@@ -1,5 +1,6 @@
 package com.example.bullet_journal.synchronization;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -8,6 +9,8 @@ import com.example.bullet_journal.db.DatabaseClient;
 import com.example.bullet_journal.db.MainDatabase;
 import com.example.bullet_journal.helpClasses.FirebaseUserDTO;
 import com.example.bullet_journal.model.Day;
+import com.example.bullet_journal.model.Habit;
+import com.example.bullet_journal.model.HabitDay;
 import com.example.bullet_journal.model.Mood;
 import com.example.bullet_journal.model.Rating;
 import com.example.bullet_journal.model.Reminder;
@@ -24,17 +27,20 @@ import com.google.firebase.firestore.QuerySnapshot;
 public class PullFromFirestoreAsyncTask extends AsyncTask<Void, Void, Boolean> {
 
     public AsyncResponse delegate = null;
+    private Context context;
     private MainDatabase database = DatabaseClient.getInstance(null).getDatabase();
 
     private FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     private FirebaseAuth fAuth = FirebaseAuth.getInstance();
     private CollectionReference dayCollectionRef = firestore.collection("Users").document(fAuth.getCurrentUser().getUid()).collection("Day");
     private CollectionReference ratingsCollectionRef = firestore.collection("Users").document(fAuth.getCurrentUser().getUid()).collection("Ratings");
+    private CollectionReference habitsCollectionRef = firestore.collection("Users").document(fAuth.getCurrentUser().getUid()).collection("Habits");
 
     private static boolean isSuccessful = true;
 
-    public PullFromFirestoreAsyncTask(AsyncResponse delegate){
+    public PullFromFirestoreAsyncTask(Context context, AsyncResponse delegate){
         this.delegate = delegate;
+        this.context = context;
     }
 
     @Override
@@ -144,6 +150,24 @@ public class PullFromFirestoreAsyncTask extends AsyncTask<Void, Void, Boolean> {
         }
     }
 
+    private void fetchAllHabits(){
+        try {
+            Task<QuerySnapshot> getHabitsTask = habitsCollectionRef.get();
+            QuerySnapshot habitsResult = Tasks.await(getHabitsTask);
+
+            for(QueryDocumentSnapshot snapshot : habitsResult){
+                Habit habit = snapshot.toObject(Habit.class);
+                database.getHabitDao().insert(habit);
+                fetchAllRemindersForHabit(habit);
+                fetchAllDaysForHabit(habit);
+            }
+
+            Log.i("HABITS FETCH", "SUCCESS");
+        }catch (Exception e){
+            Log.i("HABITS FETCH", "FAILED");
+        }
+    }
+
     private void fetchAllRemindersForTasks(Day day, com.example.bullet_journal.model.Task task){
 
         try {
@@ -156,9 +180,45 @@ public class PullFromFirestoreAsyncTask extends AsyncTask<Void, Void, Boolean> {
                 database.getReminderDao().insert(reminder);
             }
 
-            Log.i("REMINDERS FETCH", "SUCCESS");
+            Log.i("REMINDERS T FETCH", "SUCCESS");
         }catch (Exception e){
-            Log.i("REMINDERS FETCH", "FAILED");
+            Log.i("REMINDERS T FETCH", "FAILED");
+        }
+    }
+
+    private void fetchAllRemindersForHabit(Habit habit){
+
+        try {
+            Task<QuerySnapshot> getRemindersTask = habitsCollectionRef.document(habit.getFirestoreId()).collection("Reminders").get();
+            QuerySnapshot remindersResult = Tasks.await(getRemindersTask);
+
+            for(QueryDocumentSnapshot snapshot : remindersResult){
+                Reminder reminder = snapshot.toObject(Reminder.class);
+                reminder.setHabitId(habit.getId());
+                database.getReminderDao().insert(reminder);
+            }
+
+            Log.i("REMINDERS H FETCH", "SUCCESS");
+        }catch (Exception e){
+            Log.i("REMINDERS H  FETCH", "FAILED");
+        }
+    }
+
+    private void fetchAllDaysForHabit(Habit habit){
+
+        try {
+            Task<QuerySnapshot> getHabitDaysTask = habitsCollectionRef.document(habit.getFirestoreId()).collection("HabitDay").get();
+            QuerySnapshot habitDaysResult = Tasks.await(getHabitDaysTask);
+
+            for(QueryDocumentSnapshot snapshot : habitDaysResult){
+                HabitDay habDay = snapshot.toObject(HabitDay.class);
+                habDay.setHabitId(habit.getId());
+                database.getHabitDayDao().insert(habDay);
+            }
+
+            Log.i("HABDAYS FETCH", "SUCCESS");
+        }catch (Exception e){
+            Log.i("HABDAYS H  FETCH", "FAILED");
         }
     }
 
