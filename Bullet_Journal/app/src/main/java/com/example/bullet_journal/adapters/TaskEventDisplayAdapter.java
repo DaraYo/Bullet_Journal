@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ import com.example.bullet_journal.activities.EventActivity;
 import com.example.bullet_journal.activities.TaskActivity;
 import com.example.bullet_journal.async.AsyncResponse;
 import com.example.bullet_journal.async.CompleteTaskAsyncTask;
+import com.example.bullet_journal.async.DeleteTaskEventAsyncTask;
 import com.example.bullet_journal.async.GetRemindersCountForTaskEventAsyncTask;
 import com.example.bullet_journal.async.GetRemindersForTaskEventAsyncTask;
 import com.example.bullet_journal.enums.TaskType;
@@ -96,6 +98,26 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
                 }
             }).execute(taskEventObj.getId());
 
+            ImageButton deleteBtn = view.findViewById(R.id.delete_btn);
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    AsyncTask<Task, Void, Boolean> deleteTaskAsyncTask = new DeleteTaskEventAsyncTask(context, new AsyncResponse<Boolean>() {
+                        @Override
+                        public void taskFinished(Boolean retVal) {
+                            if(retVal){
+                                remove(taskEventObj);
+                                notifyDataSetChanged();
+                            }else{
+                                Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).execute(taskEventObj);
+
+                }
+            });
+
             fetchReminders(taskEventObj.getId(), reminders);
 
             return view;
@@ -131,6 +153,26 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
             }).execute(taskEventObj.getId());
 
             fetchReminders(taskEventObj.getId(), reminders);
+
+            ImageButton deleteBtn = view.findViewById(R.id.delete_btn);
+            deleteBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    AsyncTask<Task, Void, Boolean> deleteTaskAsyncTask = new DeleteTaskEventAsyncTask(context, new AsyncResponse<Boolean>() {
+                        @Override
+                        public void taskFinished(Boolean retVal) {
+                            if(retVal){
+                                remove(taskEventObj);
+                                notifyDataSetChanged();
+                            }else{
+                                Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).execute(taskEventObj);
+
+                }
+            });
 
             return view;
         }

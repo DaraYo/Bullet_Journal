@@ -37,7 +37,7 @@ public class HabitDay implements Serializable {
     @ColumnInfo(name = "synced")
     private boolean synced;
 
-    @ColumnInfo(name = "synced")
+    @ColumnInfo(name = "deleted")
     private boolean deleted;
 
     public HabitDay() {

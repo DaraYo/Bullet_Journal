@@ -29,7 +29,7 @@ public interface HabitDayDao {
     @Query("SELECT * FROM habit_day WHERE firestore_id IS NULL AND synced = 0")
     List<HabitDay> getAllForInsert();
 
-    @Query("SELECT * FROM rating WHERE firestore_id IS NOT NULL AND synced = 0")
+    @Query("SELECT * FROM habit_day WHERE firestore_id IS NOT NULL AND synced = 0")
     List<HabitDay> getAllForUpdate();
 
     @Query("SELECT * FROM habit_day WHERE deleted = 1")
