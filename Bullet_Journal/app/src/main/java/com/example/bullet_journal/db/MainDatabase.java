@@ -19,6 +19,7 @@ import com.example.bullet_journal.db.dao.WalletItemDao;
 import com.example.bullet_journal.model.Day;
 import com.example.bullet_journal.model.DiaryImage;
 import com.example.bullet_journal.model.Habit;
+import com.example.bullet_journal.model.HabitDay;
 import com.example.bullet_journal.model.MonthlyBudget;
 import com.example.bullet_journal.model.Mood;
 import com.example.bullet_journal.model.Rating;
@@ -37,8 +38,9 @@ import com.example.bullet_journal.model.WalletItem;
         WalletItem.class,
         Task.class,
         Habit.class,
+        HabitDay.class,
         Reminder.class
-}, version = 9)
+}, version = 10)
 @TypeConverters({Converter.class})
 public abstract class MainDatabase extends RoomDatabase {
 

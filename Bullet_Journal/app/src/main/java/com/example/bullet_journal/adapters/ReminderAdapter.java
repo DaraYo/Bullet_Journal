@@ -51,13 +51,14 @@ public class ReminderAdapter extends ArrayAdapter<Reminder> {
                 cancelAlarm(reminderObj);
                 AsyncTask<Reminder, Void, Boolean> deleteHabitAsyncTask = new DeleteReminderAsyncTask(
                         new AsyncResponse<Boolean>() {
-                    @Override
-                    public void taskFinished(Boolean retVal) {
-                        if(!retVal) {
-                            Toast.makeText(context, R.string.basic_error, Toast.LENGTH_LONG).show();
+                            @Override
+                            public void taskFinished(Boolean retVal) {
+                                if(!retVal) {
+                                    Toast.makeText(context, R.string.basic_error, Toast.LENGTH_LONG).show();
+                                }
+                            }
                         }
-                    }
-                }).execute(reminderObj);
+                ).execute(reminderObj);
                 notifyDataSetChanged();
 
             }

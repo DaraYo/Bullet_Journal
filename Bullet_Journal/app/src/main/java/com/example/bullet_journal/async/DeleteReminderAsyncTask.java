@@ -13,7 +13,7 @@ public class DeleteReminderAsyncTask extends AsyncTask<Reminder, Void, Boolean> 
     private MainDatabase database = DatabaseClient.getInstance(null).getDatabase();
 
 
-    public DeleteReminderAsyncTask(Context context, AsyncResponse delegate) {
+    public DeleteReminderAsyncTask(AsyncResponse delegate) {
         this.delegate = delegate;
     }
 

@@ -121,7 +121,7 @@ public class HabitsActivity extends RootActivity {
             }
         };
 
-        AsyncTask<Long, Void, Day> getDayTask = new GetDayAsyncTask(new AsyncResponse<Day>() {
+        AsyncTask<Long, Void, Day> getDayTask = new GetDayAsyncTask(context, new AsyncResponse<Day>() {
 
             @Override
             public void taskFinished(Day retVal) {

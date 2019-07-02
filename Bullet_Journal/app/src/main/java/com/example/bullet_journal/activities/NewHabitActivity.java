@@ -50,7 +50,7 @@ public class NewHabitActivity extends RootActivity {
         Bundle bundle = getIntent().getExtras();
 
         final long dayMillis = bundle.getLong("date");
-        AsyncTask<Long, Void, Day> getDayTask = new GetDayAsyncTask(new AsyncResponse<Day>() {
+        AsyncTask<Long, Void, Day> getDayTask = new GetDayAsyncTask(context, new AsyncResponse<Day>() {
 
             @Override
             public void taskFinished(Day retVal) {
@@ -137,7 +137,7 @@ public class NewHabitActivity extends RootActivity {
 
             Bundle bundle = getIntent().getExtras();
             final long dayMillis = bundle.getLong("date");
-            AsyncTask<Long, Void, Day> getDayTask = new GetDayAsyncTask(new AsyncResponse<Day>() {
+            AsyncTask<Long, Void, Day> getDayTask = new GetDayAsyncTask(context,new AsyncResponse<Day>() {
 
                 @Override
                 public void taskFinished(Day retVal) {

@@ -151,7 +151,6 @@ public class Day implements Serializable {
                 ", date=" + date +
                 ", avgMood=" + avgMood +
                 ", diaryInput='" + diaryInput + '\'' +
-                ", albumName='" + albumName + '\'' +
                 ", synced=" + synced +
                 '}';
     }
