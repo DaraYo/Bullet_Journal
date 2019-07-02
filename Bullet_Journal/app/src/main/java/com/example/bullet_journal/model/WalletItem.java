@@ -24,6 +24,7 @@ public class WalletItem implements Serializable {
     @ColumnInfo(name = "firestore_id")
     private String firestoreId;
 
+    // Monthly budget entity
     @ColumnInfo(name = "wallet_id")
     private Long walletId;
 
@@ -36,6 +37,9 @@ public class WalletItem implements Serializable {
     @ColumnInfo(name = "type")
     private WalletItemType type;
 
+    @ColumnInfo(name = "deleted")
+    private boolean deleted;
+
     public WalletItem() {
     }
 
@@ -47,6 +51,7 @@ public class WalletItem implements Serializable {
         this.name = name;
         this.amount = amount;
         this.type = type;
+        this.deleted = false;
     }
 
     public Long getId() {
@@ -95,5 +100,13 @@ public class WalletItem implements Serializable {
 
     public void setType(WalletItemType type) {
         this.type = type;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

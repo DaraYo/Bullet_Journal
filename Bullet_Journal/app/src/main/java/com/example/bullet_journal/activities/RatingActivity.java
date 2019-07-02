@@ -85,7 +85,7 @@ public class RatingActivity extends RootActivity {
     }
 
     private void fetchRatings() {
-        AsyncTask<Void, Void, List<Rating>> getRatingsAsyncTask = new GetRatingsAsyncTask(new AsyncResponse<List<Rating>>() {
+        AsyncTask<Void, Void, List<Rating>> getRatingsAsyncTask = new GetRatingsAsyncTask(RatingActivity.this, new AsyncResponse<List<Rating>>() {
 
             @Override
             public void taskFinished(List<Rating> retVal) {

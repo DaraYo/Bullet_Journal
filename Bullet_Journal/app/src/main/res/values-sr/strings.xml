@@ -1,4 +1,7 @@
 <resources>
+
+    <string name="google_maps_api_key">AIzaSyAwXHd2TxLixDYo7AQRX2TeAHdMWNL2y9c</string>
+
     <string name="app_name">Bullet Journal</string>
     <string name="navigation_drawer_open">Otvori navigacioni bar</string>
     <string name="navigation_drawer_close">Zatvori navigacioni bar</string>
@@ -163,6 +166,7 @@
     <string name="mood_deleted">Raspoloženje je uklonjeno</string>
     <string name="rating_deleted">Ocena je uklonjena</string>
     <string name="task_status_updated">Status zadatka promenjen</string>
+    <string name="wallet_item_saved">Stavka je sačuvana</string>
 
     <!-- Dani u sedmici -->
     <string name="mon">Ponedeljak</string>
@@ -178,4 +182,14 @@
     <string name="take_a_pic">Uslikaj</string>
     <string name="choose_img">Odaberi sliku</string>
     <string name="choose_multiple_img">Odaberi više slika</string>
+
+    <!-- Widget text -->
+    <string name="widget_task">ZADATAK</string>
+    <string name="widget_event">DOGAĐAJ</string>
+    <string name="widget_empty">PRAZNO</string>
+
+    <!-- Widget text -->
+    <string name="maps_search_bar">Unesite lokaciju, adresu ili poštanski broj </string>
+    <string name="maps_no_results">Nema rezultata</string>
+
 </resources>

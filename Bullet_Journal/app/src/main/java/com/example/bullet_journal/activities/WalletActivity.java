@@ -2,6 +2,8 @@ package com.example.bullet_journal.activities;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,14 +13,15 @@ import android.widget.TextView;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
-import com.example.bullet_journal.adapters.SpendingAdapter;
+import com.example.bullet_journal.adapters.WalletItemAdapter;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.GetWalletItemsByBudgetAsyncTask;
 import com.example.bullet_journal.dialogs.AddWalletItemDialog;
-import com.example.bullet_journal.enums.WalletItemType;
+import com.example.bullet_journal.enums.Month;
 import com.example.bullet_journal.model.MonthlyBudget;
 import com.example.bullet_journal.model.WalletItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -28,7 +31,13 @@ public class WalletActivity extends RootActivity {
 
     Button _chooseMonth;
     FloatingActionButton _addItem;
-    DatePicker datePicker;
+    WalletItemAdapter walletItemAdapter;
+    private List<WalletItem> walletItems;
+    private MonthlyBudget monthlyBudget;
+    TextView currentMonthText;
+    int year;
+    Month month;
+    TextView balanceText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,22 +45,17 @@ public class WalletActivity extends RootActivity {
         setContentView(R.layout.activity_wallet);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        MonthlyBudget monthlyBudget = new MonthlyBudget();
         Date today = new Date();
-        DateFormat format = new SimpleDateFormat("MMM, yyyy");
-        String currentMonth = format.format(today);
+        month = Month.valueOf(new SimpleDateFormat("MMM").format(today));
+        year = Integer.parseInt(new SimpleDateFormat("YYYY").format(today));
 
-        /* IZMENITI DA PREUZIMA MESEC I GODINU IZ DATEPICKER-A, za sada stoji Jun*/
-        monthlyBudget.setMonth(4);
-        monthlyBudget.setYear(2019);
-        monthlyBudget.setBalance(1527.35);
+        monthlyBudget = new MonthlyBudget(month.getValue(), year, 0.0);
 
-        TextView currentMonthText = (TextView) findViewById(R.id.current_month);
-        TextView balanceText = (TextView) findViewById(R.id.balance);
-        currentMonthText.setText("Jun, 2019");
-        balanceText.setText(monthlyBudget.getBalance().toString() + " $");
+        currentMonthText = findViewById(R.id.current_month);
+        balanceText = findViewById(R.id.balance);
+        currentMonthText.setText(month + ", " + year);
 
-        _chooseMonth = (Button) findViewById(R.id.choose_another_month);
+        _chooseMonth = findViewById(R.id.choose_another_month);
         _chooseMonth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -60,21 +64,42 @@ public class WalletActivity extends RootActivity {
         });
 
         _addItem = findViewById(R.id.add_item);
+
         _addItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            final Dialog dialog = new AddWalletItemDialog(WalletActivity.this);
-            dialog.show();
-        }});
+                final Dialog dialog = new AddWalletItemDialog(WalletActivity.this, monthlyBudget);
+                dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        fetchWallet();
+                    }
+                });
+                dialog.show();
+            }
+        });
 
-        SpendingAdapter spendingAdapter = new SpendingAdapter(this, buildSpendings());
-        ListView spendingsListView = findViewById(R.id.spendings_list_view);
-        spendingsListView.setAdapter(spendingAdapter);
+        walletItems = new ArrayList<>();
+        walletItemAdapter = new WalletItemAdapter(this, walletItems);
+        ListView spendingListView = findViewById(R.id.spendings_list_view);
+        spendingListView.setAdapter(walletItemAdapter);
 
+        fetchWallet();
     }
 
+    private DatePickerDialog.OnDateSetListener datePickerListener = new DatePickerDialog.OnDateSetListener() {
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,int selectedMonth, int selectedDay) {
+           monthlyBudget.setMonth(selectedMonth + 1);
+           monthlyBudget.setYear(selectedYear);
+           String monthString = Month.values()[selectedMonth].toString();
+           currentMonthText.setText(monthString + ", " + selectedYear);
+           fetchWallet();
+        }
+    };
+
     private DatePickerDialog createDialogWithoutDateField() {
-        DatePickerDialog dpd = new DatePickerDialog(this, null, 2019, 4, 18);
+        DatePickerDialog dpd = new DatePickerDialog(this, datePickerListener, year, month.getValue()-1, 14);
         try {
             java.lang.reflect.Field[] datePickerDialogFields = dpd.getClass().getDeclaredFields();
             for (java.lang.reflect.Field datePickerDialogField : datePickerDialogFields) {
@@ -91,35 +116,23 @@ public class WalletActivity extends RootActivity {
                     }
                 }
             }
+
         } catch (Exception ex) {
         }
         return dpd;
     }
 
-    private List<WalletItem> buildSpendings() {
-        List<WalletItem> retVal = new ArrayList<>();
+    private void fetchWallet() {
 
-        WalletItem walletItem1 = new WalletItem(null, null, null, "Water", 0.55, WalletItemType.SPENDING);
-        WalletItem walletItem2 = new WalletItem(null, null, null, "Salary", 1050.00, WalletItemType.INCOME);
-        WalletItem walletItem3 = new WalletItem(null, null, null, "Bag", 20.00, WalletItemType.SPENDING);
-        WalletItem walletItem4 = new WalletItem(null, null, null, "Pants", 12.5, WalletItemType.SPENDING);
-        WalletItem walletItem5 = new WalletItem(null, null, null, "Reward", 50.00, WalletItemType.INCOME);
-        WalletItem walletItem6 = new WalletItem(null, null, null, "Pizza", 1.95, WalletItemType.SPENDING);
-        WalletItem walletItem7 = new WalletItem(null, null, null, "Monitor", 300.00, WalletItemType.SPENDING);
-        WalletItem walletItem8 = new WalletItem(null, null, null, "Jeans", 42.20, WalletItemType.SPENDING);
-        WalletItem walletItem9 = new WalletItem(null, null, null, "Dress", 55.3, WalletItemType.SPENDING);
+        AsyncTask<MonthlyBudget, Void, ArrayList<Object>> getWalletItems = new GetWalletItemsByBudgetAsyncTask(new AsyncResponse<ArrayList<Object>>() {
 
-
-        retVal.add(walletItem1);
-        retVal.add(walletItem2);
-        retVal.add(walletItem3);
-        retVal.add(walletItem4);
-        retVal.add(walletItem5);
-        retVal.add(walletItem6);
-        retVal.add(walletItem7);
-        retVal.add(walletItem8);
-        retVal.add(walletItem9);
-
-        return retVal;
+            @Override
+            public void taskFinished(ArrayList<Object> retVal) {
+                walletItems.clear();
+                walletItems.addAll((List<WalletItem>)retVal.get(0));
+                balanceText.setText(retVal.get(1).toString());
+                walletItemAdapter.notifyDataSetChanged();
+            }
+        }).execute(monthlyBudget);
     }
 }

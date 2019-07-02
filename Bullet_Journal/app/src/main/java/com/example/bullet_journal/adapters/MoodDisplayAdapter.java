@@ -110,7 +110,7 @@ public class MoodDisplayAdapter extends ArrayAdapter<Mood> {
 
             @Override
             public void onClick(View v) {
-                AsyncTask<Mood, Void, Boolean> deleteMoodAsyncTask = new DeleteMoodAsyncTask(new AsyncResponse<Boolean>(){
+                AsyncTask<Mood, Void, Boolean> deleteMoodAsyncTask = new DeleteMoodAsyncTask(context, new AsyncResponse<Boolean>(){
                     @Override
                     public void taskFinished(Boolean retVal) {
                         if(retVal){
@@ -130,7 +130,7 @@ public class MoodDisplayAdapter extends ArrayAdapter<Mood> {
 
     private void calculateNewAverage(Mood moodObj) {
 
-        AsyncTask<Mood, Void, Boolean> calculateNewAverageMoodAsyncTask = new CalculateNewAverageMoodAsyncTask(new AsyncResponse<Boolean>() {
+        AsyncTask<Mood, Void, Boolean> calculateNewAverageMoodAsyncTask = new CalculateNewAverageMoodAsyncTask(context, new AsyncResponse<Boolean>() {
             @Override
             public void taskFinished(Boolean retVal) {
                 if(retVal){

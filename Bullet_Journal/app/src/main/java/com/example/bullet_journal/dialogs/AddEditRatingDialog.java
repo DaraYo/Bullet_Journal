@@ -145,7 +145,7 @@ public class AddEditRatingDialog extends Dialog {
                 if(ratingObj == null){
                     ratingObj = new Rating(null, null, rating, System.currentTimeMillis(), null, titleText, ratingText, selectedCategory.getCategory(), false);
 
-                    AsyncTask<Rating, Void, Boolean> insertRatingAsyncTask = new InsertRatingAsyncTask(new AsyncResponse<Boolean>(){
+                    AsyncTask<Rating, Void, Boolean> insertRatingAsyncTask = new InsertRatingAsyncTask(context, new AsyncResponse<Boolean>(){
                         @Override
                         public void taskFinished(Boolean retVal) {
                             if(retVal){
@@ -163,7 +163,7 @@ public class AddEditRatingDialog extends Dialog {
                     ratingObj.setCategory(selectedCategory.getCategory());
                     ratingObj.setRating(rating);
 
-                    AsyncTask<Rating, Void, Boolean> updateRatingAsyncTask = new UpdateRatingAsyncTask(new AsyncResponse<Boolean>(){
+                    AsyncTask<Rating, Void, Boolean> updateRatingAsyncTask = new UpdateRatingAsyncTask(context, new AsyncResponse<Boolean>(){
                         @Override
                         public void taskFinished(Boolean retVal) {
                             if(retVal){

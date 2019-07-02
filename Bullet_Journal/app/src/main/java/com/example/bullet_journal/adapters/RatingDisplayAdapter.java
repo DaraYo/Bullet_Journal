@@ -92,7 +92,7 @@ public class RatingDisplayAdapter extends ArrayAdapter<Rating> {
         deleteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AsyncTask<Rating, Void, Boolean> deleteRatingAsyncTask = new DeleteRatingAsyncTask(new AsyncResponse<Boolean>(){
+                AsyncTask<Rating, Void, Boolean> deleteRatingAsyncTask = new DeleteRatingAsyncTask(context, new AsyncResponse<Boolean>(){
                     @Override
                     public void taskFinished(Boolean retVal) {
                         if(retVal){

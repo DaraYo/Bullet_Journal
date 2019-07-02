@@ -1,6 +1,9 @@
 package com.example.bullet_journal;
 
 import android.app.DatePickerDialog;
+import android.app.job.JobInfo;
+import android.app.job.JobScheduler;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,6 +14,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,7 +44,9 @@ import com.example.bullet_journal.enums.TaskType;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.helpClasses.PreferencesHelper;
 import com.example.bullet_journal.model.Task;
+import com.example.bullet_journal.services.PushToFirestoreJobService;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -61,6 +67,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     private SharedPreferences sharedPreferences;
 
     private DatabaseClient databaseClient;
+    private FirebaseAuth fAuth = FirebaseAuth.getInstance();
 
     private String choosenDate = "";
     private long dateMillis;
@@ -72,6 +79,12 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Context context = this;
+
+        if(fAuth.getCurrentUser() == null){
+            Intent intent= new Intent(this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -137,8 +150,9 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
         setupSharedPreferences();
 
-        hideDrawerMenu();
-
+        if(fAuth.getCurrentUser() != null){
+            scheduleJob();
+        }
     }
 
     @Override
@@ -242,24 +256,23 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
                 Resources res = getResources();
                 DisplayMetrics dm = res.getDisplayMetrics();
                 Configuration conf = res.getConfiguration();
-//                conf.locale = myLocale;
-//                res.updateConfiguration(conf, dm);
                 updateLocale(myLocale);
                 break;
             }
         }
-//        Toast.makeText(getApplicationContext(), "Promenjena podesavanja", Toast.LENGTH_LONG).show();
         hideDrawerMenu();
     }
 
     private void hideDrawerMenu(){
         Menu nav_Menu = navigationView.getMenu();
         Set<String> items = PreferencesHelper.getMenuItems(this);
-        String[] defaultItems = getResources().getStringArray(R.array.pref_options_values);
+        if(!items.contains("not_initialized")) {
+            String[] defaultItems = getResources().getStringArray(R.array.pref_options_values);
 
-        for (String item: defaultItems) {
-            boolean visibility = items.contains(item);
-            nav_Menu.findItem(getMenuId(item)).setVisible(visibility);
+            for (String item : defaultItems) {
+                boolean visibility = items.contains(item);
+                nav_Menu.findItem(getMenuId(item)).setVisible(visibility);
+            }
         }
     }
 
@@ -281,4 +294,27 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
                 return  -1;
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        hideDrawerMenu();
+    }
+
+    public void scheduleJob() {
+        ComponentName componentName = new ComponentName(this, PushToFirestoreJobService.class);
+        JobInfo jobInfoObj = new JobInfo.Builder(777, componentName)
+                .setPeriodic(PushToFirestoreJobService.REDO_FIRESTORE_PULL)
+                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_ANY)
+                .build();
+
+        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
+        int resultCode = scheduler.schedule(jobInfoObj);
+        if (resultCode == JobScheduler.RESULT_SUCCESS) {
+            Log.d("DB JOB", "SCHEDULED");
+        } else {
+            Log.d("DB JOB", "FAILED");
+        }
+    }
+
 }

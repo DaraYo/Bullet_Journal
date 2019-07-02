@@ -37,6 +37,9 @@ public class Habit implements Serializable {
     @ColumnInfo(name = "synced")
     private boolean synced;
 
+    @ColumnInfo(name = "deleted")
+    private boolean deleted;
+
     public Habit() {
     }
 
@@ -49,6 +52,7 @@ public class Habit implements Serializable {
 //        this.userId=userId;
         this.status = status;
         this.synced = synced;
+        this.deleted = false;
     }
 
     public Long getId() {
@@ -105,5 +109,13 @@ public class Habit implements Serializable {
 
     public void setSynced(boolean synced) {
         this.synced = synced;
+    }
+
+    public boolean isDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        this.deleted = deleted;
     }
 }

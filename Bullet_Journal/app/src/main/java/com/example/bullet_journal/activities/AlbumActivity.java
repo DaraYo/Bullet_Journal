@@ -401,7 +401,7 @@ public class AlbumActivity extends RootActivity {
     }
 
     private void initData(){
-        AsyncTask<Long, Void, List<DiaryImage>> getImagesTask = new GetDiaryImagesAsyncTask(new AsyncResponse<List<DiaryImage>>(){
+        AsyncTask<Long, Void, List<DiaryImage>> getImagesTask = new GetDiaryImagesAsyncTask(AlbumActivity.this, new AsyncResponse<List<DiaryImage>>(){
 
             @Override
             public void taskFinished(List<DiaryImage> retVal) {
@@ -421,7 +421,7 @@ public class AlbumActivity extends RootActivity {
 
     private void insertDiaryImage(String path){
         DiaryImage newImg= new DiaryImage(null, null, path, dayId, false);
-        AsyncTask<DiaryImage, Void, DiaryImage> insertImageTask = new InsertDiaryImageAsyncTask(new AsyncResponse<DiaryImage>(){
+        AsyncTask<DiaryImage, Void, DiaryImage> insertImageTask = new InsertDiaryImageAsyncTask(AlbumActivity.this, new AsyncResponse<DiaryImage>(){
 
             @Override
             public void taskFinished(DiaryImage addedImg) {
@@ -432,7 +432,7 @@ public class AlbumActivity extends RootActivity {
     }
 
     private void deleteDiaryImage(long id){
-        AsyncTask<Long, Void, Boolean> deleteImageTask = new DeleteDiaryImageAsyncTask(new AsyncResponse<Boolean>(){
+        AsyncTask<Long, Void, Boolean> deleteImageTask = new DeleteDiaryImageAsyncTask(AlbumActivity.this, new AsyncResponse<Boolean>(){
             @Override
             public void taskFinished(Boolean result) {
                 isSelectionMode= !result;

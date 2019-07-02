@@ -1,4 +1,7 @@
 <resources>
+
+    <string name="google_maps_api_key">AIzaSyAwXHd2TxLixDYo7AQRX2TeAHdMWNL2y9c</string>
+
     <string name="app_name">Bullet Journal</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -163,6 +166,7 @@
     <string name="mood_deleted">Mood Deleted</string>
     <string name="rating_deleted">Rating Deleted</string>
     <string name="task_status_updated">Task status updated</string>
+    <string name="wallet_item_saved">Wallet item saved</string>
 
     <!-- Days in week -->
     <string name="mon">Monday</string>
@@ -178,4 +182,14 @@
     <string name="take_a_pic">Take photo</string>
     <string name="choose_img">Select photo</string>
     <string name="choose_multiple_img">Select multiple photos</string>
+
+    <!-- Widget text -->
+    <string name="widget_task">TASK</string>
+    <string name="widget_event">EVENT</string>
+    <string name="widget_empty">EMPTY</string>
+
+    <!-- Maps text -->
+    <string name="maps_search_bar">Enter Location, Address or Zipp code </string>
+    <string name="maps_no_results">No results</string>
+
 </resources>

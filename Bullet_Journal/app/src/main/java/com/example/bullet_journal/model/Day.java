@@ -34,8 +34,14 @@ public class Day implements Serializable {
     @ColumnInfo(name = "diary_input")
     private String diaryInput;
 
-    @ColumnInfo(name = "album_name")
-    private String albumName;
+    @ColumnInfo(name = "location_title")
+    private String locationTitle;
+
+    @ColumnInfo(name = "latitude")
+    private Double latitude;
+
+    @ColumnInfo(name = "longitude")
+    private Double longitude;
 
     @ColumnInfo(name = "synced")
     private boolean synced;
@@ -43,14 +49,16 @@ public class Day implements Serializable {
     public Day() { }
 
     @Ignore
-    public Day(Long id, String firestoreId, Long userId, long date, double avgMood, String diaryInput, String albumName, boolean synced) {
+    public Day(Long id, String firestoreId, Long userId, long date, double avgMood, String diaryInput, String locationTitle, Double latitude, Double longitude, boolean synced) {
         this.id = id;
         this.firestoreId = firestoreId;
         this.userId = userId;
         this.date = date;
         this.avgMood = avgMood;
         this.diaryInput = diaryInput;
-        this.albumName = albumName;
+        this.locationTitle = locationTitle;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.synced = synced;
     }
 
@@ -78,12 +86,28 @@ public class Day implements Serializable {
         this.userId = userId;
     }
 
-    public String getAlbumName() {
-        return albumName;
+    public String getLocationTitle() {
+        return locationTitle;
     }
 
-    public void setAlbumName(String albumName) {
-        this.albumName = albumName;
+    public void setLocationTitle(String locationTitle) {
+        this.locationTitle = locationTitle;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public long getDate() {

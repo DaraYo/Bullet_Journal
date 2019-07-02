@@ -1,5 +1,6 @@
 package com.example.bullet_journal.async;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.bullet_journal.db.DatabaseClient;
@@ -11,11 +12,12 @@ import java.util.List;
 
 public class CalculateNewAverageMoodAsyncTask extends AsyncTask<Mood, Void, Boolean> {
 
-    public AsyncResponse delegate = null;
-    private MainDatabase database = DatabaseClient.getInstance(null).getDatabase();
+    public AsyncResponse delegate;
+    private MainDatabase database;
 
-    public CalculateNewAverageMoodAsyncTask(AsyncResponse delegate) {
+    public CalculateNewAverageMoodAsyncTask(Context context, AsyncResponse delegate) {
         this.delegate = delegate;
+        this.database = DatabaseClient.getInstance(context).getDatabase();
     }
 
     @Override
@@ -35,6 +37,7 @@ public class CalculateNewAverageMoodAsyncTask extends AsyncTask<Mood, Void, Bool
             Day day = database.getDayDao().get(moods[0].getDayId());
             day.setAvgMood((num <= 0) ? 0 : sum/num);
 
+            day.setSynced(false);
             database.getDayDao().update(day);
             return true;
         } catch (Exception e) {

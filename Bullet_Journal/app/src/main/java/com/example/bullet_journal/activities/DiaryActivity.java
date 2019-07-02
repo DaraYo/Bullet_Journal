@@ -3,6 +3,7 @@ package com.example.bullet_journal.activities;
 import android.Manifest;
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -15,6 +16,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -54,6 +56,8 @@ import com.example.bullet_journal.model.Day;
 import com.example.bullet_journal.model.DiaryImage;
 import com.example.bullet_journal.predefinedClasses.CustomAppBarLayoutBehavior;
 import com.example.bullet_journal.predefinedClasses.LinedEditText;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -236,10 +240,16 @@ public class DiaryActivity extends RootActivity {
         addLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                    //lokacija... samo vidi da li ti bas ova permisija treba
-                    //ako ti je dozvoljena permisija, ide na fju onActivityResult
-                    //ako nije, onda na onRequestPermissionsResult
+                if(isServicesOK()){
+                    if(checkPermission(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        if(isMapsEnabled()){
+                            selectLocation();
+                        }else{
+                            Toast.makeText(DiaryActivity.this, "Turn the Location on to proceed", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        askPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION);
+                    }
                 }
             }
         });
@@ -390,6 +400,7 @@ public class DiaryActivity extends RootActivity {
 
                 //location
                 case 1:
+
                     break;
 
                 //take a shot
@@ -428,6 +439,21 @@ public class DiaryActivity extends RootActivity {
 
                     //location
                     case 1: {
+                        if(data.getBooleanExtra("success", false)){
+                            double latitude = data.getDoubleExtra("lat", 0);
+                            double longitude = data.getDoubleExtra("long", 0);
+                            String locationTitle = data.getStringExtra("title");
+
+                            Log.i("Recived MAPS", "LAT: "+latitude+", LONG: "+longitude+" "+locationTitle);
+
+                            day.setLatitude(latitude);
+                            day.setLongitude(longitude);
+                            day.setLocationTitle(locationTitle);
+
+                            saveData();
+
+                            addLocation.setText(locationTitle);
+                        }
                         break;
                     }
 
@@ -496,7 +522,6 @@ public class DiaryActivity extends RootActivity {
                     carouselView.setIndicatorVisibility(View.VISIBLE);
                 }
             }
-//            }
         } catch (Exception e) {
             Log.e("FileSelectorActivity", "File select error", e);
         }
@@ -573,7 +598,7 @@ public class DiaryActivity extends RootActivity {
 
     private void insertDiaryImage(String path){
         DiaryImage newImg= new DiaryImage(null, null, path, day.getId(), false);
-        AsyncTask<DiaryImage, Void, DiaryImage> insertImageTask = new InsertDiaryImageAsyncTask(new AsyncResponse<DiaryImage>(){
+        AsyncTask<DiaryImage, Void, DiaryImage> insertImageTask = new InsertDiaryImageAsyncTask(DiaryActivity.this, new AsyncResponse<DiaryImage>(){
 
             @Override
             public void taskFinished(DiaryImage addedImg) {
@@ -586,12 +611,15 @@ public class DiaryActivity extends RootActivity {
 
     private void reLoadData(final long date) {
         choosenDateLong = CalendarCalculationsUtils.trimTimeFromDateMillis(date);
-        AsyncTask<Long, Void, Day> getDayTask= new GetDayAsyncTask(new AsyncResponse<Day>() {
+        AsyncTask<Long, Void, Day> getDayTask= new GetDayAsyncTask(DiaryActivity.this, new AsyncResponse<Day>() {
             @Override
             public void taskFinished(Day retVal) {
                 day = retVal;
                 diaryContent.setText(day.getDiaryInput());
-                AsyncTask<Long, Void, List<DiaryImage>> getImagesTask = new GetDiaryImagesAsyncTask(new AsyncResponse<List<DiaryImage>>(){
+                if(day.getLocationTitle() != null && !day.getLocationTitle().isEmpty()){
+                    addLocation.setText(day.getLocationTitle());
+                }
+                AsyncTask<Long, Void, List<DiaryImage>> getImagesTask = new GetDiaryImagesAsyncTask(DiaryActivity.this, new AsyncResponse<List<DiaryImage>>(){
 
                     @Override
                     public void taskFinished(List<DiaryImage> retVal) {
@@ -615,12 +643,39 @@ public class DiaryActivity extends RootActivity {
         day.setDiaryInput(diaryContent.getText().toString());
         day.setDate(choosenDateLong);
 
-        AsyncTask<Day, Void, Boolean> updateDayTask = new UpdateDayAsyncTask(new AsyncResponse<Boolean>(){
+        AsyncTask<Day, Void, Boolean> updateDayTask = new UpdateDayAsyncTask(DiaryActivity.this, new AsyncResponse<Boolean>(){
 
             @Override
             public void taskFinished(Boolean retVal) {
                 Toast.makeText(getBaseContext(), retVal ? "Success" : "Fail", Toast.LENGTH_LONG).show();
             }
         }).execute(day);
+    }
+
+    private void selectLocation(){
+        Intent intent = new Intent(this, MapActivity.class);
+        startActivityForResult(intent, LOCATION);
+    }
+
+    public boolean isMapsEnabled(){
+        final LocationManager manager = (LocationManager) getSystemService( Context.LOCATION_SERVICE );
+        return manager.isProviderEnabled( LocationManager.GPS_PROVIDER );
+    }
+
+    public boolean isServicesOK(){
+
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(DiaryActivity.this);
+
+        if(available == ConnectionResult.SUCCESS){
+            return true;
+        }
+
+        else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(DiaryActivity.this, available, 9001);
+            dialog.show();
+        }else{
+            Toast.makeText(this, "You can't make map requests", Toast.LENGTH_SHORT).show();
+        }
+        return false;
     }
 }

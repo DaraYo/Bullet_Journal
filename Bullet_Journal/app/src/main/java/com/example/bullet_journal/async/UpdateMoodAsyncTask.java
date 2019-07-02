@@ -1,5 +1,6 @@
 package com.example.bullet_journal.async;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.bullet_journal.db.DatabaseClient;
@@ -8,17 +9,20 @@ import com.example.bullet_journal.model.Mood;
 
 public class UpdateMoodAsyncTask  extends AsyncTask<Mood, Void, Boolean> {
 
-    public AsyncResponse delegate = null;
-    private MainDatabase database = DatabaseClient.getInstance(null).getDatabase();
+    public AsyncResponse delegate;
+    private MainDatabase database;
 
-    public UpdateMoodAsyncTask(AsyncResponse delegate){
+    public UpdateMoodAsyncTask(Context context, AsyncResponse delegate) {
         this.delegate = delegate;
+        this.database = DatabaseClient.getInstance(context).getDatabase();
     }
 
     @Override
     protected Boolean doInBackground(Mood... moods) {
+        Mood mood = moods[0];
         try {
-            database.getMoodDao().update(moods[0]);
+            mood.setSynced(false);
+            database.getMoodDao().update(mood);
             return true;
         }catch (Exception e){
             return false;

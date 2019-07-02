@@ -1,5 +1,6 @@
 package com.example.bullet_journal.async;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import com.example.bullet_journal.db.DatabaseClient;
@@ -8,17 +9,20 @@ import com.example.bullet_journal.model.Rating;
 
 public class UpdateRatingAsyncTask extends AsyncTask<Rating, Void, Boolean> {
 
-    public AsyncResponse delegate = null;
-    private MainDatabase database = DatabaseClient.getInstance(null).getDatabase();
+    public AsyncResponse delegate;
+    private MainDatabase database;
 
-    public UpdateRatingAsyncTask(AsyncResponse delegate){
+    public UpdateRatingAsyncTask(Context context, AsyncResponse delegate) {
         this.delegate = delegate;
+        this.database = DatabaseClient.getInstance(context).getDatabase();
     }
 
     @Override
     protected Boolean doInBackground(Rating... ratings) {
+        Rating rating = ratings[0];
         try{
-            database.getRatingDao().update(ratings[0]);
+            rating.setSynced(false);
+            database.getRatingDao().update(rating);
             return true;
         }catch(Exception e) {
             return false;
