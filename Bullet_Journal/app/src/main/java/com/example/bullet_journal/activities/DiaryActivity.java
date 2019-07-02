@@ -136,7 +136,7 @@ public class DiaryActivity extends RootActivity {
                 startActivityForResult(intent, ALBUM_RESULT);
             }
         });
-        diaryTitle = findViewById(R.id.diary_title);
+//        diaryTitle = findViewById(R.id.diary_title);
         diaryContent = findViewById(R.id.diary_text);
 
         dayDisplay = findViewById(R.id.day_display_only);
@@ -150,15 +150,15 @@ public class DiaryActivity extends RootActivity {
         buttonDone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                textContent = diaryTitle.getText().toString();
-                textContent += diaryContent.getText().toString();
+//                textContent = diaryTitle.getText().toString();
+                textContent = diaryContent.getText().toString();
 //                diaryTitle.clearFocus();
 //                diaryContent.clearFocus();
                 hideSoftKeyboard(DiaryActivity.this, v);
                 diaryContent.clearFocus();
 
                 editTextToolbar.setVisibility(View.GONE);
-                Toast.makeText(getApplicationContext(), textContent, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(), textContent, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -553,7 +553,7 @@ public class DiaryActivity extends RootActivity {
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
         // Create imageDir
         File mypath = new File(directory, cal.getTimeInMillis() + ".jpg");
-        Toast.makeText(getApplicationContext(), String.valueOf(mypath), Toast.LENGTH_LONG);
+//        Toast.makeText(getApplicationContext(), String.valueOf(mypath), Toast.LENGTH_LONG);
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(mypath);
@@ -615,7 +615,7 @@ public class DiaryActivity extends RootActivity {
             @Override
             public void taskFinished(Day retVal) {
                 day = retVal;
-                Toast.makeText(context, String.valueOf(day.getId()), Toast.LENGTH_LONG).show();
+//                Toast.makeText(context, String.valueOf(day.getId()), Toast.LENGTH_LONG).show();
                 diaryContent.setText(day.getDiaryInput());
                 if(day.getLocationTitle() != null && !day.getLocationTitle().isEmpty()){
                     addLocation.setText(day.getLocationTitle());
@@ -648,7 +648,7 @@ public class DiaryActivity extends RootActivity {
 
             @Override
             public void taskFinished(Boolean retVal) {
-                Toast.makeText(getBaseContext(), retVal ? "Success" : "Fail", Toast.LENGTH_LONG).show();
+//                Toast.makeText(getBaseContext(), retVal ? "Success" : "Fail", Toast.LENGTH_LONG).show();
             }
         }).execute(day);
     }

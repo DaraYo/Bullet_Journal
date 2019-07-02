@@ -244,8 +244,9 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
             PreferencesHelper.saveNameLastname(this, "");
             fAuth.signOut();
             Intent intent= new Intent(this, LoginActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
+            finish();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -285,7 +286,7 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         switch (key) {
             case "language_list": {
-                Toast.makeText(this, PreferencesHelper.getLanguage(getApplicationContext()), Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, PreferencesHelper.getLanguage(getApplicationContext()), Toast.LENGTH_LONG).show();
                 Locale myLocale= new Locale(PreferencesHelper.getLanguage(getApplicationContext()));
                 Resources res = getResources();
                 DisplayMetrics dm = res.getDisplayMetrics();

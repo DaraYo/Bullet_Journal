@@ -111,16 +111,6 @@
                         android:layout_toRightOf="@id/location_icon"
                         android:text="Add location"/>
                 </RelativeLayout>
-                <EditText
-                    android:id="@+id/diary_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:layout_marginBottom="5dp"
-                    android:inputType="text"
-                    android:scrollHorizontally="true"
-                    android:layout_alignParentTop="true"
-                    android:hint="@string/title_thoughts"/>
                 <com.example.bullet_journal.predefinedClasses.LinedEditText
                     android:id="@+id/diary_text"
                     android:layout_width="match_parent"
@@ -129,7 +119,6 @@
                     android:scrollbarStyle="insideInset"
                     android:overScrollMode="always"
                     android:scrollbars="vertical"
-                    android:layout_below="@id/diary_title"
                     android:layout_above="@id/diary_action_menu"
                     android:hint="@string/thoughts" />
             </RelativeLayout>
