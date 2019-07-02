@@ -8,6 +8,7 @@ import com.example.bullet_journal.async.AsyncResponse;
 import com.example.bullet_journal.db.DatabaseClient;
 import com.example.bullet_journal.db.MainDatabase;
 import com.example.bullet_journal.helpClasses.FirebaseUserDTO;
+import com.example.bullet_journal.helpClasses.PreferencesHelper;
 import com.example.bullet_journal.model.Day;
 import com.example.bullet_journal.model.Habit;
 import com.example.bullet_journal.model.HabitDay;
@@ -24,7 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class PullFromFirestoreAsyncTask extends AsyncTask<Void, Void, Boolean> {
+public class PullFromFirestoreAsyncTask extends AsyncTask<Void, Void, User> {
 
     public AsyncResponse delegate = null;
     private Context context;
@@ -44,35 +45,35 @@ public class PullFromFirestoreAsyncTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     @Override
-    protected Boolean doInBackground(Void... voids) {
-
+    protected User doInBackground(Void... voids) {
+        User currentUser = null;
         database.clearAllTables();
 
         try{
             Task<DocumentSnapshot> getUserTask = firestore.collection("Users").document(fAuth.getCurrentUser().getUid()).get();
             FirebaseUserDTO currentUserData = Tasks.await(getUserTask).toObject(FirebaseUserDTO.class);
 
-            User currentUser = new User();
+            currentUser= new User();
             currentUser.setFirestoreId(currentUserData.getId());
             currentUser.setFirstName(currentUserData.getFirstName());
             currentUser.setLastName(currentUserData.getLastName());
-            currentUser.setEmail(currentUser.getEmail());
-            currentUser.setPassword(currentUser.getPassword());
+            currentUser.setEmail(currentUserData.getEmail());
+            currentUser.setPassword(currentUserData.getPassword());
             database.getUserDao().insert(currentUser);
 
             fetchAllData();
         }catch (Exception e){
             e.printStackTrace();
-            return false;
+            return null;
         }
 
-        return isSuccessful;
+        return currentUser;
     }
 
     @Override
-    protected void onPostExecute(Boolean aBoolean) {
+    protected void onPostExecute(User user) {
 
-        delegate.taskFinished(aBoolean);
+        delegate.taskFinished(user);
     }
 
     private void fetchAllData(){

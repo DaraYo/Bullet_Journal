@@ -73,11 +73,13 @@ public class DeleteReminderDialog extends Dialog {
                         @Override
                         public void taskFinished(Boolean retVal) {
                             if (retVal) {
-                                Intent intent = new Intent(context, HabitsActivity.class);
-                                context.startActivity(intent);
+                                Toast.makeText(context, "succcess", Toast.LENGTH_SHORT);
+//                                Intent intent = new Intent(context, HabitsActivity.class);
+//                                context.startActivity(intent);
                             } else {
                                 Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT);
                             }
+
                         }
                     }).execute(new HabitRemindersWrapper(habit, new ArrayList<Reminder>()));
                 }

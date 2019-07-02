@@ -50,6 +50,9 @@
 
     <string name="tutorial_settings">Demo prikaz</string>
 
+    <string name="user_username">username</string>
+    <string name="user_first_lastname">name_lastname</string>
+
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">Obaveštenja</string>
 
@@ -128,6 +131,7 @@
     <string name="login_progress_dialog">Prijava i dobavljanje prethodnih podataka...</string>
     <string name="fields_empty">Proverite obavezna polja!</string>
     <string name="network_required">Uključite Wifi ili mobilne podatke za nastavak</string>
+    <string name="title_activity_logout">Odjava</string>
 
     <!-- Sign up activity labels -->
     <string name="title_activity_signup">Registracija</string>

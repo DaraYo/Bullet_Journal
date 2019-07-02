@@ -9,10 +9,11 @@ import androidx.core.app.NotificationCompat;
 public class AlertReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
+            NotificationHelper notificationHelper = new NotificationHelper(context);
 
-        NotificationHelper notificationHelper = new NotificationHelper(context);
+            NotificationCompat.Builder nb = notificationHelper.getChannelNotification(intent.getStringExtra("title"), intent.getStringExtra("text"));
+            nb.setContentTitle(intent.getStringExtra("title"));
+            notificationHelper.getManager().notify(1, nb.build());
 
-        NotificationCompat.Builder nb = notificationHelper.getChannelNotification(intent.getStringExtra("title"),intent.getStringExtra("text"));
-        notificationHelper.getManager().notify(1, nb.build());
     }
 }

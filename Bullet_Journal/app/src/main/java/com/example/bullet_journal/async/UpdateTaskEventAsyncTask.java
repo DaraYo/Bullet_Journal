@@ -1,10 +1,15 @@
 package com.example.bullet_journal.async;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 
 import com.example.bullet_journal.db.DatabaseClient;
 import com.example.bullet_journal.db.MainDatabase;
+import com.example.bullet_journal.enums.TaskType;
+import com.example.bullet_journal.helpClasses.AlertReceiver;
 import com.example.bullet_journal.model.Reminder;
 import com.example.bullet_journal.model.Task;
 import com.example.bullet_journal.wrapperClasses.TaskEventRemindersWrapper;
@@ -16,10 +21,13 @@ public class UpdateTaskEventAsyncTask extends AsyncTask<TaskEventRemindersWrappe
 
     public AsyncResponse delegate;
     private MainDatabase database;
+    private Context context;
 
     public UpdateTaskEventAsyncTask(Context context, AsyncResponse delegate) {
         this.delegate = delegate;
         this.database = DatabaseClient.getInstance(context).getDatabase();
+        this.context = context;
+
     }
 
     @Override
@@ -51,6 +59,7 @@ public class UpdateTaskEventAsyncTask extends AsyncTask<TaskEventRemindersWrappe
 
                     if(!found){
                         database.getReminderDao().delete(tempDbReminder);
+                        cancelAlarm(tempDbReminder);
                     }
                 }
             }
@@ -60,7 +69,9 @@ public class UpdateTaskEventAsyncTask extends AsyncTask<TaskEventRemindersWrappe
                 for(Reminder reminder : reminders){
                     if(reminder.getId() == null){
                         reminder.setTaskId(id);
-                        database.getReminderDao().insert(reminder);
+                        long idRem= database.getReminderDao().insert(reminder);
+                        reminder.setId(idRem);
+                        startAlarm(taskEvent, reminder);
                     }
                 }
             }
@@ -70,6 +81,29 @@ public class UpdateTaskEventAsyncTask extends AsyncTask<TaskEventRemindersWrappe
             e.printStackTrace();
             return false;
         }
+    }
+
+    private void startAlarm( Task t, Reminder r) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlertReceiver.class);
+        intent.putExtra("text", t.getTitle());
+        if (t.getType()== TaskType.TASK) {
+            intent.putExtra("title", "Task Reminder");
+        } else {
+            intent.putExtra("title", "Event Reminder");
+
+        }
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, r.getId().intValue(), intent, 0);
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, r.getDate(), pendingIntent);
+    }
+
+    private void cancelAlarm(Reminder r) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlertReceiver.class);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, r.getId().intValue(), intent, 0);
+        alarmManager.cancel(pendingIntent);
     }
 
     @Override
