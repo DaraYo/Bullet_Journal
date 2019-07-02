@@ -72,4 +72,28 @@ public class PreferencesHelper {
         editor.putStringSet(context.getString(R.string.options_setting_key), val);
         editor.commit();
     }
+
+    public static String getUsername(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getString(context.getString(R.string.user_username), "");
+    }
+
+    public static void saveUsername(Context context, String val){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor= sharedPreferences.edit();
+        editor.putString(context.getString(R.string.user_username), val);
+        editor.commit();
+    }
+
+    public static String getNameLastname(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getString(context.getString(R.string.user_first_lastname), "");
+    }
+
+    public static void saveNameLastname(Context context, String val){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor= sharedPreferences.edit();
+        editor.putString(context.getString(R.string.user_first_lastname), val);
+        editor.commit();
+    }
 }

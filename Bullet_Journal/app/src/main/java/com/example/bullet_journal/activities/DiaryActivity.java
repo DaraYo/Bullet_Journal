@@ -615,6 +615,7 @@ public class DiaryActivity extends RootActivity {
             @Override
             public void taskFinished(Day retVal) {
                 day = retVal;
+                Toast.makeText(context, String.valueOf(day.getId()), Toast.LENGTH_LONG).show();
                 diaryContent.setText(day.getDiaryInput());
                 if(day.getLocationTitle() != null && !day.getLocationTitle().isEmpty()){
                     addLocation.setText(day.getLocationTitle());
