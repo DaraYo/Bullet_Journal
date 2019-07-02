@@ -8,10 +8,12 @@ import com.example.bullet_journal.converters.Converter;
 import com.example.bullet_journal.db.dao.DayDao;
 import com.example.bullet_journal.db.dao.DiaryImageDao;
 import com.example.bullet_journal.db.dao.HabitDao;
+import com.example.bullet_journal.db.dao.MonthlyBudgetDao;
 import com.example.bullet_journal.db.dao.MoodDao;
 import com.example.bullet_journal.db.dao.RatingDao;
 import com.example.bullet_journal.db.dao.ReminderDao;
 import com.example.bullet_journal.db.dao.TaskEventDao;
+import com.example.bullet_journal.db.dao.WalletItemDao;
 import com.example.bullet_journal.db.dao.UserDao;
 import com.example.bullet_journal.model.Day;
 import com.example.bullet_journal.model.DiaryImage;
@@ -53,5 +55,10 @@ public abstract class MainDatabase extends RoomDatabase {
 
     public abstract DiaryImageDao getDiaryImageDao();
 
+    public abstract WalletItemDao getWalletItemDao();
+
+    public abstract MonthlyBudgetDao getMonthlyBudgetDao();
+
     public abstract UserDao getUserDao();
+
 }

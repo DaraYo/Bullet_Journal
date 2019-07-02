@@ -13,26 +13,26 @@ import com.example.bullet_journal.model.WalletItem;
 
 import java.util.List;
 
-public class SpendingAdapter extends ArrayAdapter<WalletItem> {
+public class WalletItemAdapter extends ArrayAdapter<WalletItem> {
 
     private Context context;
 
-    public SpendingAdapter(Context context, List<WalletItem> objects) {
-        super(context, R.layout.spending_preview_adapter, objects);
+    public WalletItemAdapter(Context context, List<WalletItem> objects) {
+        super(context, R.layout.wallet_item_preview_adapter, objects);
         this.context = context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.spending_preview_adapter, parent, false);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.wallet_item_preview_adapter, parent, false);
 
         final WalletItem walletItem = getItem(position);
 
-        TextView spendingName = view.findViewById(R.id.spending_name);
+        TextView spendingName = view.findViewById(R.id.wallet_item_name);
         spendingName.setText(walletItem.getName());
 
-        TextView spendingPrice = view.findViewById(R.id.spending_price);
+        TextView spendingPrice = view.findViewById(R.id.wallet_item_price);
 
         String incomeText = "+ " + walletItem.getAmount().toString() + " $";
         String spendingText = "- " + walletItem.getAmount().toString() + " $";
