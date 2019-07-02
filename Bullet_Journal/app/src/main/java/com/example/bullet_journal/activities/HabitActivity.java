@@ -1,10 +1,12 @@
 package com.example.bullet_journal.activities;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -19,9 +21,13 @@ import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.ReminderAdapter;
 import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.GetHabitDayByHabitAsyncTask;
+import com.example.bullet_journal.async.InsertHabitAsyncTask;
 import com.example.bullet_journal.async.UpdateHabitEventAsyncTask;
 import com.example.bullet_journal.decorators.DayViewMoodDecorator;
 import com.example.bullet_journal.enums.MoodType;
+import com.example.bullet_journal.model.Habit;
+import com.example.bullet_journal.model.HabitDay;
 import com.example.bullet_journal.wrapperClasses.HabitRemindersWrapper;
 import com.example.bullet_journal.wrapperClasses.MoodWrapper;
 import com.example.bullet_journal.wrapperClasses.TaskEventRemindersWrapper;
@@ -34,12 +40,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class HabitActivity extends RootActivity {
     final Context context = this;
     private Button btn_save;
     private Button btn_edit;
     private Button btn_back;
+    private int heigt;
     private Button chooseMonth;
     private MaterialCalendarView calendarView;
     private EditText te_desc;
@@ -63,9 +71,6 @@ public class HabitActivity extends RootActivity {
 
         btn_save = (Button) findViewById(R.id.btn_save);
         te_desc = (EditText) findViewById(R.id.desc);
-//        current_month_layout  = (LinearLayout) findViewById(R.id.current_month_layout);
-//        chooseMonth = (Button) findViewById(R.id.choose_another_month);
-//        calendarView = (MaterialCalendarView) findViewById(R.id.habit_calendar_view);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle.containsKey("habitInfo")) {
@@ -86,27 +91,6 @@ public class HabitActivity extends RootActivity {
 
         title.setText(habitObj.getHabitEvent().getTitle());
         description.setText(habitObj.getHabitEvent().getText());
-
-//        Button btn_view = (Button) findViewById(R.id.btn_monthly_view);
-
-//        btn_view.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                if (calendarView.getVisibility()==View.GONE)
-//                {
-//                    calendarView.setVisibility(View.VISIBLE);
-//                    current_month_layout.setVisibility(View.VISIBLE);
-//                    chooseMonth.setVisibility(View.VISIBLE);
-//                    te_desc.setVisibility(View.GONE);
-//                } else {
-//                    calendarView.setVisibility(View.GONE);
-//                    current_month_layout.setVisibility(View.GONE);
-//                    chooseMonth.setVisibility(View.GONE);
-//                    te_desc.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        });
 
 
         final ImageButton showDialogBtn = (ImageButton) findViewById(R.id.add_reminder);
@@ -179,6 +163,37 @@ public class HabitActivity extends RootActivity {
             }
         });
 
+//        current_month_layout  = (LinearLayout) findViewById(R.id.current_month_layout_habit);
+//        chooseMonth = (Button) findViewById(R.id.choose_another_month);
+        calendarView = (MaterialCalendarView) findViewById(R.id.habit_calendar_view_habit);
+        Button btn_view = (Button) findViewById(R.id.btn_monthly_view);
+
+        heigt =te_desc.getHeight();
+        btn_view.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (calendarView.getVisibility()==View.GONE)
+                {
+                    calendarView.setVisibility(View.VISIBLE);
+
+//                    Toast.makeText(context, "height:"+description.getHeight(), Toast.LENGTH_SHORT).show();
+                    te_desc.setHeight(55);
+//                    current_month_layout.setVisibility(View.VISIBLE);
+//                    chooseMonth.setVisibility(View.VISIBLE);
+//                    te_desc.setVisibility(View.GONE);
+                } else {
+                    calendarView.setVisibility(View.GONE);
+                    te_desc.setHeight(heigt);
+//                    current_month_layout.setVisibility(View.GONE);
+//                    chooseMonth.setVisibility(View.GONE);
+//                    te_desc.setVisibility(View.VISIBLE);
+//                    Toast.makeText(context, "height:"+description.getHeight(), Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+
 
 //        Date today = new Date();
 //        DateFormat format = new SimpleDateFormat("MMM, yyyy");
@@ -186,63 +201,76 @@ public class HabitActivity extends RootActivity {
 //
 //        TextView currentMonthText = (TextView) findViewById(R.id.current_month);
 //        currentMonthText.setText(currentMonth);
-
+//
 //        chooseMonth.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
 //                createDialogWithoutDateField().show();
 //            }
 //        });
-//
-//        calendarView.setSelectedDate(LocalDate.now());
-//        calendarView.clearSelection();
-//        calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
-//
-//        calendarView.addDecorator(new DayViewMoodDecorator(this, buildMood(7, 15, 4.72, 4.56), MoodType.AWESOME));
-//        calendarView.addDecorator(new DayViewMoodDecorator(this, buildMood(5, 24, 3.72, 4.25), MoodType.AWESOME));
-//
+
+        calendarView.setSelectedDate(LocalDate.now());
+        calendarView.clearSelection();
+        calendarView.setSelectionMode(MaterialCalendarView.SELECTION_MODE_NONE);
+
+        buildHabit(this);
+
     }
 
-//    private ArrayList<MoodWrapper> buildMood(int date1, int date2, double val1, double val2){
-//        Calendar calendar = Calendar.getInstance();
-//
-//        calendar.set(2019, Calendar.MAY, date1);
-//        MoodWrapper mw1 = new MoodWrapper(val1, new Date(calendar.getTimeInMillis()));
-//
-//        calendar.set(2019, Calendar.MAY, date2);
-//        MoodWrapper mw2 = new MoodWrapper(val2, new Date(calendar.getTimeInMillis()));
-//
-//        ArrayList<MoodWrapper> retVal = new ArrayList<>();
-//        retVal.add(mw1);
-//        retVal.add(mw2);
-//
-//        return retVal;
-//    }
+
+    ArrayList<MoodWrapper> daysOfHabit = new ArrayList<>();
+    private void buildHabit(final Activity act){
+
+        //TODO: get all day by habit
 
 
+        AsyncTask<Habit, Void, List<Long>> getHabitDayByHabitAsyncTask =
+                new GetHabitDayByHabitAsyncTask(new AsyncResponse<List<Long>>() {
+            @Override
+            public void taskFinished(List<Long> retVal) {
+                for (Long date: retVal ) {
+                    // get Datum
 
-//    private DatePickerDialog createDialogWithoutDateField() {
-//        DatePickerDialog dpd = new DatePickerDialog(this, null, 2019, 4, 18);
-//        try {
-//            java.lang.reflect.Field[] datePickerDialogFields = dpd.getClass().getDeclaredFields();
-//            for (java.lang.reflect.Field datePickerDialogField : datePickerDialogFields) {
-//                if (datePickerDialogField.getName().equals("mDatePicker")) {
-//                    datePickerDialogField.setAccessible(true);
-//                    DatePicker datePicker = (DatePicker) datePickerDialogField.get(dpd);
-//                    java.lang.reflect.Field[] datePickerFields = datePickerDialogField.getType().getDeclaredFields();
-//                    for (java.lang.reflect.Field datePickerField : datePickerFields) {
-//                        if ("mDaySpinner".equals(datePickerField.getName())) {
-//                            datePickerField.setAccessible(true);
-//                            Object dayPicker = datePickerField.get(datePicker);
-//                            ((View) dayPicker).setVisibility(View.GONE);
-//                        }
-//                    }
-//                }
-//            }
-//        } catch (Exception ex) {
-//        }
-//        return dpd;
-//    }
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(date);
+
+                    calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+                    // creat mood wapper
+                    MoodWrapper mw1 = new MoodWrapper(5, new Date(calendar.getTimeInMillis()));
+
+                    // add to retval
+
+                    daysOfHabit.add(mw1);
+                }
+                calendarView.addDecorator(new DayViewMoodDecorator(act,daysOfHabit, MoodType.AWESOME));
+            }
+        }).execute(habitObj.getHabitEvent());
+    }
+
+
+    private DatePickerDialog createDialogWithoutDateField() {
+        DatePickerDialog dpd = new DatePickerDialog(this, null, 2019, 4, 18);
+        try {
+            java.lang.reflect.Field[] datePickerDialogFields = dpd.getClass().getDeclaredFields();
+            for (java.lang.reflect.Field datePickerDialogField : datePickerDialogFields) {
+                if (datePickerDialogField.getName().equals("mDatePicker")) {
+                    datePickerDialogField.setAccessible(true);
+                    DatePicker datePicker = (DatePicker) datePickerDialogField.get(dpd);
+                    java.lang.reflect.Field[] datePickerFields = datePickerDialogField.getType().getDeclaredFields();
+                    for (java.lang.reflect.Field datePickerField : datePickerFields) {
+                        if ("mDaySpinner".equals(datePickerField.getName())) {
+                            datePickerField.setAccessible(true);
+                            Object dayPicker = datePickerField.get(datePicker);
+                            ((View) dayPicker).setVisibility(View.GONE);
+                        }
+                    }
+                }
+            }
+        } catch (Exception ex) {
+        }
+        return dpd;
+    }
 
     private void bindChanges(){
         habitObj.getHabitEvent().setTitle(title.getText().toString());
