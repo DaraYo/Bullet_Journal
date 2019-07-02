@@ -64,6 +64,9 @@
             android:name=".activities.AddReminderActivity"
             android:label="Reminder" />
         <activity
+            android:name=".activities.AddReminderHabitActivity"
+            android:label="Reminder" />
+        <activity
             android:name=".activities.EventActivity"
             android:label="Tasks and Events" />
         <activity android:name=".activities.TaskActivity" />

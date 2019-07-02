@@ -129,6 +129,21 @@ public class Task implements Serializable {
         return type;
     }
 
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", firestoreId='" + firestoreId + '\'' +
+                ", title='" + title + '\'' +
+                ", text='" + text + '\'' +
+                ", dayId=" + dayId +
+                ", date=" + date +
+                ", status=" + status +
+                ", synced=" + synced +
+                ", type=" + type +
+                '}';
+    }
+
     public void setType(TaskType type) {
         this.type = type;
     }

@@ -16,8 +16,8 @@ public interface HabitDao {
     @Query("SELECT * FROM habit WHERE id=:id")
     Habit get(Long id);
 
-    @Query("SELECT * FROM habit WHERE day_id=:id")
-    List<Habit> getAllHabitsForDay(Long id);
+    @Query("SELECT * FROM habit WHERE user_id=:id")
+    List<Habit> getAllHabitsForUser(Long id);
 
     @Query("SELECT * FROM habit")
     List<Habit> getAll();

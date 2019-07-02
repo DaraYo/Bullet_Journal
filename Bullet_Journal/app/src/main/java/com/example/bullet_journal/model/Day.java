@@ -117,4 +117,18 @@ public class Day implements Serializable {
     public void setSynced(boolean synced) {
         this.synced = synced;
     }
+
+    @Override
+    public String toString() {
+        return "Day{" +
+                "id=" + id +
+                ", firestoreId='" + firestoreId + '\'' +
+                ", userId=" + userId +
+                ", date=" + date +
+                ", avgMood=" + avgMood +
+                ", diaryInput='" + diaryInput + '\'' +
+                ", albumName='" + albumName + '\'' +
+                ", synced=" + synced +
+                '}';
+    }
 }

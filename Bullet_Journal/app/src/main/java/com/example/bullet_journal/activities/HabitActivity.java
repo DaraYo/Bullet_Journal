@@ -3,6 +3,7 @@ package com.example.bullet_journal.activities;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,13 +13,16 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.ReminderAdapter;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.UpdateHabitEventAsyncTask;
 import com.example.bullet_journal.decorators.DayViewMoodDecorator;
 import com.example.bullet_journal.enums.MoodType;
-import com.example.bullet_journal.model.Reminder;
+import com.example.bullet_journal.wrapperClasses.HabitRemindersWrapper;
 import com.example.bullet_journal.wrapperClasses.MoodWrapper;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
@@ -29,17 +33,24 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class HabitActivity extends RootActivity {
     final Context context = this;
-    private Button btn_done;
+    private Button btn_save;
+    private Button btn_edit;
+    private Button btn_back;
     private Button chooseMonth;
     private MaterialCalendarView calendarView;
     private EditText te_desc;
     private LinearLayout reminder_title;
     private LinearLayout reminders_list;
     private LinearLayout current_month_layout;
+
+    private EditText title;
+    private EditText description;
+
+    private HabitRemindersWrapper habitObj;
+    private boolean isEdit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +60,36 @@ public class HabitActivity extends RootActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        btn_done = (Button) findViewById(R.id.btn_done);
+        btn_save = (Button) findViewById(R.id.btn_save);
         te_desc = (EditText) findViewById(R.id.desc);
-        reminder_title = (LinearLayout) findViewById(R.id.current_date_layout_2);
-        reminders_list  = (LinearLayout) findViewById(R.id.habit_reminders_list_layout);
         current_month_layout  = (LinearLayout) findViewById(R.id.current_month_layout);
         chooseMonth = (Button) findViewById(R.id.choose_another_month);
         calendarView = (MaterialCalendarView) findViewById(R.id.habit_calendar_view);
 
+        Bundle bundle = getIntent().getExtras();
+        if(bundle.containsKey("habitInfo")){
+            if(bundle.getSerializable("habitInfo") instanceof HabitRemindersWrapper){
+                habitObj = (HabitRemindersWrapper) bundle.getSerializable("habitInfo");
+//                ArrayList<Reminder> rem = fetchReminders(habitObj.getHabitEvent().getId());
+//
+                 ReminderAdapter remAdapter = new ReminderAdapter(this, habitObj.getReminders());
+                ListView reminderListView = findViewById(R.id.habit_reminders_list_view);
+                reminderListView.setAdapter(remAdapter);
+            }
+        }
+
+        isEdit = bundle.getBoolean("isEdit");
+
+        if(habitObj == null){
+            Toast.makeText(context, R.string.basic_error, Toast.LENGTH_SHORT);
+            finish();
+        }
+
+        title = findViewById(R.id.title);
+        description = findViewById(R.id.desc);
+
+        title.setText(habitObj.getHabitEvent().getTitle());
+        description.setText(habitObj.getHabitEvent().getText());
 
         Button btn_view = (Button) findViewById(R.id.btn_monthly_view);
 
@@ -70,24 +103,58 @@ public class HabitActivity extends RootActivity {
                     current_month_layout.setVisibility(View.VISIBLE);
                     chooseMonth.setVisibility(View.VISIBLE);
                     te_desc.setVisibility(View.GONE);
-                    reminder_title.setVisibility(View.GONE);
-                    reminders_list.setVisibility(View.GONE);
                 } else {
                     calendarView.setVisibility(View.GONE);
                     current_month_layout.setVisibility(View.GONE);
                     chooseMonth.setVisibility(View.GONE);
                     te_desc.setVisibility(View.VISIBLE);
-                    reminder_title.setVisibility(View.VISIBLE);
-                    reminders_list.setVisibility(View.VISIBLE);
-
                 }
             }
         });
 
-        btn_done.setOnClickListener(new View.OnClickListener() {
+
+        btn_edit = (Button) findViewById(R.id.btn_edit);
+        btn_back = (Button) findViewById(R.id.btn_back);
+        btn_save = (Button) findViewById(R.id.btn_save);
+
+        btn_edit.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                title.setEnabled(!title.isEnabled());
+                description.setEnabled(!description.isEnabled());
+            }
+        });
+
+        btn_save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                bindChanges();
+
+                if(!isEdit){
+                    startActivity(resolvePreviousPanel());
+                    finish();
+                }else{
+                    AsyncTask<HabitRemindersWrapper, Void, Boolean> editTaskEventAsyncTask = new UpdateHabitEventAsyncTask(new AsyncResponse<Boolean>(){
+                        @Override
+                        public void taskFinished(Boolean retVal) {
+                            if(retVal){
+                                startActivity(resolvePreviousPanel());
+                                finish();
+                            }else{
+                                Toast.makeText(getApplicationContext(), R.string.basic_error, Toast.LENGTH_SHORT);
+                            }
+                        }
+                    }).execute(habitObj);
+                }
+            }
+        });
+
+        btn_back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(resolvePreviousPanel());
                 finish();
             }
         });
@@ -97,12 +164,13 @@ public class HabitActivity extends RootActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, AddReminderActivity.class);
+                Intent intent = new Intent(context, AddReminderHabitActivity.class);
+                intent.putExtra("habitInfo", habitObj);
                 startActivity(intent);
             }
         });
 
-        ReminderAdapter remAdapter = new ReminderAdapter(this, buildReminders());
+        ReminderAdapter remAdapter = new ReminderAdapter(this, habitObj.getReminders());
         ListView reminderListView = findViewById(R.id.habit_reminders_list_view);
         reminderListView.setAdapter(remAdapter);
 
@@ -145,15 +213,7 @@ public class HabitActivity extends RootActivity {
         return retVal;
     }
 
-    private List<Reminder> buildReminders(){
-        List<Reminder> retVal = new ArrayList<>();
 
-        Reminder r1 = new Reminder(null, null, "Reminder1", System.currentTimeMillis(), false, null, null, false);
-
-        retVal.add(r1);
-
-        return retVal;
-    }
 
     private DatePickerDialog createDialogWithoutDateField() {
         DatePickerDialog dpd = new DatePickerDialog(this, null, 2019, 4, 18);
@@ -177,5 +237,29 @@ public class HabitActivity extends RootActivity {
         }
         return dpd;
     }
+
+    private void bindChanges(){
+        habitObj.getHabitEvent().setTitle(title.getText().toString());
+        habitObj.getHabitEvent().setText(description.getText().toString());
+    }
+
+
+    private Intent resolvePreviousPanel(){
+
+        Intent intent;
+        Bundle bundle = new Bundle();
+
+        if(isEdit){
+            intent = new Intent(context, HabitsActivity.class);
+            intent.putExtras(bundle);
+        }else {
+            intent = new Intent(context, NewHabitActivity.class);
+            bundle.putSerializable("habitInfo", habitObj);
+            intent.putExtras(bundle);
+        }
+
+        return intent;
+    }
+
 
 }

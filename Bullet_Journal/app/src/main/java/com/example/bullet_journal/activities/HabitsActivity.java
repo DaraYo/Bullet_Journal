@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
@@ -12,11 +13,16 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
 import com.example.bullet_journal.adapters.HabitDisplayAdapter;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.GetDayAsyncTask;
+import com.example.bullet_journal.async.GetHabitsForDayAsyncTask;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
+import com.example.bullet_journal.model.Day;
 import com.example.bullet_journal.model.Habit;
 
 import java.text.DateFormat;
@@ -29,9 +35,16 @@ import java.util.List;
 public class HabitsActivity extends RootActivity {
     final Context context = this;
     private DatePickerDialog.OnDateSetListener onDateSetListener;
-    private TextView dateDayDisplay;
+    private TextView dateDisplay;
+    private TextView weekDisplay;
+    private Day dayObj;
+
+    HabitDisplayAdapter habitAdapter;
 
     private String choosenDate = "";
+    private long dateMillis;
+
+    private List<Habit> habits = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,33 +52,55 @@ public class HabitsActivity extends RootActivity {
         setContentView(R.layout.activity_habit_tracker);
         getSupportActionBar().setTitle("Habit Tracker");
 
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Bundle bundle = getIntent().getExtras();
+        dateMillis =  System.currentTimeMillis();
+        if(bundle != null){
+            if(bundle.containsKey("date")){
+                dateMillis = bundle.getLong("date");
+            }
+        }
+
+        final long dayMillis = bundle.getLong("date");
+
         ImageButton addHabitBtn = (ImageButton) findViewById(R.id.add_habit);
         addHabitBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                Bundle bundle = getIntent().getExtras();
+                dateMillis =  System.currentTimeMillis();
+
                 Intent intent = new Intent(context, NewHabitActivity.class);
+                Bundle newbundle = new Bundle();
+                newbundle.putLong("date", dateMillis);
+                intent.putExtras(newbundle);
+
                 startActivity(intent);
             }
         });
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        dateDisplay = (TextView) findViewById(R.id.date_display);
+        choosenDate = CalendarCalculationsUtils.dateMillisToString(dateMillis);
+        dateDisplay.setText(choosenDate);
 
-        dateDayDisplay = (TextView) findViewById(R.id.day_date_display);
-        choosenDate = CalendarCalculationsUtils.dateMillisToString(System.currentTimeMillis());
-        dateDayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis(), context)+" "+choosenDate);
+        weekDisplay = (TextView) findViewById(R.id.day_of_week);
+        weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis(), context));
 
-        LinearLayout dateSwitchPannel = (LinearLayout) findViewById(R.id.current_date_layout_2);
+        LinearLayout dateSwitchPanel = (LinearLayout) findViewById(R.id.current_date_layout);
 
-        dateSwitchPannel.setOnClickListener(new View.OnClickListener() {
+        dateSwitchPanel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog dialog = new DatePickerDialog(HabitsActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener, year, month, day);
+                DatePickerDialog dialog = new DatePickerDialog(HabitsActivity.this, android.R.style.Theme_Holo_Light_Dialog_MinWidth, onDateSetListener,  year, month, day);
                 dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                 dialog.show();
             }
@@ -75,30 +110,50 @@ public class HabitsActivity extends RootActivity {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 Date newDate = CalendarCalculationsUtils.convertCalendarDialogDate(day, month+1, year);
+                dateMillis = CalendarCalculationsUtils.trimTimeFromDateMillis(newDate.getTime());
                 DateFormat targetFormat = new SimpleDateFormat("MMM dd, yyyy");
 
                 choosenDate = targetFormat.format(newDate);
-                dateDayDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(System.currentTimeMillis(), context)+" "+choosenDate);
+                dateDisplay.setText(choosenDate);
+                weekDisplay.setText(CalendarCalculationsUtils.calculateWeekDay(newDate.getTime(), context));
+
+                fetchHabits();
             }
         };
 
-        HabitDisplayAdapter habitsAdapter = new HabitDisplayAdapter(this, buildHabits());
-        ListView habitsListView = findViewById(R.id.habits_list_view);
-        habitsListView.setAdapter(habitsAdapter);
+        AsyncTask<Long, Void, Day> getDayTask = new GetDayAsyncTask(new AsyncResponse<Day>() {
+
+            @Override
+            public void taskFinished(Day retVal) {
+                if (retVal == null) {
+                    Toast.makeText(context, R.string.selected_date_missing_error, Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+                dayObj = retVal;
+//                Toast.makeText(context, "day: "+dayObj.toString(), Toast.LENGTH_LONG).show();
+                habitAdapter = new HabitDisplayAdapter(context, habits, dayObj);
+                ListView habitsListView = findViewById(R.id.habits_list_view);
+                habitsListView.setAdapter(habitAdapter);
+
+                fetchHabits();
+            }
+        }).execute(dayMillis);
+
+
 
     }
 
-    private List<Habit> buildHabits(){
-        List<Habit> retVal = new ArrayList<>();
+    private void fetchHabits(){
 
-        Habit habit1 = new Habit(null, null, "Habbit 1", "About habbit 1", null, System.currentTimeMillis(), false, false);
-        Habit habit2 = new Habit(null, null, "Habbit 2", "About habbit 2", null, System.currentTimeMillis(), false, false);
-        Habit habit3 = new Habit(null, null, "Habbit 3", "About habbit 3", null, System.currentTimeMillis(), false, false);
+        AsyncTask<Long, Void, List<Habit>> getHabit = new GetHabitsForDayAsyncTask(new AsyncResponse<List<Habit>>(){
+            @Override
+            public void taskFinished(List<Habit> retVal) {
+                habits.clear();
+                habits.addAll(retVal);
+                habitAdapter.notifyDataSetChanged();
+            }
+        }).execute(dateMillis);
 
-        retVal.add(habit1);
-        retVal.add(habit2);
-        retVal.add(habit3);
-
-        return retVal;
     }
+
 }

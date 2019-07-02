@@ -178,6 +178,9 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
         } else if (id == R.id.nav_habbits) {
             Intent intent= new Intent(this, HabitsActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putLong("date", dateMillis);
+            intent.putExtras(bundle);
             startActivity(intent);
 
         } else if (id == R.id.nav_spendings) {

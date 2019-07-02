@@ -79,6 +79,7 @@
     <string name="continue_str">Nastavi</string>
     <string name="back_str">Nazad</string>
     <string name="edit_str">Izmeni</string>
+    <string name="delete_str">Izbrisi</string>
     <string name="done_str">Gotovo</string>
     <string name="save_str">Sačuvaj</string>
 
@@ -148,6 +149,7 @@
     <string name="task_event_type_task">Zadatak</string>
     <string name="task_event_type_event">Dogadjaj</string>
     <string name="task_event_done">Gotovo?</string>
+    <string name="delete_text">Da li zelis da izbrises?</string>
 
     <!-- Error and Warning messages -->
     <string name="basic_error">Greška</string>

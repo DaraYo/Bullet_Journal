@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.example.bullet_journal.async.AsyncResponse;
 import com.example.bullet_journal.async.CompleteTaskAsyncTask;
 import com.example.bullet_journal.async.GetRemindersCountForTaskEventAsyncTask;
 import com.example.bullet_journal.async.GetRemindersForTaskEventAsyncTask;
+import com.example.bullet_journal.dialogs.DeleteReminderDialog;
 import com.example.bullet_journal.enums.TaskType;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Reminder;
@@ -96,7 +98,20 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
 
             fetchReminders(taskEventObj.getId(), reminders);
 
+            ImageButton delete_btn = view.findViewById(R.id.delete_btn);
+            delete_btn.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    DeleteReminderDialog dialog = new DeleteReminderDialog(context, taskEventObj);
+                    dialog.show();
+
+                }
+            });
+
             return view;
+//        }
         } else if (mode.equals(TaskType.EVENT)) {
 
             View view = LayoutInflater.from(getContext()).inflate(R.layout.event_display_adapter, parent, false);
@@ -128,6 +143,18 @@ public class TaskEventDisplayAdapter extends ArrayAdapter<Task> {
             }).execute(taskEventObj.getId());
 
             fetchReminders(taskEventObj.getId(), reminders);
+
+            ImageButton delete_btn = view.findViewById(R.id.delete_btn);
+            delete_btn.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    DeleteReminderDialog dialog = new DeleteReminderDialog(context, taskEventObj);
+                    dialog.show();
+
+                }
+            });
 
             return view;
         }

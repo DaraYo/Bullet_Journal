@@ -5,45 +5,86 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <EditText
-        android:id="@+id/title"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="Title" />
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/desc"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:background="@color/colorPrimaryLight"
+            android:gravity="center" >
+
+            <TextView
+                android:id="@+id/task_event_dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/for_date"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/task_event_dialog_date_str"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:layout_marginStart="5dp"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:hint="@string/task_event_title" />
+
+
+        <EditText
+            android:id="@+id/desc"
+            android:gravity="top"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginTop="5dp"
+            android:hint="Description" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="top"
-        android:hint="Description"
-        android:layout_margin="10dp"/>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_height="0dp"
+        android:layout_weight="2"
+        android:layout_marginTop="5dp"
         android:layout_gravity="center_horizontal"
-        android:gravity="center"
-        >
+        android:gravity="center">
+
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:text="Cancel" />
+            android:background="@drawable/rounded_bg_light"
+            android:text="@string/cancel_str" />
+
         <Button
-            android:id="@+id/btn_save"
+            android:id="@+id/btn_reminders"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:background="@drawable/rounded_bg_light"
+            android:text="@string/reminders_num"/>
+
+        <Button
+            android:id="@+id/btn_done"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:background="@color/colorPrimary"
-            android:text="Save"/>
+            android:background="@drawable/rounded_bg_light"
+            android:text="@string/done_str"/>
 
     </LinearLayout>
-
 </LinearLayout>

@@ -9,11 +9,11 @@ import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
 
-@Entity(tableName = "habit", foreignKeys = @ForeignKey(entity = Day.class,
+@Entity(tableName = "habit", foreignKeys = @ForeignKey(entity = User.class,
         parentColumns = "id",
-        childColumns = "day_id",
+        childColumns = "user_id",
         onDelete = ForeignKey.CASCADE),
-        indices = {@Index("day_id")})
+        indices = {@Index("user_id")})
 public class Habit implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
@@ -28,11 +28,8 @@ public class Habit implements Serializable {
     @ColumnInfo(name = "text")
     private String text;
 
-    @ColumnInfo(name = "day_id")
-    private Long dayId;
-
-    @ColumnInfo(name = "date")
-    private long date;
+    @ColumnInfo(name = "user_id")
+    private Long userId;
 
     @ColumnInfo(name = "status")
     private boolean status;
@@ -44,13 +41,12 @@ public class Habit implements Serializable {
     }
 
     @Ignore
-    public Habit(Long id, String firestoreId, String title, String text, Long dayId, long date, boolean status, boolean synced) {
+    public Habit(Long id, String firestoreId, String title, String text, Long userId, boolean status, boolean synced) {
         this.id = id;
         this.firestoreId = firestoreId;
         this.title = title;
         this.text = text;
-        this.dayId = dayId;
-        this.date = date;
+//        this.userId=userId;
         this.status = status;
         this.synced = synced;
     }
@@ -87,20 +83,12 @@ public class Habit implements Serializable {
         this.text = text;
     }
 
-    public Long getDayId() {
-        return dayId;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setDayId(Long dayId) {
-        this.dayId = dayId;
-    }
-
-    public long getDate() {
-        return date;
-    }
-
-    public void setDate(long date) {
-        this.date = date;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public boolean isStatus() {

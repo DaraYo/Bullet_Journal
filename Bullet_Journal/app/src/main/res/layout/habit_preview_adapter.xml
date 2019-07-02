@@ -2,25 +2,46 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
-android:layout_height="match_parent"
+android:layout_height="wrap_content"
 android:orientation="horizontal"
-android:weightSum="10"
+android:weightSum="5"
 android:paddingTop="10dp" android:paddingBottom="10dp"
     >
 
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <ImageButton
+            android:id="@+id/delete_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_bg_light"
+            android:src="@drawable/ic_delete_light" />
+
+    </LinearLayout>
+
+
 <TextView
+    android:layout_width="0dp"
+    android:layout_weight="3"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
     android:id="@+id/habit_title"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="2"
     android:textSize="18dp"
     android:text="Anything you want here"
     />
 
 <CheckBox
-    android:id="@+id/habit_tracker_check"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="8" />
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:id="@+id/habit_tracker_check"/>
 
 </LinearLayout>

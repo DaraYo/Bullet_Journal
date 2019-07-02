@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,9 +20,13 @@ import android.widget.Toast;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.InsertReminderAsyncTask;
+import com.example.bullet_journal.enums.TaskType;
 import com.example.bullet_journal.helpClasses.AlertReceiver;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Reminder;
+import com.example.bullet_journal.model.Task;
 import com.example.bullet_journal.wrapperClasses.TaskEventRemindersWrapper;
 
 import java.text.DateFormat;
@@ -38,6 +43,10 @@ public class AddReminderActivity extends RootActivity {
     private TextView dateDisplay;
     private TextView weekDisplay;
     private TextView title;
+    private Calendar calendar;
+    private Long reminderId;
+    Reminder reminder;
+    Bundle bundle;
 
     private String choosenDate = "";
     private long dateMillis;
@@ -69,7 +78,7 @@ public class AddReminderActivity extends RootActivity {
         title = findViewById(R.id.reminder_title);
 
         /* Da znamo za sta se kreira Reminder : Task => 1, Event => 2, Habit => 3 */
-        Bundle bundle = getIntent().getExtras();
+        bundle = getIntent().getExtras();
         if (bundle.containsKey("mode")) {
             this.mode = bundle.getInt("mode");
         }else{
@@ -122,9 +131,9 @@ public class AddReminderActivity extends RootActivity {
                 c.set(Calendar.HOUR_OF_DAY, timePicker.getCurrentHour());
                 c.set(Calendar.MINUTE, timePicker.getCurrentMinute());
                 c.set(Calendar.SECOND, 0);
-                //startAlarm(c);
 
-                Intent intent = resolveReturn(false);
+
+                Intent intent = resolveReturn(false, c);
                 if(intent != null){
                     startActivity(intent);
                 }
@@ -137,7 +146,7 @@ public class AddReminderActivity extends RootActivity {
         dialogCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = resolveReturn(true);
+                Intent intent = resolveReturn(true, null);
                 if(intent != null){
                     startActivity(intent);
                 }
@@ -147,20 +156,37 @@ public class AddReminderActivity extends RootActivity {
         });
     }
 
-    private Intent resolveReturn(boolean isCancel){
+    private Intent resolveReturn(boolean isCancel, Calendar c){
         long selectedDate = CalendarCalculationsUtils.addHoursAndMinutesToDate(dateMillis, timePicker.getCurrentHour(), timePicker.getCurrentMinute());
 
         Log.i("SELECTED DATE: ", "Is : "+selectedDate);
         Toast.makeText(context, ""+selectedDate, Toast.LENGTH_LONG);
 
-        Reminder reminder = new Reminder(null, null, title.getText().toString(), selectedDate, false, null, null, false);
 
         Bundle bundle = new Bundle();
-
+        calendar = c;
         switch (mode) {
             case 1 : {
                 if(!isCancel){
+                    reminder = new Reminder(null, null, title.getText().toString(), selectedDate, false, null, taskEventObj.getTaskEvent().getId(), false);
+
+                    //TODO: save reminder
+                    AsyncTask<Reminder, Void, Long> insertHabitAsyncTask = new InsertReminderAsyncTask(new AsyncResponse<Long>() {
+                        @Override
+                        public void taskFinished(Long retVal) {
+                            if(retVal==0L) {
+                                Toast.makeText(context, R.string.basic_error, Toast.LENGTH_LONG).show();
+                            } else {
+                                reminderId = retVal;
+//                                Toast.makeText(context, "reminderId: "+reminderId, Toast.LENGTH_LONG).show();
+                                startAlarm(taskEventObj.getTaskEvent());
+                            }
+                        }
+                    }).execute(reminder);
+                    reminder.setId(reminderId);
                     taskEventObj.getReminders().add(reminder);
+
+
                 }
                 bundle.putSerializable("taskEventInfo", taskEventObj);
                 bundle.putBoolean("isEdit", isEdit);
@@ -171,7 +197,25 @@ public class AddReminderActivity extends RootActivity {
             }
             case 2 : {
                 if(!isCancel){
-                    taskEventObj.getReminders().add(reminder);
+                    reminder = new Reminder(null, null, title.getText().toString(), selectedDate, false, null, taskEventObj.getTaskEvent().getId(), false);
+
+                    //TODO: save reminder
+                    AsyncTask<Reminder, Void, Long> insertHabitAsyncTask = new InsertReminderAsyncTask(new AsyncResponse<Long>() {
+                        @Override
+                        public void taskFinished(Long retVal) {
+                            if(retVal==0L) {
+                                Toast.makeText(context, R.string.basic_error, Toast.LENGTH_LONG).show();
+                            } else {
+                                reminderId = retVal;
+//                                Toast.makeText(context, "reminderId: "+reminderId, Toast.LENGTH_LONG).show();
+                                startAlarm(taskEventObj.getTaskEvent());
+                                reminder.setId(reminderId);
+                                taskEventObj.getReminders().add(reminder);
+                            }
+                        }
+                    }).execute(reminder);
+
+
                 }
                 bundle.putSerializable("taskEventInfo", taskEventObj);
                 bundle.putBoolean("isEdit", isEdit);
@@ -192,18 +236,18 @@ public class AddReminderActivity extends RootActivity {
     }
 
 
-    private int i=1;
-    private void startAlarm(Calendar c) {
+    private void startAlarm( Task t) {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent intent = new Intent(this, AlertReceiver.class);
-        intent.putExtra("text", i+"text");
-        intent.putExtra("title", i+"text");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i, intent, 0);
-        i++;
-//        if (c.before(Calendar.getInstance())) {
-//            c.add(Calendar.DATE, 1);
-//        }
+        intent.putExtra("text", t.getTitle());
+        if (t.getType()== TaskType.TASK) {
+            intent.putExtra("title", "Task Reminder");
+        } else {
+            intent.putExtra("title", "Event Reminder");
 
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
+        }
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, reminderId.intValue(), intent, 0);
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 }

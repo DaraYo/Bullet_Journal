@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="15dp">
+
+    <TextView
+        android:id="@+id/add_reminder_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/select_time"
+        android:background="@color/colorPrimaryLight"
+        android:textSize="18dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="120dp"
+        android:gravity="center">
+
+        <TimePicker
+            android:id="@+id/reminder_time_picker"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:timePickerMode="spinner" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/reminder_title"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="top"
+        android:hint="@string/add_rating_title"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/reminder_dialog_btn_cancel"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_bg_light"
+            android:text="@string/cancel_str"/>
+
+        <Button
+            android:id="@+id/reminder_dialog_btn_ok"
+            android:layout_margin="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_bg_light"
+            android:text="@string/ok_str"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -13,7 +13,7 @@
     <string name="diary">Diary</string>
     <string name="ratings">Ratings</string>
     <string name="tasks">Tasks</string>
-    <string name="habbits">Habbits</string>
+    <string name="habbits">Habits</string>
     <string name="spendings">Spendings</string>
 
     <!-- Strings related to Settings -->
@@ -79,6 +79,7 @@
     <string name="continue_str">Continue</string>
     <string name="back_str">Back</string>
     <string name="edit_str">Edit</string>
+    <string name="delete_str">Delete</string>
     <string name="done_str">Done</string>
     <string name="save_str">Save</string>
 
@@ -148,6 +149,7 @@
     <string name="task_event_type_task">Task</string>
     <string name="task_event_type_event">Event</string>
     <string name="task_event_done">Done?</string>
+    <string name="delete_text">Are you want to delete it?</string>
 
     <!-- Error and Warning messages -->
     <string name="basic_error">Error occurred</string>
