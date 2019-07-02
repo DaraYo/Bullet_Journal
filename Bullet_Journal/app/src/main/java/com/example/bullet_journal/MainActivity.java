@@ -187,9 +187,8 @@ public class MainActivity extends RootActivity implements NavigationView.OnNavig
 
         if(fAuth.getCurrentUser() != null){
             scheduleJob();
+            fetchFollowingEvents();
         }
-
-        fetchFollowingEvents();
     }
 
 

@@ -118,7 +118,7 @@ public class LoginActivity extends RootActivity {
                             if(progressDialog != null){
                                 progressDialog.dismiss();
                             }
-                            if(retVal!=null){
+                            if(retVal != null){
                                 PreferencesHelper.saveUsername(context, retVal.getEmail());
                                 PreferencesHelper.saveNameLastname(context, retVal.getFirstName()+" "+retVal.getLastName());
 
