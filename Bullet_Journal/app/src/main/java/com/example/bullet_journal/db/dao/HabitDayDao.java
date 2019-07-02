@@ -7,6 +7,7 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.bullet_journal.model.HabitDay;
+import com.example.bullet_journal.model.Rating;
 
 import java.util.List;
 
@@ -25,6 +26,14 @@ public interface HabitDayDao {
     @Query("SELECT * FROM habit_day WHERE habit_id=:id and day_id=:id2")
     List<HabitDay> getAllHabitsDayByHabitAndDay(Long id, Long id2);
 
+    @Query("SELECT * FROM habit_day WHERE firestore_id IS NULL AND synced = 0")
+    List<HabitDay> getAllForInsert();
+
+    @Query("SELECT * FROM habit_day WHERE firestore_id IS NOT NULL AND synced = 0")
+    List<HabitDay> getAllForUpdate();
+
+    @Query("SELECT * FROM habit_day WHERE deleted = 1")
+    List<HabitDay> getAllForDelete();
 
     @Query("SELECT * FROM habit_day")
     List<HabitDay> getAll();

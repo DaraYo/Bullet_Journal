@@ -14,6 +14,9 @@ public interface UserDao {
     @Query("SELECT * FROM user WHERE firestore_id=:firestore_id")
     User getByFirestoreId(String firestore_id);
 
+    @Query("SELECT * FROM user WHERE id=:id")
+    User getById(String id);
+
     @Insert
     long insert(User user);
 

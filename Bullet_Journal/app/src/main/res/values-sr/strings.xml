@@ -127,6 +127,10 @@
     <!-- Login activity labels -->
     <string name="title_activity_login">Prijava</string>
     <string name="not_member_yet">Nemaš nalog? Registruj se!</string>
+    <string name="logged_in_alredy">Već ste ulogovani</string>
+    <string name="login_progress_dialog">Prijava i dobavljanje prethodnih podataka...</string>
+    <string name="fields_empty">Proverite obavezna polja!</string>
+    <string name="network_required">Uključite Wifi ili mobilne podatke za nastavak</string>
     <string name="title_activity_logout">Odjava</string>
 
     <!-- Sign up activity labels -->
@@ -137,6 +141,7 @@
     <string name="password">Šifra</string>
     <string name="confirm_password">Potvrdi šifru</string>
     <string name="already_member">Već imaš nalog? Prijavi se!</string>
+    <string name="creating_account">"Kreiranje naloga..."</string>
 
     <!-- Wallet activity labels -->
     <string name="title_activity_wallet">Novčanik</string>

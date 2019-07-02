@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,9 +14,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.bullet_journal.MainActivity;
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
+import com.example.bullet_journal.async.AsyncResponse;
+import com.example.bullet_journal.async.UserSignUpAsyncTask;
 import com.example.bullet_journal.helpClasses.FirebaseUserDTO;
+import com.example.bullet_journal.model.User;
 import com.example.bullet_journal.recivers.NetworkBroadcastReciver;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -42,7 +47,7 @@ public class SignUpActivity extends RootActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if(firebaseAuth.getCurrentUser() != null){
-            Toast.makeText(getBaseContext(), "You are Logged In", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), R.string.logged_in_alredy, Toast.LENGTH_SHORT).show();
             finish();
         }
 
@@ -76,14 +81,14 @@ public class SignUpActivity extends RootActivity {
 
     public void signup() {
         if (!validate()) {
-            Toast.makeText(getBaseContext(), "Registration failed", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), "Registration failed", Toast.LENGTH_SHORT).show();
             return;
         }
 
         final ProgressDialog progressDialog = new ProgressDialog(SignUpActivity.this,
                 R.style.AppTheme_PopupOverlay);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Creating Account...");
+        progressDialog.setMessage(getResources().getString(R.string.creating_account));
 
         final String firstName = _firstName.getText().toString();
         final String lastName = _lastName.getText().toString();
@@ -107,9 +112,21 @@ public class SignUpActivity extends RootActivity {
                                         if(progressDialog != null){
                                             progressDialog.dismiss();
                                         }
-                                        Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
-                                        startActivity(i);
-                                        finish();
+
+                                        User newUser = new User(null, firebaseAuth.getCurrentUser().getUid(), firstName, lastName, email, password);
+
+                                        AsyncTask<User, Void, Boolean> signUpUserAsyncTask = new UserSignUpAsyncTask(getApplicationContext(), new AsyncResponse<Boolean>(){
+                                            @Override
+                                            public void taskFinished(Boolean retVal) {
+                                                if(retVal){
+                                                    Intent i = new Intent(SignUpActivity.this, MainActivity.class);
+                                                    startActivity(i);
+                                                    finish();
+                                                }else {
+                                                    Toast.makeText(SignUpActivity.this, R.string.basic_error, Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        }).execute(newUser);
                                     }
                                 }
                         ).addOnFailureListener(new OnFailureListener() {
@@ -120,12 +137,12 @@ public class SignUpActivity extends RootActivity {
                         });
 
                     }else{
-                        Toast.makeText(getBaseContext(), task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getBaseContext(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }else{
-            Toast.makeText(getBaseContext(), "Turn Wifi or Data to proceed", Toast.LENGTH_LONG).show();
+            Toast.makeText(getBaseContext(), R.string.network_required, Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -129,6 +129,10 @@
     <string name="title_activity_login">Log in</string>
     <string name="not_member_yet">Don\'t have an account? Sign up!</string>
     <string name="title_activity_logout">Log out</string>
+    <string name="logged_in_alredy">You are Logged In</string>
+    <string name="login_progress_dialog">Authenticating and fetching previous data...</string>
+    <string name="fields_empty">Required field(s) are empty!</string>
+    <string name="network_required">Turn Wifi or Data to proceed</string>
 
     <!-- Sign up activity labels -->
     <string name="title_activity_signup">Sign up</string>
@@ -138,6 +142,7 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm password</string>
     <string name="already_member">Already a member? Log in!</string>
+    <string name="creating_account">"Creating Account..."</string>
 
     <!-- Wallet activity labels -->
     <string name="title_activity_wallet">Wallet</string>

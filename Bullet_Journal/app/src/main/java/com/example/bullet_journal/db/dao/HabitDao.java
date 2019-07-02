@@ -22,6 +22,15 @@ public interface HabitDao {
     @Query("SELECT * FROM habit")
     List<Habit> getAll();
 
+    @Query("SELECT * FROM habit WHERE firestore_id IS NULL AND synced = 0")
+    List<Habit> getAllForInsert();
+
+    @Query("SELECT * FROM habit WHERE firestore_id IS NOT NULL AND synced = 0")
+    List<Habit> getAllForUpdate();
+
+    @Query("SELECT * FROM habit WHERE deleted = 1")
+    List<Habit> getAllForDelete();
+
     @Insert
     long insert(Habit habit);
 

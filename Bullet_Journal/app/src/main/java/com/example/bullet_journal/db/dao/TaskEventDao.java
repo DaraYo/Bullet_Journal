@@ -25,6 +25,9 @@ public interface TaskEventDao {
     @Query("SELECT * FROM task_event WHERE day_id=:id AND date > :millis AND deleted = 0 AND status = 0 ORDER BY date")
     List<Task> getFollowingTasksAndEventsForDay(Long id, long millis);
 
+    @Query("SELECT * FROM task_event WHERE day_id=:id AND deleted = 0 ORDER BY date")
+    List<Task> getAllForDay(Long id);
+
     @Query("SELECT * FROM task_event")
     List<Task> getAll();
 

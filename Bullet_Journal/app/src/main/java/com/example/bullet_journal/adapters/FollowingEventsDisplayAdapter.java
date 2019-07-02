@@ -41,6 +41,9 @@ public class FollowingEventsDisplayAdapter extends ArrayAdapter<Task>{
         TextView title = view.findViewById(R.id.event_preview_title);
         title.setText(taskObj.getTitle());
 
+        TextView taskType = view.findViewById(R.id.event_preview_type);
+        taskType.setText(taskObj.getType().toString());
+
         TextView text = view.findViewById(R.id.event_preview_description);
         text.setText(taskObj.getText());
 

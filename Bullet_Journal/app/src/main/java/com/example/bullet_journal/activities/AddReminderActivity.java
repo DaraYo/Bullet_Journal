@@ -1,8 +1,6 @@
 package com.example.bullet_journal.activities;
 
-import android.app.AlarmManager;
 import android.app.DatePickerDialog;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,7 +17,6 @@ import android.widget.Toast;
 
 import com.example.bullet_journal.R;
 import com.example.bullet_journal.RootActivity;
-import com.example.bullet_journal.helpClasses.AlertReceiver;
 import com.example.bullet_journal.helpClasses.CalendarCalculationsUtils;
 import com.example.bullet_journal.model.Reminder;
 import com.example.bullet_journal.wrapperClasses.TaskEventRemindersWrapper;
@@ -191,19 +188,4 @@ public class AddReminderActivity extends RootActivity {
         return null;
     }
 
-
-    private int i=1;
-    private void startAlarm(Calendar c) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent intent = new Intent(this, AlertReceiver.class);
-        intent.putExtra("text", i+"text");
-        intent.putExtra("title", i+"text");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, i, intent, 0);
-        i++;
-//        if (c.before(Calendar.getInstance())) {
-//            c.add(Calendar.DATE, 1);
-//        }
-
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), pendingIntent);
-    }
 }
