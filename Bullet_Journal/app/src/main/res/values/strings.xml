@@ -184,4 +184,9 @@
     <string name="widget_task">TASK</string>
     <string name="widget_event">EVENT</string>
     <string name="widget_empty">EMPTY</string>
+
+    <!-- Maps text -->
+    <string name="maps_search_bar">Enter Location, Address or Zipp code </string>
+    <string name="maps_no_results">No results</string>
+
 </resources>

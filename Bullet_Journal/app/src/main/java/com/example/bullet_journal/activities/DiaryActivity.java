@@ -400,9 +400,7 @@ public class DiaryActivity extends RootActivity {
 
                 //location
                 case 1:
-                    Log.i("POKRENULO", "JEE LOKACIJA1");
-                    Log.i("POKRENULO", "JEE LOKACIJA2");
-                    Log.i("POKRENULO", "JEE LOKACIJA3");
+
                     break;
 
                 //take a shot
@@ -441,10 +439,20 @@ public class DiaryActivity extends RootActivity {
 
                     //location
                     case 1: {
-                        if(isMapsEnabled()){
-                            selectLocation();
-                        }else{
-                            Toast.makeText(DiaryActivity.this, "Turn the Location on to proceed", Toast.LENGTH_SHORT).show();
+                        if(data.getBooleanExtra("success", false)){
+                            double latitude = data.getDoubleExtra("lat", 0);
+                            double longitude = data.getDoubleExtra("long", 0);
+                            String locationTitle = data.getStringExtra("title");
+
+                            Log.i("Recived MAPS", "LAT: "+latitude+", LONG: "+longitude+" "+locationTitle);
+
+                            day.setLatitude(latitude);
+                            day.setLongitude(longitude);
+                            day.setLocationTitle(locationTitle);
+
+                            saveData();
+
+                            addLocation.setText(locationTitle);
                         }
                         break;
                     }
@@ -608,6 +616,9 @@ public class DiaryActivity extends RootActivity {
             public void taskFinished(Day retVal) {
                 day = retVal;
                 diaryContent.setText(day.getDiaryInput());
+                if(day.getLocationTitle() != null && !day.getLocationTitle().isEmpty()){
+                    addLocation.setText(day.getLocationTitle());
+                }
                 AsyncTask<Long, Void, List<DiaryImage>> getImagesTask = new GetDiaryImagesAsyncTask(DiaryActivity.this, new AsyncResponse<List<DiaryImage>>(){
 
                     @Override
@@ -642,8 +653,8 @@ public class DiaryActivity extends RootActivity {
     }
 
     private void selectLocation(){
-
-        Log.i("LOKACIJA", "To do...");
+        Intent intent = new Intent(this, MapActivity.class);
+        startActivityForResult(intent, LOCATION);
     }
 
     public boolean isMapsEnabled(){

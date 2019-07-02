@@ -184,4 +184,9 @@
     <string name="widget_task">ZADATAK</string>
     <string name="widget_event">DOGAĐAJ</string>
     <string name="widget_empty">PRAZNO</string>
+
+    <!-- Widget text -->
+    <string name="maps_search_bar">Unesite lokaciju, adresu ili poštanski broj </string>
+    <string name="maps_no_results">Nema rezultata</string>
+
 </resources>

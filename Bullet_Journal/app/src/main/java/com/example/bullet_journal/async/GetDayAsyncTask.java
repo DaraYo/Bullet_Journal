@@ -28,7 +28,7 @@ public class GetDayAsyncTask extends AsyncTask<Long, Void, Day> {
             Day retVal = database.getDayDao().getByDate(CalendarCalculationsUtils.trimTimeFromDateMillis(timeMillis));
             if( retVal == null){
                 User currentUser = database.getUserDao().getByFirestoreId(fAuth.getCurrentUser().getUid());
-                long id = database.getDayDao().insert(new Day(null, null, currentUser.getId(), timeMillis, 0, null, null, false));
+                long id = database.getDayDao().insert(new Day(null, null, currentUser.getId(), timeMillis, 0, null, null, null, null, false));
                 retVal = database.getDayDao().get(id);
             }
             return retVal;
